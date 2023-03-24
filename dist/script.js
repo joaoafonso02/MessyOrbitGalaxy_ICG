@@ -4,13 +4,14 @@ camera,
 sphereBg,
 nucleus,
 stars,
+ring, 
+sphere,
 controls,
 container = document.getElementById("canvas_container"),
 timeout_Debounce,
 noise = new SimplexNoise(),
 cameraSpeed = 0,
 blobScale = 3;
-
 
 init();
 animate();
@@ -45,8 +46,9 @@ function init() {
     controls.maxDistance = 350;
     controls.minDistance = 150;
     controls.enablePan = false;
+    
 
-    const loader = new THREE.TextureLoader();
+    const loader = new THREE.TextureLoader(); 
     const textureSphereBg = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
     const texturenucleus = loader.load('https://i.ibb.co/hcN2qXk/star-nc8wkw.jpg');
     const textureStar = loader.load("https://i.ibb.co/ZKsdYSz/p1-g3zb2a.png");
@@ -56,7 +58,7 @@ function init() {
     
     // NEW PLANET
     const textureSphere = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
-    const textureRing = loader.load('https://i.ibb.co/3FrQV5N/galaxy-ring.jpg');
+    const textureRing = loader.load('https://i.ibb.co/3FrQV5N/bg3-je3ddz.jpg');
 
     textureSphere.anisotropy = 16;
     let sphereGeometry = new THREE.SphereBufferGeometry(28, 32, 32);
@@ -82,12 +84,122 @@ function init() {
 
     function render() {
         requestAnimationFrame(render);
-        sphere.rotation.x += 0.01;
+        sphere.rotation.x -= 0.01;
         sphere.rotation.y += 0.01;
+        sphere.rotation.z += 0.01;
+        ring.rotation.x += 0.01;
+        ring.rotation.y += 0.01;
         renderer.render(scene, camera);
     }
 
     render();
+    
+    // ADD a Rocket 
+    const textureCylinder = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
+    const textureTrace = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
+
+    textureCylinder.anisotropy = 16;
+    let cylinderGeometry = new THREE.CylinderBufferGeometry(30, 20, 100, 32);
+    let cylinderMaterial = new THREE.MeshPhongMaterial({ map: texturenucleus, transparent: 0.5  ,opacity: 0.5});
+    let cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
+
+    let coneGeometry = new THREE.ConeBufferGeometry(30, 90, 200);
+    let coneMaterial = new THREE.MeshBasicMaterial({ map: texturenucleus, transparent: 0.5  ,opacity: 0.5});
+    let cone = new THREE.Mesh(coneGeometry, coneMaterial);
+
+    // Position the cone in front of the cylinder
+    cone.position.set(-40, -50, -200);
+
+    // fire trace
+    let traceGeometry = new THREE.CylinderBufferGeometry(0.5, 0.5, 100, 32);
+    let traceMaterial = new THREE.MeshPhongMaterial({ color: 0x632901, transparent: 0.5  ,opacity: 0.5});
+    let trace = new THREE.Mesh(traceGeometry, traceMaterial);
+
+    trace.position.set(100, -50, -181);
+    trace.rotation.x = Math.PI / 2;
+    trace.rotation.z = Math.PI / 2;
+
+    // another trace
+    let trace2 = new THREE.Mesh(traceGeometry, traceMaterial);
+
+    trace2.position.set(100, -50, -219);
+    trace2.rotation.x = Math.PI / 2;
+    trace2.rotation.z = Math.PI / 2;
+
+    // another trace
+    let trace3 = new THREE.Mesh(traceGeometry, traceMaterial);
+
+    trace3.position.set(150, -50, -199);
+    trace3.rotation.x = Math.PI / 2;
+    trace3.rotation.z = Math.PI / 2;
+
+    let angle = Math.PI / 2; 
+    trace3.rotation.set(angle, Math.PI / 2, 0);
+
+    cone.rotation.x = Math.PI / 3;
+    cone.rotation.z = Math.PI / 2;
+
+    // forth trace
+    let trace4 = new THREE.Mesh(traceGeometry, traceMaterial);
+
+    trace4.position.set(193, -50, -224);
+    trace4.rotation.x = Math.PI / 2;
+    trace4.rotation.z = -Math.PI / 3;
+
+    // fifth trace
+    let trace5 = new THREE.Mesh(traceGeometry, traceMaterial);
+
+    trace5.position.set(193, -50, -174);
+    trace5.rotation.x = Math.PI / 2;
+    trace5.rotation.z = Math.PI / 3;
+
+
+    cylinder.rotation.x = Math.PI / 2;
+    cylinder.rotation.z = Math.PI / 2;
+
+    cylinder.position.set(55, -50, -200);
+
+    // Add the cone to the scene
+    scene.add(cone);
+    scene.add(trace);
+    scene.add(trace2);
+    scene.add(trace3);
+    scene.add(trace4);
+    scene.add(trace5);
+    scene.add(cylinder);
+
+    function render2() {
+        requestAnimationFrame(render2);
+        cylinder.rotation.x += 0.01;
+        cone.rotation.x += 0.01;
+        renderer.render(scene, camera);
+    }
+
+    render2();
+
+    // ADD an Astro
+    const textureDragon = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
+
+    textureDragon.anisotropy = 16;
+    let dragonGeometry = new THREE.DodecahedronGeometry(30, 0);
+    let dragonMaterial = new THREE.MeshPhongMaterial({ map: texturenucleus  ,opacity: 0.4});
+    let dragon = new THREE.Mesh(dragonGeometry, dragonMaterial);
+    
+    dragon.position.set(-100, 0, 0);
+    dragon.rotation.x = Math.PI / 2;
+    dragon.rotation.z = Math.PI / 2;
+
+    scene.add(dragon);
+
+    // ADD the Dragon
+    // dragon = createDragon();
+    // dragon.position.set(0, -50, 10);
+    // // change dimensions of th dragon
+    // dragon.scale.set(0.5, 0.5, 0.5);
+
+
+
+    // scene.add(dragon);
 
     /* ADD A F1 car from the model inside the folder redbull_formula_one_car */ 
     // let loadedModel;
@@ -119,7 +231,7 @@ function init() {
     });
     sphereBg = new THREE.Mesh(geometrySphereBg, materialSphereBg);
     scene.add(sphereBg);
-
+    
     /*    Moving Stars   */
     let starsGeometry = new THREE.Geometry();
 
@@ -178,9 +290,6 @@ function init() {
     }
 
 }
-
-
-
 
 function animate() {
 
@@ -278,9 +387,6 @@ function onDocumentKeyDown(event) {
         }
 }
 
-
-  
-
 /*     Fullscreen btn     */
 let fullscreen;
 let fsEnter = document.getElementById('fullscr');
@@ -297,3 +403,73 @@ fsEnter.addEventListener('click', function (e) {
         fsEnter.innerHTML = "Go Fullscreen";
     }
 });
+
+function createDragon() {
+    // create a group to hold all dragon parts
+    const group = new THREE.Group();
+  
+    // create dragon body with one mesh
+    const body = new THREE.Mesh(
+      new THREE.BoxGeometry(20, 20, 30),
+      new THREE.MeshBasicMaterial({ color: 'green' })
+    );
+    group.add(body);
+  
+    // create dragon wings with two meshes (left and right)
+    const wing = new THREE.Mesh(
+      new THREE.BoxGeometry(10, 60, 30),
+      new THREE.MeshBasicMaterial({ color: 'yellow' })
+    );
+    wing.position.set(30, 30, 0);
+    group.add(wing);
+    const wing2 = wing.clone();
+    wing2.position.set(-30, 30, 0);
+    wing2.rotation.z = -wing.rotation.z;
+    group.add(wing2);
+  
+    // create dragon tail with line and pike
+    const tail = new THREE.Group();
+    const tailLine = new THREE.Line(
+      new THREE.Geometry().setFromPoints([
+        new THREE.Vector3(0, 0, 0),
+        new THREE.Vector3(0, 10, -20),
+        new THREE.Vector3(0, -10, -40),
+        new THREE.Vector3(0, 0, -60)
+      ]),
+      new THREE.LineBasicMaterial({ color: 'green', linewidth: 8 })
+    );
+    const tailPike = new THREE.Mesh(
+      new THREE.CylinderGeometry(0, 20, 20, 4, 1),
+      new THREE.MeshBasicMaterial({ color: 'yellow' })
+    );
+    tailPike.geometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI / 2));
+    tailPike.position.z = -70;
+    tail.add(tailLine, tailPike);
+    tail.position.z = -40;
+    tail.position.y = 20;
+    group.add(tail);
+  
+    // create dragon head with one mesh
+    const head = new THREE.Mesh(
+      new THREE.BoxGeometry(120, 100, 160),
+      new THREE.MeshBasicMaterial({ color: 'green' })
+    );
+    head.position.y = 50;
+    head.position.z = 80;
+    group.add(head);
+  
+    // create dragon horn with two meshes (left and right)
+    const horn = new THREE.Mesh(
+      new THREE.CylinderGeometry(0, 12, 20, 4, 1),
+      new THREE.MeshBasicMaterial({ color: 'yellow' })
+    );
+    horn.position.set(20, 110, 20);
+    group.add(horn);
+    const horn2 = horn.clone();
+    horn2.position.set(-20, 110, 20);
+    group.add(horn2);
+  
+    group.rotation
+    return group;
+}
+ 
