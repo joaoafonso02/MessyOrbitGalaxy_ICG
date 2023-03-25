@@ -4,8 +4,6 @@ camera,
 sphereBg,
 nucleus,
 stars,
-ring, 
-sphere,
 controls,
 container = document.getElementById("canvas_container"),
 timeout_Debounce,
@@ -15,7 +13,6 @@ blobScale = 3;
 
 init();
 animate();
-
 
 function init() {
     scene = new THREE.Scene();
@@ -39,6 +36,22 @@ function init() {
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
 
+    // create a crazy animation when refresh the page
+    TweenMax.fromTo(camera.position, 2, {
+        x: 0,
+        y: 0,
+        z: 0
+    }, {
+        x: 0,
+        y: 0,
+        z: 330,
+        ease: Power4.easeOut
+    }, );
+
+    
+    
+    
+
     //OrbitControl
     controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.autoRotate = true;
@@ -46,6 +59,10 @@ function init() {
     controls.maxDistance = 350;
     controls.minDistance = 150;
     controls.enablePan = false;
+
+    // const ticTacToeCube = new TicTacToeCube();
+
+    // scene.add(ticTacToeCube);
     
 
     const loader = new THREE.TextureLoader(); 
@@ -87,7 +104,6 @@ function init() {
         sphere.rotation.x -= 0.01;
         sphere.rotation.y += 0.01;
         sphere.rotation.z += 0.01;
-        ring.rotation.x += 0.01;
         ring.rotation.y += 0.01;
         renderer.render(scene, camera);
     }
@@ -153,7 +169,6 @@ function init() {
     trace5.rotation.x = Math.PI / 2;
     trace5.rotation.z = Math.PI / 3;
 
-
     cylinder.rotation.x = Math.PI / 2;
     cylinder.rotation.z = Math.PI / 2;
 
@@ -191,28 +206,6 @@ function init() {
 
     scene.add(dragon);
 
-    // ADD the Dragon
-    // dragon = createDragon();
-    // dragon.position.set(0, -50, 10);
-    // // change dimensions of th dragon
-    // dragon.scale.set(0.5, 0.5, 0.5);
-
-
-
-    // scene.add(dragon);
-
-    /* ADD A F1 car from the model inside the folder redbull_formula_one_car */ 
-    // let loadedModel;
-    // const glftLoader = new GLTFLoader();
-    // glftLoader.load('./assets/redbull_formula_1_2022_car/scene.gltf', (gltfScene) => {
-    //     loadedModel = gltfScene;
-    //     // console.log(loadedModel);
-
-    //     gltfScene.scene.rotation.y = Math.PI / 8;
-    //     gltfScene.scene.position.y = 3;
-    //     gltfScene.scene.scale.set(10, 10, 10);
-    //     test.scene.add(gltfScene.scene);
-    // });
 
     /*  Nucleus  */   
     texturenucleus.anisotropy = 16;
@@ -222,6 +215,60 @@ function init() {
     scene.add(nucleus);
 
 
+    // turn possible to go insdie the nucleus
+    nucleus.material.side = THREE.DoubleSide;
+
+    // create a crazy 
+
+    // fix zoom limit 
+    controls.maxDistance = 500;
+    controls.minDistance = 5;
+
+    nucleus.addEventListener('click', function() {
+        // remove the old nucleus mesh from the scene
+        scene.remove(nucleus);
+    
+        // create a new scene inside the nucleus
+        let innerScene = new THREE.Scene();
+    
+        // create a road mesh
+        let roadGeometry = new THREE.PlaneGeometry(100, 500);
+        let roadMaterial = new THREE.MeshBasicMaterial({ color: 0x999999 });
+        let roadMesh = new THREE.Mesh(roadGeometry, roadMaterial);
+        roadMesh.rotation.x = -Math.PI / 2;
+        innerScene.add(roadMesh);
+    
+        // create a car mesh
+        let carGeometry = new THREE.BoxGeometry(10, 5, 10);
+        let carMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+        let carMesh = new THREE.Mesh(carGeometry, carMaterial);
+        carMesh.position.set(0, 2.5, 0);
+        innerScene.add(carMesh);
+    
+        // set up camera for inner scene
+        let innerCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+        innerCamera.position.set(0, 50, 100);
+        innerCamera.lookAt(0, 0, 0);
+    
+        // set up renderer for inner scene
+        let innerRenderer = new THREE.WebGLRenderer();
+        innerRenderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(innerRenderer.domElement);
+    
+        // add controls for inner scene
+        let innerControls = new THREE.OrbitControls(innerCamera, innerRenderer.domElement);
+        innerControls.maxDistance = 500;
+        innerControls.minDistance = 5;
+    
+        // animate inner scene
+        function animateInnerScene() {
+            requestAnimationFrame(animateInnerScene);
+            innerRenderer.render(innerScene, innerCamera);
+        }
+        animateInnerScene();
+    });
+
+    
     /*    Sphere  Background   */
     textureSphereBg.anisotropy = 16;
     let geometrySphereBg = new THREE.SphereBufferGeometry(150, 40, 40);
@@ -404,72 +451,26 @@ fsEnter.addEventListener('click', function (e) {
     }
 });
 
-function createDragon() {
-    // create a group to hold all dragon parts
-    const group = new THREE.Group();
-  
-    // create dragon body with one mesh
-    const body = new THREE.Mesh(
-      new THREE.BoxGeometry(20, 20, 30),
-      new THREE.MeshBasicMaterial({ color: 'green' })
-    );
-    group.add(body);
-  
-    // create dragon wings with two meshes (left and right)
-    const wing = new THREE.Mesh(
-      new THREE.BoxGeometry(10, 60, 30),
-      new THREE.MeshBasicMaterial({ color: 'yellow' })
-    );
-    wing.position.set(30, 30, 0);
-    group.add(wing);
-    const wing2 = wing.clone();
-    wing2.position.set(-30, 30, 0);
-    wing2.rotation.z = -wing.rotation.z;
-    group.add(wing2);
-  
-    // create dragon tail with line and pike
-    const tail = new THREE.Group();
-    const tailLine = new THREE.Line(
-      new THREE.Geometry().setFromPoints([
-        new THREE.Vector3(0, 0, 0),
-        new THREE.Vector3(0, 10, -20),
-        new THREE.Vector3(0, -10, -40),
-        new THREE.Vector3(0, 0, -60)
-      ]),
-      new THREE.LineBasicMaterial({ color: 'green', linewidth: 8 })
-    );
-    const tailPike = new THREE.Mesh(
-      new THREE.CylinderGeometry(0, 20, 20, 4, 1),
-      new THREE.MeshBasicMaterial({ color: 'yellow' })
-    );
-    tailPike.geometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI / 2));
-    tailPike.position.z = -70;
-    tail.add(tailLine, tailPike);
-    tail.position.z = -40;
-    tail.position.y = 20;
-    group.add(tail);
-  
-    // create dragon head with one mesh
-    const head = new THREE.Mesh(
-      new THREE.BoxGeometry(120, 100, 160),
-      new THREE.MeshBasicMaterial({ color: 'green' })
-    );
-    head.position.y = 50;
-    head.position.z = 80;
-    group.add(head);
-  
-    // create dragon horn with two meshes (left and right)
-    const horn = new THREE.Mesh(
-      new THREE.CylinderGeometry(0, 12, 20, 4, 1),
-      new THREE.MeshBasicMaterial({ color: 'yellow' })
-    );
-    horn.position.set(20, 110, 20);
-    group.add(horn);
-    const horn2 = horn.clone();
-    horn2.position.set(-20, 110, 20);
-    group.add(horn2);
-  
-    group.rotation
-    return group;
-}
- 
+let audio = new Audio('starWars.mp3');
+let playButton = document.getElementById('playButton');
+let pauseButton = document.getElementById('pauseButton');
+let volumeControl = document.getElementById('volumeControl');
+
+
+playButton.addEventListener('click', function() {
+    audio.play();
+    pauseButton.style.display = 'block';
+    playButton.style.display = 'none';
+});
+
+
+pauseButton.addEventListener('click', function() {
+    audio.pause();
+    pauseButton.style.display = 'none';
+    playButton.style.display = 'block';
+});
+
+// control volume
+volumeControl.addEventListener("input", function() {
+    audio.volume = volumeControl.value;
+});

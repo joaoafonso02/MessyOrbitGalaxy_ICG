@@ -11,11 +11,23 @@
 <div id="canvas_container"></div>
 
  <button id="fullscr">Go Fullscreen</button> 
+ <!-- HTML code -->
+<button id="playButton">Play Song</button>
+<button id="pauseButton" style="display: none;" type="button" >Pause Song</button>
+<!-- Control volume -->
+<input type="range" id="volumeControl" name="volume" min="0" max="1" step="0.01" value="0.5">
+	
+
   <!-- <button style="align-items: left;"onclick="window.location.href = 'ModelsTest.html';">Test Module</button> -->
 <!-- partial -->
 <script src='https://cdn.jsdelivr.net/npm/three@0.121.1/build/three.min.js'></script>
 <script src='https://cdn.jsdelivr.net/npm/three@0.121.1/examples/js/controls/OrbitControls.js'></script>
 <!--<script src='https://threejs.org/examples/js/loaders/GLTFLoader.js'></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.min.js"></script>
+<!-- Uncaught ReferenceError: TWEEN is not defined -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.7.0/Tween.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script>
+
 <script src='https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js'></script>
 <!-- Tween Library-->
 <script type="module" src="./script.js"></script>

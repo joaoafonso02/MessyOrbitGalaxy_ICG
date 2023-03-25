@@ -11,10 +11,62 @@ body {
 #fullscr {
     position: absolute;
     top: 10px;
-    left: 70px;
-    width: 125px;
-    height: 50px;
+    left: 90px;
+    width: 155px;
+    height: 40px;
 }
+
+#playButton {
+    position: absolute;
+    top: 70px;
+    left: 90px;
+    width: 155px;
+    height: 40px;
+}
+
+#pauseButton {
+    position: absolute;
+    top: 70px;
+    left: 90px;
+    width: 155px;
+    height: 40px;
+}
+
+#volumeControl {
+    position: absolute;
+    top: 140px;
+    left: 10px;
+    width: 155px;
+    height: 10px;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #ddd;
+    outline: none;
+    border-radius: 20px;
+    height: 5px;
+    }
+    
+    #volumeControl::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width:55px;
+        height:55px;
+        /* background make it be the ./assets/img/spaceShip.png */
+        background: url('../assets/img/spaceShip.png') no-repeat 0 center;
+        background-size: contain;
+        border-radius: 50%; 
+    }
+    
+    #volumeControl::-moz-range-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 55px;
+        height:55px;
+        /* background make it be the ./assets/img/spaceShip.png */
+        background: url('../assets/img/spaceShip.png') no-repeat 0 center;
+        background-size: contain;
+        border-radius: 50%;
+    }
 
 canvas {
     display: block;
