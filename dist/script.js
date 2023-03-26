@@ -36,6 +36,64 @@ function init() {
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
 
+    // Create a range input element to adjust planet size
+    const planetSizeSlider = document.createElement("input");
+    planetSizeSlider.type = "range";
+    planetSizeSlider.id = "blobScale";
+    planetSizeSlider.name = "blobScale";
+    planetSizeSlider.min = "1";
+    planetSizeSlider.max = "10";
+    planetSizeSlider.value = "1";
+    planetSizeSlider.step = "1";
+    planetSizeSlider.addEventListener("input", updatePlanetSize);
+
+    // Create a label for the range input
+    const planetSizeLabel = document.createElement("label");
+    planetSizeLabel.for = "blobScale";
+    planetSizeLabel.innerText = "Planet Size:";
+
+    // Create a div to contain the label and range input
+    const planetSizeControl = document.createElement("div");
+    planetSizeControl.appendChild(planetSizeLabel);
+    planetSizeControl.appendChild(planetSizeSlider);
+
+    // Add the planet size control to the HTML page
+    document.body.appendChild(planetSizeControl);
+
+    // Function to update the planet size
+    function updatePlanetSize() {
+        // get canvas and context
+        const canvas = document.getElementById('canvas_container');
+        const ctx = canvas.getContext('2d');
+    
+        // initialize variables
+        let blobScale = 1;
+        const planetRadius = 50;
+    
+        // update planet size based on user input
+        function updatePlanetSize() {
+        blobScale = parseInt(document.getElementById("blobScale").value);
+        drawPlanet();
+        }
+    
+        // draw planet on canvas
+        function drawPlanet() {
+        // clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // draw planet
+        ctx.beginPath();
+        ctx.arc(canvas.width/2, canvas.height/2, planetRadius*blobScale, 0, 2*Math.PI);
+        ctx.fillStyle = 'green';
+        ctx.fill();
+        }
+    
+        // initial draw
+        drawPlanet();
+    
+    }
+
+
     // create a crazy animation when refresh the page
     TweenMax.fromTo(camera.position, 2, {
         x: 0,
@@ -451,26 +509,58 @@ fsEnter.addEventListener('click', function (e) {
     }
 });
 
-let audio = new Audio('starWars.mp3');
+let audio = new Audio('../assets/audio/starWars.mp3');
+let audio2 = new Audio('../assets/audio/starWars2.mp3');
 let playButton = document.getElementById('playButton');
 let pauseButton = document.getElementById('pauseButton');
 let volumeControl = document.getElementById('volumeControl');
+let forwardButton = document.getElementById('nextButton');
+let backwardButton = document.getElementById('prevButton');
+let currentAudio = audio; // initially set current audio to audio
 
+pauseButton.style.display = 'none';
 
 playButton.addEventListener('click', function() {
-    audio.play();
+    currentAudio.play(); // play current audio
     pauseButton.style.display = 'block';
     playButton.style.display = 'none';
 });
 
-
 pauseButton.addEventListener('click', function() {
-    audio.pause();
+    currentAudio.pause(); // pause current audio
     pauseButton.style.display = 'none';
     playButton.style.display = 'block';
 });
 
 // control volume
 volumeControl.addEventListener("input", function() {
-    audio.volume = volumeControl.value;
+    currentAudio.volume = volumeControl.value; // set volume for current audio
+});
+
+// next song
+forwardButton.addEventListener('click', function() {
+    pauseButton.style.display = 'block';
+    playButton.style.display = 'none';
+    currentAudio.pause(); // pause current audio
+    currentAudio.currentTime = 0; // start audio from beginning
+    if (currentAudio === audio) { // check which audio is currently playing
+        currentAudio = audio2; // set current audio to audio2
+    } else {
+        currentAudio = audio; // set current audio to audio
+    }
+    currentAudio.play(); // play current audio
+});
+
+// previous song
+backwardButton.addEventListener('click', function() {
+    pauseButton.style.display = 'block';
+    playButton.style.display = 'none';
+    currentAudio.pause(); // pause current audio
+    currentAudio.currentTime = 0; // start audio from beginning
+    if (currentAudio === audio) { // check which audio is currently playing
+        currentAudio = audio2; // set current audio to audio2
+    } else {
+        currentAudio = audio; // set current audio to audio
+    }
+    currentAudio.play(); // play current audio
 });
