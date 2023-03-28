@@ -7,9 +7,13 @@
 
 </head>
 <body>
-<div>
-  <label style="margin-left: 1200px;" for="blobScale">Planet Size:</label>
-  <input type="range" id="blobScale" name="blobScale" min="1" max="10" value="1" step="1" onchange="updatePlanetSize()">
+<div id="headin">
+  <label style="margin-left: 10px; color: white; background-image: url('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg'); background-size: cover; background-repeat: no-repeat; padding: 5px 10px;"><b></b>Messy Orbit Galaxy</b></label>
+  <label style="margin-left: 980px;color:aliceblue" for="blobScale">Planet Size:</label>
+  
+  <!-- <input type="range" id="blobScale" name="blobScale" min="1" max="10" value="1" step="1" onchange="updatePlanetSize()"> -->
+  <input type="range" id="planet-size" min="10" max="100" value="30">
+
 </div>
 
 <div id="canvas_container"></div>
@@ -23,6 +27,54 @@
   <img id="pauseButton" src="../assets/img/pause.png" title="Pause Song!" >
   <img id="nextButton" src="../assets/img/forward.png" title="Next Song!">
   <img id="prevButton" src="../assets/img/backward.png" title="Previous Song!">
+  <!-- <button id="toggle-rocket2">Toggle Rocket Visibility</button> -->
+
+  <div class="checkbox-apple">
+    <a class="toggle-text">Toggle Rocket Visibility</a>
+    <input class="yep" id="check-apple" type="checkbox" title="Toggle Rocket Visibility">
+    <label for="check-apple"></label>
+  </div>
+
+  <!-- Create another div class like the previous, now for the nucleus object-->
+  <div class="checkbox2-apple">
+    <a class="toggle-text">Toggle Planet Visibility</a>
+    <input class="yep" id="check-apple2" type="checkbox" title="Toggle Nucleus Visibility">
+    <label for="check-apple2"></label>
+  </div>
+
+  <button id="controls-button" onclick="toggleControls()">Controls</button>
+
+  <table id="controls-table" style="display:none">
+    <tr>
+      <th>Settings</th>
+      <th>Value</th>
+    </tr>
+    <tr>
+      <td>Camera Position X</td>
+      <td><input type="range" id="camera-pos-x" min="10" max="100" value="30"></td>
+    </tr>
+    <tr>
+      <td>Camera Position Y</td>
+      <td><input type="range" id="camera-pos-y" min="10" max="100" value="30"></td>
+    </tr>
+    <tr>
+      <td>Camera Position Z</td>
+      <td><input type="range" id="camera-pos-z" min="10" max="100" value="30"></td>
+    </tr>
+    <tr>
+      <td>Camera Rotation X</td>
+      <td><input type="range" id="camera-rot-x" min="10" max="100" value="30"></td>
+    </tr>
+    <tr>
+      <td>Camera Rotation Y</td>
+      <td><input type="range" id="camera-rot-y" min="10" max="100" value="30"></td>
+    </tr>
+    <tr>
+      <td>Camera Rotation Z</td>
+      <td><input type="range" id="camera-rot-z" min="10" max="100" value="30"></td>
+    </tr>
+  </table>
+
 
   <!-- Control volume -->
   <input type="range" id="volumeControl" name="volume" min="0" max="1" step="0.01" value="0.5">
@@ -41,6 +93,17 @@
   <script src='https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js'></script>
   <!-- Tween Library-->
   <script type="module" src="./script.js"></script>
+
+  <script>
+    function toggleControls() {
+      var table = document.getElementById("controls-table");
+      if (table.style.display === "none") {
+        table.style.display = "block";
+      } else {
+        table.style.display = "none";
+      }
+    }
+  </script>
 
 </body>
 </html>

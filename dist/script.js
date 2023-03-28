@@ -11,6 +11,8 @@ noise = new SimplexNoise(),
 cameraSpeed = 0,
 blobScale = 3;
 
+const colors = ["#ffffff", "#ff9800", "#ffeb3b", "#4caf50", "#03a9f4", "#9c27b0", "#f44336"];
+
 init();
 animate();
 
@@ -36,64 +38,6 @@ function init() {
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
 
-    // Create a range input element to adjust planet size
-    const planetSizeSlider = document.createElement("input");
-    planetSizeSlider.type = "range";
-    planetSizeSlider.id = "blobScale";
-    planetSizeSlider.name = "blobScale";
-    planetSizeSlider.min = "1";
-    planetSizeSlider.max = "10";
-    planetSizeSlider.value = "1";
-    planetSizeSlider.step = "1";
-    planetSizeSlider.addEventListener("input", updatePlanetSize);
-
-    // Create a label for the range input
-    const planetSizeLabel = document.createElement("label");
-    planetSizeLabel.for = "blobScale";
-    planetSizeLabel.innerText = "Planet Size:";
-
-    // Create a div to contain the label and range input
-    const planetSizeControl = document.createElement("div");
-    planetSizeControl.appendChild(planetSizeLabel);
-    planetSizeControl.appendChild(planetSizeSlider);
-
-    // Add the planet size control to the HTML page
-    document.body.appendChild(planetSizeControl);
-
-    // Function to update the planet size
-    function updatePlanetSize() {
-        // get canvas and context
-        const canvas = document.getElementById('canvas_container');
-        const ctx = canvas.getContext('2d');
-    
-        // initialize variables
-        let blobScale = 1;
-        const planetRadius = 50;
-    
-        // update planet size based on user input
-        function updatePlanetSize() {
-        blobScale = parseInt(document.getElementById("blobScale").value);
-        drawPlanet();
-        }
-    
-        // draw planet on canvas
-        function drawPlanet() {
-        // clear canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // draw planet
-        ctx.beginPath();
-        ctx.arc(canvas.width/2, canvas.height/2, planetRadius*blobScale, 0, 2*Math.PI);
-        ctx.fillStyle = 'green';
-        ctx.fill();
-        }
-    
-        // initial draw
-        drawPlanet();
-    
-    }
-
-
     // create a crazy animation when refresh the page
     TweenMax.fromTo(camera.position, 2, {
         x: 0,
@@ -105,10 +49,6 @@ function init() {
         z: 330,
         ease: Power4.easeOut
     }, );
-
-    
-    
-    
 
     //OrbitControl
     controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -122,7 +62,6 @@ function init() {
 
     // scene.add(ticTacToeCube);
     
-
     const loader = new THREE.TextureLoader(); 
     const textureSphereBg = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
     const texturenucleus = loader.load('https://i.ibb.co/hcN2qXk/star-nc8wkw.jpg');
@@ -141,9 +80,6 @@ function init() {
     let sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 
     sphere.position.set(100, 0, 0);
-
-    // Add the new sphere to the scene
-    scene.add(sphere);
  
     // PLANET RING
     let ringGeometry = new THREE.TorusBufferGeometry(35, 5, 16, 100);
@@ -154,8 +90,11 @@ function init() {
     ring.position.set(sphere.position.x, sphere.position.y, sphere.position.z);
     ring.rotation.x = Math.PI / 3;
 
-    // Add the ring to the scene
-    scene.add(ring);
+    // group sphere and ring
+    let SaturnPlanet = new THREE.Group();
+    SaturnPlanet.add(sphere);
+    SaturnPlanet.add(ring);
+    scene.add(SaturnPlanet);
 
     function render() {
         requestAnimationFrame(render);
@@ -232,37 +171,150 @@ function init() {
 
     cylinder.position.set(55, -50, -200);
 
-    // Add the cone to the scene
-    scene.add(cone);
-    scene.add(trace);
-    scene.add(trace2);
-    scene.add(trace3);
-    scene.add(trace4);
-    scene.add(trace5);
-    scene.add(cylinder);
+    // group cone, cylinder and traces
+    let rocket = new THREE.Group();
+    rocket.add(cone);
+    rocket.add(cylinder);
+    rocket.add(trace);
+    rocket.add(trace2);
+    rocket.add(trace3);
+    rocket.add(trace4);
+    rocket.add(trace5);
 
+    scene.add(rocket);
+    let time = 0;
     function render2() {
         requestAnimationFrame(render2);
         cylinder.rotation.x += 0.01;
         cone.rotation.x += 0.01;
+        rocket.position.y = Math.cos(time) * 100;
+        rocket.position.z = Math.sin(time) * 10;
+        time += 0.05;
         renderer.render(scene, camera);
     }
 
     render2();
 
+    // copy of the rocket
+    let rocket2 = rocket.clone();
+    rocket2.position.set(-100, -100, 0);
+
+    scene.add(rocket2);
+
+    // user options
+    let toggleRocket2 = document.getElementById('check-apple');
+    let togglePlanet = document.getElementById('check-apple2');
+
+    // change rocket visibility
+    toggleRocket2.addEventListener('click', function() {
+        toggleVisibility(rocket2);
+    });
+
+    // change SaturnPlanet visibility
+    togglePlanet.addEventListener('click', function() {
+        toggleVisibility(SaturnPlanet);
+    });
+        
+    // update scene
+    const inputElements = document.querySelectorAll('input');
+    inputElements.forEach((input) => {
+        if (input.id === 'check-apple2' || input.id === 'check-apple') {
+            return; // skip this input
+        }
+        input.addEventListener('change', () => updateScene(camera, renderer, scene));
+    });
+
+
+
+
     // ADD an Astro
-    const textureDragon = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
+    const textureAstro = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
 
-    textureDragon.anisotropy = 16;
-    let dragonGeometry = new THREE.DodecahedronGeometry(30, 0);
-    let dragonMaterial = new THREE.MeshPhongMaterial({ map: texturenucleus  ,opacity: 0.4});
-    let dragon = new THREE.Mesh(dragonGeometry, dragonMaterial);
+    textureAstro.anisotropy = 16;
+    let AstroGeometry = new THREE.DodecahedronGeometry(30, 0);
+    let AstroMaterial = new THREE.MeshPhongMaterial({ map: texturenucleus  ,opacity: 0.4});
+    let Astro = new THREE.Mesh(AstroGeometry, AstroMaterial);
     
-    dragon.position.set(-100, 0, 0);
-    dragon.rotation.x = Math.PI / 2;
-    dragon.rotation.z = Math.PI / 2;
+    Astro.position.set(-100, 0, 0);
+    Astro.rotation.x = Math.PI / 2;
+    Astro.rotation.z = Math.PI / 2;
 
-    scene.add(dragon);
+    scene.add(Astro);
+
+    // Add waves using noise library
+    const planeGeo = new THREE.PlaneGeometry(100, 100, 200, 200);
+
+    for (let i = 0; i < planeGeo.vertices.length; i++) {
+        const vertex = planeGeo.vertices[i];
+        vertex.z = Math.random() * 5 * Math.sin(vertex.x * 0.1) * Math.sin(vertex.y * 0.1);
+      }
+
+    const material = new THREE.MeshBasicMaterial({ map: texturenucleus, wireframe: true });
+    const planeMesh = new THREE.Mesh(planeGeo, material);
+    scene.add(planeMesh);
+      
+
+
+
+
+    // let noise = new SimplexNoise();
+    // let noiseScale = 0.01;
+    // let noiseStrength = 0.5;
+    // let noiseOffset = 0.5;
+    // let noiseSpeed = 0.01;
+
+    // let noiseGeometry = new THREE.PlaneBufferGeometry(1000, 1000, 100, 100);
+    // let noiseMaterial = new THREE.MeshPhongMaterial({ color: 0x000000, side: THREE.DoubleSide });
+    // let noiseMesh = new THREE.Mesh(noiseGeometry, noiseMaterial);
+    // noiseMesh.rotation.x = Math.PI / 2;
+    // noiseMesh.position.set(0, -50, 0);
+    // scene.add(noiseMesh);
+
+    // // update noise
+    // function updateNoise() {
+    //     let time = Date.now() * noiseSpeed;
+    //     let position = noiseMesh.geometry.attributes.position;
+    //     for (let i = 0; i < position.count; i++) {
+    //         let x = position.getX(i);
+    //         let y = position.getY(i);
+    //         let z = position.getZ(i);
+    //         let noiseValue = noise.noise3D(x * noiseScale, y * noiseScale, time);
+    //         position.setZ(i, noiseValue * noiseStrength);
+    //     }
+
+    //     position.needsUpdate = true;
+    // }
+
+    // // update scene
+    // function updateScene(camera, renderer, scene) {
+    //     updateNoise();
+    //     renderer.render(scene, camera);
+    // }
+
+    // // render scene
+    // function render() {
+    //     requestAnimationFrame(render);
+    //     updateScene(camera, renderer, scene);
+    // }
+
+    // render();
+
+
+
+    // ADD Donut 
+    const textureDonut = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
+
+    textureDonut.anisotropy = 16;
+    let DonutGeometry = new THREE.TorusGeometry(30, 10, 16, 100);
+    let DonutMaterial = new THREE.MeshPhongMaterial({ map: texturenucleus  ,opacity: 0.4});
+    let Donut = new THREE.Mesh(DonutGeometry, DonutMaterial);
+
+    Donut.position.set(0, 0, -100);
+    Donut.rotation.x = Math.PI / 2;
+    Donut.rotation.z = Math.PI / 2;
+    Donut.rotation.y = Math.PI / 2;
+
+    scene.add(Donut);
 
 
     /*  Nucleus  */   
@@ -276,55 +328,9 @@ function init() {
     // turn possible to go insdie the nucleus
     nucleus.material.side = THREE.DoubleSide;
 
-    // create a crazy 
-
     // fix zoom limit 
     controls.maxDistance = 500;
     controls.minDistance = 5;
-
-    nucleus.addEventListener('click', function() {
-        // remove the old nucleus mesh from the scene
-        scene.remove(nucleus);
-    
-        // create a new scene inside the nucleus
-        let innerScene = new THREE.Scene();
-    
-        // create a road mesh
-        let roadGeometry = new THREE.PlaneGeometry(100, 500);
-        let roadMaterial = new THREE.MeshBasicMaterial({ color: 0x999999 });
-        let roadMesh = new THREE.Mesh(roadGeometry, roadMaterial);
-        roadMesh.rotation.x = -Math.PI / 2;
-        innerScene.add(roadMesh);
-    
-        // create a car mesh
-        let carGeometry = new THREE.BoxGeometry(10, 5, 10);
-        let carMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
-        let carMesh = new THREE.Mesh(carGeometry, carMaterial);
-        carMesh.position.set(0, 2.5, 0);
-        innerScene.add(carMesh);
-    
-        // set up camera for inner scene
-        let innerCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
-        innerCamera.position.set(0, 50, 100);
-        innerCamera.lookAt(0, 0, 0);
-    
-        // set up renderer for inner scene
-        let innerRenderer = new THREE.WebGLRenderer();
-        innerRenderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(innerRenderer.domElement);
-    
-        // add controls for inner scene
-        let innerControls = new THREE.OrbitControls(innerCamera, innerRenderer.domElement);
-        innerControls.maxDistance = 500;
-        innerControls.minDistance = 5;
-    
-        // animate inner scene
-        function animateInnerScene() {
-            requestAnimationFrame(animateInnerScene);
-            innerRenderer.render(innerScene, innerCamera);
-        }
-        animateInnerScene();
-    });
 
     
     /*    Sphere  Background   */
@@ -445,6 +451,29 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
+function updateScene(camera, renderer, scene) {    
+
+    // Get the camera position and rotation from the input elements
+    const cameraPosX = document.getElementById('camera-pos-x').value;
+    const cameraPosY = document.getElementById('camera-pos-y').value;
+    const cameraPosZ = document.getElementById('camera-pos-z').value;
+    const cameraRotX = document.getElementById('camera-rot-x').value;
+    const cameraRotY = document.getElementById('camera-rot-y').value;
+    const cameraRotZ = document.getElementById('camera-rot-z').value;
+  
+    // Update the camera position and rotation
+    camera.position.set(cameraPosX, cameraPosY, cameraPosZ);
+    camera.rotation.set(cameraRotX, cameraRotY, cameraRotZ);
+  
+    // Render the updated scene
+    renderer.render(scene, camera);
+}
+  
+
+// Object Visibility
+function toggleVisibility(object) {
+    object.visible = !object.visible;
+}
 
 
 /*     Resize     */
