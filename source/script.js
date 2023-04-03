@@ -1,4 +1,4 @@
-import { loadModel, loadedModel, objModel, objModeled, objModel2, objModeled2, objModel3 , objModeled3} from './test.js';
+import { loadModel, loadedModel, objModel, objModeled, objModel2, objModeled2, objModel3 , objModeled3, objModel4, objModeled4, objModel5, objModeled5} from './test.js';
 
 let renderer,
 scene,
@@ -46,7 +46,7 @@ function init() {
     TweenMax.fromTo(camera.position, 2, {
         x: 0,
         y: 0,
-        z: 0
+        z: 50
     }, {
         x: 0,
         y: 0,
@@ -56,6 +56,18 @@ function init() {
 
     //OrbitControl
     controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+    // Set the target of the controls to the center of the scene
+    controls.target.set(0, 0, 0);
+
+    // Update the controls in the animation loop
+    function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+    }
+    animate();
+
     controls.autoRotate = true;
     controls.autoRotateSpeed = 4;
     controls.maxDistance = 350;
@@ -119,7 +131,6 @@ function init() {
         console.log(loadedModel)
     });
 
-    // addModel(scene);
     objModel(() => {
         
         scene.add(objModeled.scene);
@@ -136,6 +147,18 @@ function init() {
         objModeled3.scene.rotation.y = Math.PI/2;
         scene.add(objModeled3.scene);
         console.log(objModeled3)
+    });
+
+    objModel4(() => {
+        objModeled4.scene.rotation.y = Math.PI/2;
+        scene.add(objModeled4.scene);
+        console.log(objModeled4)
+    });
+
+    objModel5(() => {
+        objModeled5.scene.rotation.y = Math.PI/2;
+        scene.add(objModeled5.scene);
+        console.log(objModeled5)
     });
   
 
@@ -228,10 +251,10 @@ function init() {
     render2();
 
     // copy of the rocket
-    let rocket2 = rocket.clone();
-    rocket2.position.set(-100, -100, 0);
+    // let rocket2 = rocket.clone();
+    // rocket2.position.set(-100, -100, 0);
 
-    scene.add(rocket2);
+    // scene.add(rocket2);
 
     // user options
     let toggleRocketModel = document.getElementById('check-apple');
@@ -305,9 +328,6 @@ function init() {
         }
         input.addEventListener('change', () => updateScene(camera, renderer, scene));
     });
-
-
-
 
     // ADD an Astro
     const textureAstro = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');

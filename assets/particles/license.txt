@@ -1,0 +1,11 @@
+Model Information:
+* title:	Particles Tests - 2
+* source:	https://sketchfab.com/3d-models/particles-tests-2-8a3015316ca04c69933f0788fc705320
+* author:	Loïc Norgeot (https://sketchfab.com/norgeotloic)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Particles Tests - 2" (https://sketchfab.com/3d-models/particles-tests-2-8a3015316ca04c69933f0788fc705320) by Loïc Norgeot (https://sketchfab.com/norgeotloic) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

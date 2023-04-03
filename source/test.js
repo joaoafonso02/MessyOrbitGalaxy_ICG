@@ -2,9 +2,7 @@ import * as THREE from 'https://cdn.skypack.dev/three@0.129.0/build/three.module
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js';
 
 
-let loadedModel;
-let objModeled;
-let objModeled2, objModeled3;
+let loadedModel, objModeled, objModeled2, objModeled3, objModeled4, objModeled5;
 let nucleus;
 const scene = new THREE.Scene(); // Create a new scene
 const gltfLoader = new GLTFLoader();
@@ -57,7 +55,7 @@ function loadModel(callback) {
   gltfScene.scene.position.x = -220;
   gltfScene.scene.position.y = 0;
   gltfScene.scene.position.z = -100;
-  gltfScene.scene.scale.set(100, 150, 85);
+  gltfScene.scene.scale.set(80, 130, 55);
   
   scene.add(gltfScene.scene); // Add the loaded model to the scene
 
@@ -68,9 +66,9 @@ function loadModel(callback) {
   // let user control the rocket positions with keys around sphereBig from script.js
   document.addEventListener('keydown', (event) => {
     if (event.key === 'ArrowRight') {
-      gltfScene.scene.position.x += 10;
+      gltfScene.scene.position.x += 100;
     } else if (event.key === 'ArrowLeft') {
-      gltfScene.scene.position.x -= 10;
+      gltfScene.scene.position.x -= 100;
     } else if (event.key === 'ArrowUp') {
       gltfScene.scene.position.y += 10;
     } else if (event.key === 'ArrowDown') {
@@ -101,7 +99,7 @@ function objModel(callback) {
     console.log(objModeled);
 
     gltfScene.scene.position.set(0, 159, 0); // set the position of the model
-    gltfScene.scene.scale.set(7, 7, 7); // set the scale of the model
+    gltfScene.scene.scale.set(5, 5, 5); // set the scale of the model
     scene.add(gltfScene.scene);
 
     const loader = new THREE.TextureLoader(); 
@@ -112,48 +110,32 @@ function objModel(callback) {
     nucleus = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
     scene.add(nucleus);
 
-    // make model walk around the nucleus with a set speed
-    let speed = 0.01;
+    let speed = 0.02;
     let angle = 0;
-    let radius = 33;
+    let radius = 45;
     let x = 0, y = 0, z = 0;
-
+  
     function animate() {
       requestAnimationFrame(animate);
       angle += speed;
       x = radius * Math.cos(angle);
       y = radius * Math.sin(angle);
-      z = 0;
     
       gltfScene.scene.position.set(x, y, z);
+  
     
-      // calculate the angle between the model and the nucleus
-      let angleToNucleus = Math.atan2(y, x);
-    
-      // rotate the model horizontally based on the angle to the nucleus
-      gltfScene.scene.rotation.y = angleToNucleus;
-    
-      // if the model is below the nucleus, rotate it vertically
-      if (y < 0) {
-        gltfScene.scene.rotation.x = -Math.PI / 2;
-      } else {
-        gltfScene.scene.rotation.x = Math.PI / 2;
-      }
-    
-      gltfScene.scene.lookAt(0, 40, 10);
+      gltfScene.scene.lookAt(20, 30, 10);
       renderer.render(scene, camera);
     }
     
     animate();
+  
 
     if (callback) {
       callback();
     }
   });
 }
-
-
-
 
 function objModel2(callback) {
   gltfLoader.load('../assets/unkwObject/scene.gltf', (gltfScene) => {
@@ -178,10 +160,10 @@ function objModel2(callback) {
   });
 
   gltfScene.scene.rotation.x = Math.PI / 2; // rotate the model 90 degrees to make it horizontal
-  gltfScene.scene.position.x = 200;
-  gltfScene.scene.position.y = 80;
-  gltfScene.scene.position.z = 50;
-  gltfScene.scene.scale.set(25, 45, 35);
+  gltfScene.scene.position.x = 0;
+  gltfScene.scene.position.y = 0;
+  gltfScene.scene.position.z = 100;
+  gltfScene.scene.scale.set(20, 30, 25);
 
   scene.add(gltfScene.scene); // Add the loaded model to the scene
 
@@ -193,7 +175,7 @@ function objModel2(callback) {
 }
 
 function objModel3(callback) {
-  gltfLoader.load('../assets/phoenix_bird/scene.gltf', (gltfScene) => {
+  gltfLoader.load('../assets/blueDragon/scene.gltf', (gltfScene) => {
   objModeled3 = gltfScene;
   console.log(objModeled);
 
@@ -205,12 +187,81 @@ function objModel3(callback) {
   });
 
   gltfScene.scene.position.x = 0;
-  gltfScene.scene.position.y = 80;
-  gltfScene.scene.position.z = 80;
-  gltfScene.scene.scale.set(0.5, 0.5, 0.5);
+  gltfScene.scene.position.y = 0;
+  gltfScene.scene.position.z = -105;
+  gltfScene.scene.scale.set(1, 1, 1);
+
+  let speed = 0.01;
+  let angle = 0;
+  let radius = 35;
+  let x = 0, y = 0, z = -100;
+
+  function animate() {
+    requestAnimationFrame(animate);
+    angle += speed;
+    x = 5 + radius * Math.cos(angle);
+    y = 30 + radius * Math.sin(angle);
+  
+    gltfScene.scene.position.set(x, y, z);
+  
+    // calculate the angle between the model and the nucleus
+    let angleToNucleus = Math.atan2(y, x);
+  
+    // rotate the model horizontally based on the angle to the nucleus
+    gltfScene.scene.rotation.y = angleToNucleus;
+  
+    
+    if (y < 0) {
+      gltfScene.scene.rotation.x = -Math.PI / 2;
+    } else {
+      gltfScene.scene.rotation.x = Math.PI / 2;
+    }
+  
+    gltfScene.scene.lookAt(0, 0, -90);
+    renderer.render(scene, camera);
+  }
+  
+  animate();
+
+  scene.add(gltfScene.scene); // Add the loaded model to the scene
+
+  if (callback) {
+    callback();
+  }
+
+  });
+}
+
+function objModel4(callback) {
+  gltfLoader.load('../assets/lightsaber_blue/scene.gltf', (gltfScene) => {
+  objModeled4 = gltfScene;
+  console.log(objModeled);
 
   
+  gltfScene.scene.position.x = 0;
+  gltfScene.scene.position.y = -270;
+  gltfScene.scene.position.z = 0;
+  gltfScene.scene.scale.set(70, 480, 50);
 
+  scene.add(gltfScene.scene); // Add the loaded model to the scene
+
+  if (callback) {
+    callback();
+  }
+
+  });
+}
+
+function objModel5(callback) {
+  gltfLoader.load('../assets/mand/scene.gltf', (gltfScene) => {
+  objModeled5 = gltfScene;
+  console.log(objModeled);
+
+  
+  gltfScene.scene.position.x = -5.2;
+  gltfScene.scene.position.y = -5;
+  gltfScene.scene.position.z = -2.9;
+  gltfScene.scene.scale.set(30, 30, 30);
 
   scene.add(gltfScene.scene); // Add the loaded model to the scene
 
@@ -223,4 +274,4 @@ function objModel3(callback) {
 
 
 
-export { loadModel, loadedModel, objModel, objModeled, objModel2, objModeled2, objModel3, objModeled3 };
+export { loadModel, loadedModel, objModel, objModeled, objModel2, objModeled2, objModel3, objModeled3, objModel4, objModeled4, objModel5, objModeled5 };

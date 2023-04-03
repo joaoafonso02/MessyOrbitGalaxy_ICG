@@ -1,0 +1,11 @@
+Model Information:
+* title:	Dragon Ver2
+* source:	https://sketchfab.com/3d-models/dragon-ver2-81c90e3d51674d8493804a28d1255493
+* author:	yuzutarou (https://sketchfab.com/yuzuponponpon)
+
+Model License:
+* license type:	CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+* requirements:	Author must be credited. No commercial use.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Dragon Ver2" (https://sketchfab.com/3d-models/dragon-ver2-81c90e3d51674d8493804a28d1255493) by yuzutarou (https://sketchfab.com/yuzuponponpon) licensed under CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
