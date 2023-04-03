@@ -1,4 +1,4 @@
-import { loadModel, loadedModel, objModel, objModeled, SpaceShip, SpaceShipModel } from './test.js';
+import { loadModel, loadedModel, objModel, objModeled, objModel2, objModeled2 } from './test.js';
 
 let renderer,
 scene,
@@ -121,15 +121,15 @@ function init() {
 
     // addModel(scene);
     objModel(() => {
-        objModeled.scene.rotation.y = Math.PI/2; 
+        
         scene.add(objModeled.scene);
         console.log(objModeled)
     });
 
-    SpaceShip(() => {
-        SpaceShipModel.scene.rotation.y = Math.PI/2;
-        scene.add(SpaceShip.scene);
-        console.log(SpaceShip)
+    objModel2(() => {
+        objModeled2.scene.rotation.y = Math.PI/2;
+        scene.add(objModeled2.scene);
+        console.log(objModeled2)
     });
 
     // ADD a Rocket 

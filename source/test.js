@@ -4,7 +4,7 @@ import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/l
 
 let loadedModel;
 let objModeled;
-let SpaceShipModel;
+let objModeled2;
 const scene = new THREE.Scene(); // Create a new scene
 const gltfLoader = new GLTFLoader();
 
@@ -29,7 +29,7 @@ function animate() {
 animate();
 
 function loadModel(callback) {
-  gltfLoader.load('scene.gltf', (gltfScene) => {
+  gltfLoader.load('../assets/rocket/scene.gltf', (gltfScene) => {
   loadedModel = gltfScene;
   console.log(loadedModel);
 
@@ -95,8 +95,27 @@ function loadModel(callback) {
 
 // add another model to the scene
 function objModel(callback) {
-  gltfLoader.load('../assets/sa/scene.gltf', (gltfScene) => {
+  gltfLoader.load('../assets/spyro/scene.gltf', (gltfScene) => {
   objModeled = gltfScene;
+  console.log(objModeled);
+
+  gltfScene.scene.position.x = 0;
+  gltfScene.scene.position.y = 29;
+  gltfScene.scene.position.z = 0;
+  gltfScene.scene.scale.set(10, 10, 10);
+
+  scene.add(gltfScene.scene); // Add the loaded model to the scene
+
+  if (callback) {
+    callback();
+  }
+
+  });
+}
+
+function objModel2(callback) {
+  gltfLoader.load('../assets/unkwObject/scene.gltf', (gltfScene) => {
+  objModeled2 = gltfScene;
   console.log(objModeled);
 
   const loader = new THREE.TextureLoader();
@@ -117,47 +136,7 @@ function objModel(callback) {
   });
 
   gltfScene.scene.rotation.x = Math.PI / 2; // rotate the model 90 degrees to make it horizontal
-  gltfScene.scene.position.x = 230;
-  gltfScene.scene.position.y = 80;
-  gltfScene.scene.position.z = 50;
-  gltfScene.scene.scale.set(25, 45, 35);
-
-  scene.add(gltfScene.scene); // Add the loaded model to the scene
-
-
-
-  
-  if (callback) {
-    callback();
-  }
-
-  });
-}
-
-function SpaceShip(callback) {
-  gltfLoader.load('../assets/satellite/scene.gltf', (gltfScene) => {
-  SpaceShipModel = gltfScene;
-  console.log(objModeled);
-
-  const loader = new THREE.TextureLoader();
-  const texture = loader.load('https://i.ibb.co/hcN2qXk/star-nc8wkw.jpg');
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.set( 1, 1 );
-  
-  // change the color of the model with the texture
-  gltfScene.scene.traverse((child) => {
-    if (child.isMesh) {
-        child.material.map = texture;
-        // body of the model is texture but the red color is black
-        child.material.color = new THREE.Color(0x2379a9);
-
-        child.material.map = texture;
-    }
-  });
-
-  gltfScene.scene.rotation.x = Math.PI / 2; // rotate the model 90 degrees to make it horizontal
-  gltfScene.scene.position.x = 130;
+  gltfScene.scene.position.x = 200;
   gltfScene.scene.position.y = 80;
   gltfScene.scene.position.z = 50;
   gltfScene.scene.scale.set(25, 45, 35);
@@ -173,4 +152,4 @@ function SpaceShip(callback) {
 
 
 
-export { loadModel, loadedModel, objModel, objModeled, SpaceShip, SpaceShipModel };
+export { loadModel, loadedModel, objModel, objModeled, objModel2, objModeled2 };
