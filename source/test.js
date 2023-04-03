@@ -4,7 +4,8 @@ import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/l
 
 let loadedModel;
 let objModeled;
-let objModeled2;
+let objModeled2, objModeled3;
+let nucleus;
 const scene = new THREE.Scene(); // Create a new scene
 const gltfLoader = new GLTFLoader();
 
@@ -96,22 +97,63 @@ function loadModel(callback) {
 // add another model to the scene
 function objModel(callback) {
   gltfLoader.load('../assets/spyro/scene.gltf', (gltfScene) => {
-  objModeled = gltfScene;
-  console.log(objModeled);
+    objModeled = gltfScene;
+    console.log(objModeled);
 
-  gltfScene.scene.position.x = 0;
-  gltfScene.scene.position.y = 29;
-  gltfScene.scene.position.z = 0;
-  gltfScene.scene.scale.set(10, 10, 10);
+    gltfScene.scene.position.set(0, 159, 0); // set the position of the model
+    gltfScene.scene.scale.set(7, 7, 7); // set the scale of the model
+    scene.add(gltfScene.scene);
 
-  scene.add(gltfScene.scene); // Add the loaded model to the scene
+    const loader = new THREE.TextureLoader(); 
+    const texturenucleus = loader.load('https://i.ibb.co/hcN2qXk/star-nc8wkw.jpg');
+    texturenucleus.anisotropy = 16;
+    let icosahedronGeometry = new THREE.IcosahedronGeometry(30, 10);
+    let lambertMaterial = new THREE.MeshPhongMaterial({ map: texturenucleus });
+    nucleus = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
+    scene.add(nucleus);
 
-  if (callback) {
-    callback();
-  }
+    // make model walk around the nucleus with a set speed
+    let speed = 0.01;
+    let angle = 0;
+    let radius = 33;
+    let x = 0, y = 0, z = 0;
 
+    function animate() {
+      requestAnimationFrame(animate);
+      angle += speed;
+      x = radius * Math.cos(angle);
+      y = radius * Math.sin(angle);
+      z = 0;
+    
+      gltfScene.scene.position.set(x, y, z);
+    
+      // calculate the angle between the model and the nucleus
+      let angleToNucleus = Math.atan2(y, x);
+    
+      // rotate the model horizontally based on the angle to the nucleus
+      gltfScene.scene.rotation.y = angleToNucleus;
+    
+      // if the model is below the nucleus, rotate it vertically
+      if (y < 0) {
+        gltfScene.scene.rotation.x = -Math.PI / 2;
+      } else {
+        gltfScene.scene.rotation.x = Math.PI / 2;
+      }
+    
+      gltfScene.scene.lookAt(0, 40, 10);
+      renderer.render(scene, camera);
+    }
+    
+    animate();
+
+    if (callback) {
+      callback();
+    }
   });
 }
+
+
+
 
 function objModel2(callback) {
   gltfLoader.load('../assets/unkwObject/scene.gltf', (gltfScene) => {
@@ -150,6 +192,35 @@ function objModel2(callback) {
   });
 }
 
+function objModel3(callback) {
+  gltfLoader.load('../assets/phoenix_bird/scene.gltf', (gltfScene) => {
+  objModeled3 = gltfScene;
+  console.log(objModeled);
+
+  // model is too dark, so change the color of the model
+  gltfScene.scene.traverse((child) => {
+      if (child.isMesh) {
+          child.material.color = new THREE.Color(0x2379a9);
+      }
+  });
+
+  gltfScene.scene.position.x = 0;
+  gltfScene.scene.position.y = 80;
+  gltfScene.scene.position.z = 80;
+  gltfScene.scene.scale.set(0.5, 0.5, 0.5);
+
+  
 
 
-export { loadModel, loadedModel, objModel, objModeled, objModel2, objModeled2 };
+  scene.add(gltfScene.scene); // Add the loaded model to the scene
+
+  if (callback) {
+    callback();
+  }
+
+  });
+}
+
+
+
+export { loadModel, loadedModel, objModel, objModeled, objModel2, objModeled2, objModel3, objModeled3 };

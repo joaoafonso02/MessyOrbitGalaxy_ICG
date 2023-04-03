@@ -1,4 +1,4 @@
-import { loadModel, loadedModel, objModel, objModeled, objModel2, objModeled2 } from './test.js';
+import { loadModel, loadedModel, objModel, objModeled, objModel2, objModeled2, objModel3 , objModeled3} from './test.js';
 
 let renderer,
 scene,
@@ -131,6 +131,13 @@ function init() {
         scene.add(objModeled2.scene);
         console.log(objModeled2)
     });
+
+    objModel3(() => {
+        objModeled3.scene.rotation.y = Math.PI/2;
+        scene.add(objModeled3.scene);
+        console.log(objModeled3)
+    });
+  
 
     // ADD a Rocket 
     const textureCylinder = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');

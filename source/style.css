@@ -19,7 +19,7 @@ body {
 #toggle-rocket2 {
     position: absolute;
     top: 30px;
-    left: 1330px;
+    right: 55px;
     width: 200px;
     height: 40px;
 }
@@ -98,7 +98,7 @@ body {
 table {
     position: absolute;
     top: 550px;
-    left: 1155px;
+    right: 55px;
     width: 270.5px;
     height: 206x;
     border-collapse: collapse;
@@ -133,7 +133,7 @@ th {
     position: absolute;
     color: white;
     top: -12px;
-    left: 1250px;
+    right: 55px;
     width: 150px;
     height: 40px;
     font-size: 1.2rem;
@@ -176,7 +176,7 @@ button:hover {
 .checkbox-apple {
     position: absolute;
     top: 80px;
-    left: 1300px;
+    right: 55px;
     width: 200px;
     height: 250px;
     -webkit-user-select: none;
@@ -255,7 +255,7 @@ button:hover {
 .checkbox2-apple {
     position: absolute;
     top: 160px;
-    left: 1300px;
+    right: 55px;
     width: 200px;
     height: 250px;
     -webkit-user-select: none;
@@ -334,7 +334,7 @@ button:hover {
 .checkbox3-apple {
   position: absolute;
   top: 240px;
-  left: 1300px;
+  right: 55px;
   width: 200px;
   height: 250px;
   -webkit-user-select: none;
