@@ -1,5 +1,4 @@
-import { loadModel, loadedModel, objModel, objModeled, objModel2, 
-    objModeled2, objModel3 , objModeled3, objModel4, objModeled4, 
+import { loadModel, loadedModel, objModel, objModeled, objModel3 , objModeled3, objModel4, objModeled4, 
     objModel5, objModeled5, objModel6, objModeled6, objModel7, 
     objModeled7, objModel8, objModeled8, objModel9, objModeled9} from './test.js';
 
@@ -41,7 +40,9 @@ function init() {
 
     const directionalLight = new THREE.DirectionalLight("#fff", 3, 1000);
     // directionalLight.position.set(450, 180, 0);
-    directionalLight.position.set(550, 280, 0);
+    directionalLight.position.set(450, 180, 0);
+    // do not point the light to the center of the scene
+
     directionalLight.castShadow = true;
     scene.add(directionalLight);
 

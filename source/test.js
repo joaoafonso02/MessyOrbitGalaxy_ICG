@@ -292,8 +292,8 @@ function objModel6(callback) {
   objModeled6 = gltfScene;
   console.log(objModeled);
   
-  objModeled6.scene.position.set(550, 280, 0);
-  objModeled6.scene.scale.set(20, 20, 20);
+  objModeled6.scene.position.set(550, 180, 0);
+  objModeled6.scene.scale.set(15, 15, 15);
   
   scene.add(objModeled6.scene); // Add the loaded model to the scene
 
