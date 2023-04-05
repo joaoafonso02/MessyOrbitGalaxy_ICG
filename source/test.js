@@ -2,7 +2,7 @@ import * as THREE from 'https://cdn.skypack.dev/three@0.129.0/build/three.module
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js';
 
 
-let loadedModel, objModeled, objModeled2, objModeled3, objModeled4, objModeled5;
+let loadedModel, objModeled, objModeled2, objModeled3, objModeled4, objModeled5, objModeled6;
 let nucleus;
 const scene = new THREE.Scene(); // Create a new scene
 const gltfLoader = new GLTFLoader();
@@ -98,39 +98,31 @@ function objModel(callback) {
     objModeled = gltfScene;
     console.log(objModeled);
 
-    gltfScene.scene.position.set(0, 159, 0); // set the position of the model
+    gltfScene.scene.position.set(0, 32, ); // set the position of the model
     gltfScene.scene.scale.set(5, 5, 5); // set the scale of the model
     scene.add(gltfScene.scene);
 
-    const loader = new THREE.TextureLoader(); 
-    const texturenucleus = loader.load('https://i.ibb.co/hcN2qXk/star-nc8wkw.jpg');
-    texturenucleus.anisotropy = 16;
-    let icosahedronGeometry = new THREE.IcosahedronGeometry(30, 10);
-    let lambertMaterial = new THREE.MeshPhongMaterial({ map: texturenucleus });
-    nucleus = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-    scene.add(nucleus);
+   
 
-    let speed = 0.02;
-    let angle = 0;
-    let radius = 45;
-    let x = 0, y = 0, z = 0;
+    // let speed = 0.02;
+    // let angle = 0;
+    // let radius = 45;
+    // let x = 0, y = 0, z = 0;
   
     function animate() {
       requestAnimationFrame(animate);
-      angle += speed;
-      x = radius * Math.cos(angle);
-      y = radius * Math.sin(angle);
+      // angle += speed;
+      // x = radius * Math.cos(angle);
+      // y = radius * Math.sin(angle);
     
-      gltfScene.scene.position.set(x, y, z);
+      // gltfScene.scene.position.set(x, y, z);
   
     
-      gltfScene.scene.lookAt(20, 30, 10);
+      gltfScene.scene.lookAt(0, 30, 35);
       renderer.render(scene, camera);
-    }
-    
+    } 
     animate();
   
-
     if (callback) {
       callback();
     }
@@ -149,7 +141,7 @@ function objModel2(callback) {
   texture.repeat.set( 1, 1 );
 
   // change the color of the model with the texture
-  gltfScene.scene.traverse((child) => {
+  objModeled2.scene.traverse((child) => {
       if (child.isMesh) {
           child.material.map = texture;
           // body of the model is texture but the red color is black
@@ -159,13 +151,13 @@ function objModel2(callback) {
       }
   });
 
-  gltfScene.scene.rotation.x = Math.PI / 2; // rotate the model 90 degrees to make it horizontal
-  gltfScene.scene.position.x = 0;
-  gltfScene.scene.position.y = 0;
-  gltfScene.scene.position.z = 100;
-  gltfScene.scene.scale.set(20, 30, 25);
+  objModeled2.scene.rotation.x = Math.PI / 2; // rotate the model 90 degrees to make it horizontal
+  objModeled2.scene.position.x = 40;
+  objModeled2.scene.position.y = -70;
+  objModeled2.scene.position.z = 100;
+  objModeled2.scene.scale.set(10, 10, 10);
 
-  scene.add(gltfScene.scene); // Add the loaded model to the scene
+  scene.add(objModeled2.scene); // Add the loaded model to the scene
 
   if (callback) {
     callback();
@@ -180,16 +172,16 @@ function objModel3(callback) {
   console.log(objModeled);
 
   // model is too dark, so change the color of the model
-  gltfScene.scene.traverse((child) => {
+  objModeled3.scene.traverse((child) => {
       if (child.isMesh) {
           child.material.color = new THREE.Color(0x2379a9);
       }
   });
 
-  gltfScene.scene.position.x = 0;
-  gltfScene.scene.position.y = 0;
-  gltfScene.scene.position.z = -105;
-  gltfScene.scene.scale.set(1, 1, 1);
+  objModeled3.scene.position.x = 0;
+  objModeled3.scene.position.y = 0;
+  objModeled3.scene.position.z = -105;
+  objModeled3.scene.scale.set(1, 1, 1);
 
   let speed = 0.01;
   let angle = 0;
@@ -202,28 +194,28 @@ function objModel3(callback) {
     x = 5 + radius * Math.cos(angle);
     y = 30 + radius * Math.sin(angle);
   
-    gltfScene.scene.position.set(x, y, z);
+    objModeled3.scene.position.set(x, y, z);
   
     // calculate the angle between the model and the nucleus
     let angleToNucleus = Math.atan2(y, x);
   
     // rotate the model horizontally based on the angle to the nucleus
-    gltfScene.scene.rotation.y = angleToNucleus;
+    objModeled3.scene.rotation.y = angleToNucleus;
   
     
     if (y < 0) {
-      gltfScene.scene.rotation.x = -Math.PI / 2;
+      objModeled3.scene.rotation.x = -Math.PI / 2;
     } else {
-      gltfScene.scene.rotation.x = Math.PI / 2;
+      objModeled3.scene.rotation.x = Math.PI / 2;
     }
   
-    gltfScene.scene.lookAt(0, 0, -90);
+    objModeled3.scene.lookAt(0, 0, -90);
     renderer.render(scene, camera);
   }
   
   animate();
 
-  scene.add(gltfScene.scene); // Add the loaded model to the scene
+  scene.add(objModeled3.scene); // Add the loaded model to the scene
 
   if (callback) {
     callback();
@@ -238,12 +230,12 @@ function objModel4(callback) {
   console.log(objModeled);
 
   
-  gltfScene.scene.position.x = 0;
-  gltfScene.scene.position.y = -270;
-  gltfScene.scene.position.z = 0;
-  gltfScene.scene.scale.set(70, 480, 50);
+  objModeled4.scene.position.x = 0;
+  objModeled4.scene.position.y = -270;
+  objModeled4.scene.position.z = 0;
+  objModeled4.scene.scale.set(70, 480, 50);
 
-  scene.add(gltfScene.scene); // Add the loaded model to the scene
+  scene.add(objModeled4.scene); // Add the loaded model to the scene
 
   if (callback) {
     callback();
@@ -258,12 +250,30 @@ function objModel5(callback) {
   console.log(objModeled);
 
   
-  gltfScene.scene.position.x = -5.2;
-  gltfScene.scene.position.y = -5;
-  gltfScene.scene.position.z = -2.9;
-  gltfScene.scene.scale.set(30, 30, 30);
+  objModeled5.scene.position.x = -5.2;
+  objModeled5.scene.position.y = -5;
+  objModeled5.scene.position.z = -2.9;
+  objModeled5.scene.scale.set(30, 30, 30);
 
-  scene.add(gltfScene.scene); // Add the loaded model to the scene
+  scene.add(objModeled5.scene); // Add the loaded model to the scene
+
+  if (callback) {
+    callback();
+  }
+
+  });
+}
+
+function objModel6(callback) {
+  gltfLoader.load('../assets/sun/scene.gltf', (gltfScene) => {
+  objModeled6 = gltfScene;
+  console.log(objModeled);
+
+  
+  objModeled6.scene.position.set(450, 280, 0);
+  objModeled6.scene.scale.set(20, 20, 20);
+  
+  scene.add(objModeled6.scene); // Add the loaded model to the scene
 
   if (callback) {
     callback();
@@ -274,4 +284,7 @@ function objModel5(callback) {
 
 
 
-export { loadModel, loadedModel, objModel, objModeled, objModel2, objModeled2, objModel3, objModeled3, objModel4, objModeled4, objModel5, objModeled5 };
+
+export { loadModel, loadedModel, objModel, objModeled, objModel2, 
+  objModeled2, objModel3, objModeled3, objModel4, objModeled4, 
+  objModel5, objModeled5, objModel6, objModeled6 };

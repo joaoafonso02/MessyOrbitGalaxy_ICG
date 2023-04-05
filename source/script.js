@@ -1,4 +1,6 @@
-import { loadModel, loadedModel, objModel, objModeled, objModel2, objModeled2, objModel3 , objModeled3, objModel4, objModeled4, objModel5, objModeled5} from './test.js';
+import { loadModel, loadedModel, objModel, objModeled, objModel2, 
+    objModeled2, objModel3 , objModeled3, objModel4, objModeled4, 
+    objModel5, objModeled5, objModel6, objModeled6} from './test.js';
 
 let renderer,
 scene,
@@ -7,6 +9,7 @@ sphereBg,
 nucleus,
 stars,
 controls,
+controlsSun,
 container = document.getElementById("canvas_container"),
 timeout_Debounce,
 noise = new SimplexNoise(),
@@ -14,7 +17,6 @@ cameraSpeed = 0,
 blobScale = 3;
 
 const colors = ["#ffffff", "#ff9800", "#ffeb3b", "#4caf50", "#03a9f4", "#9c27b0", "#f44336"];
-
 
 
 init();
@@ -27,11 +29,11 @@ function init() {
     camera.position.set(0,0,230);
 
     const directionalLight = new THREE.DirectionalLight("#fff", 2);
-    directionalLight.position.set(0, 50, -20);
+    directionalLight.position.set(450, 280, 0);
     scene.add(directionalLight);
 
     let ambientLight = new THREE.AmbientLight("#ffffff", 1);
-    ambientLight.position.set(0, 20, 20);
+    ambientLight.position.set(0, 200, 0);
     scene.add(ambientLight);
 
     renderer = new THREE.WebGLRenderer({
@@ -42,17 +44,6 @@ function init() {
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
 
-    // create a crazy animation when refresh the page
-    TweenMax.fromTo(camera.position, 2, {
-        x: 0,
-        y: 0,
-        z: 50
-    }, {
-        x: 0,
-        y: 0,
-        z: 330,
-        ease: Power4.easeOut
-    }, );
 
     //OrbitControl
     controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -62,24 +53,31 @@ function init() {
 
     // Update the controls in the animation loop
     function animate() {
-    requestAnimationFrame(animate);
-    controls.update();
-    renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
     }
     animate();
 
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 4;
+    controls.autoRotateSpeed = 0.2;
     controls.maxDistance = 350;
     controls.minDistance = 150;
     controls.enablePan = false;
 
-    // const ticTacToeCube = new TicTacToeCube();
-
-    // scene.add(ticTacToeCube);
+    
+    // add shadows to the scene
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMapSoft = true;
+    
+    // add axis
+    const axesHelper = new THREE.AxesHelper( 190 );
+    scene.add( axesHelper );
     
     const loader = new THREE.TextureLoader(); 
     const textureSphereBg = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
+    const textureSun = loader.load('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/4ad4afd9-1b7c-4043-8820-8322dc919c18/d6r3ze7-ede358d7-7d74-4d99-a023-c41de93b093b.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzRhZDRhZmQ5LTFiN2MtNDA0My04ODIwLTgzMjJkYzkxOWMxOFwvZDZyM3plNy1lZGUzNThkNy03ZDc0LTRkOTktYTAyMy1jNDFkZTkzYjA5M2IucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.wx1PpjChng962qEruw1OQ9FNbOWpxUFz1yFPZQ-t84M');
     const texturenucleus = loader.load('https://i.ibb.co/hcN2qXk/star-nc8wkw.jpg');
     const textureStar = loader.load("https://i.ibb.co/ZKsdYSz/p1-g3zb2a.png");
     const texture1 = loader.load("https://i.ibb.co/F8by6wW/p2-b3gnym.png");  
@@ -112,6 +110,11 @@ function init() {
     SaturnPlanet.add(ring);
     scene.add(SaturnPlanet);
 
+    
+    // add shadows to the objects
+    SaturnPlanet.castShadow = true;
+    SaturnPlanet.receiveShadow = true;
+
     function render() {
         requestAnimationFrame(render);
         sphere.rotation.x -= 0.01;
@@ -127,128 +130,149 @@ function init() {
 
     loadModel(() => {
         loadedModel.scene.rotation.y = Math.PI/2; 
+        loadedModel.scene.castShadow = true;
+        loadedModel.scene.receiveShadow = true;
         scene.add(loadedModel.scene);
         console.log(loadedModel)
     });
 
     objModel(() => {
-        
+        objModeled.scene.castShadow = true;
+        objModeled.scene.receiveShadow = true;
+
         scene.add(objModeled.scene);
         console.log(objModeled)
     });
 
     objModel2(() => {
         objModeled2.scene.rotation.y = Math.PI/2;
+        objModeled2.scene.castShadow = true;
+        objModeled2.scene.receiveShadow = true;
+    
         scene.add(objModeled2.scene);
         console.log(objModeled2)
     });
 
     objModel3(() => {
         objModeled3.scene.rotation.y = Math.PI/2;
+        objModeled3.scene.castShadow = true;
+        objModeled3.scene.receiveShadow = true;
         scene.add(objModeled3.scene);
         console.log(objModeled3)
     });
 
     objModel4(() => {
         objModeled4.scene.rotation.y = Math.PI/2;
+        objModeled4.scene.castShadow = true;
+        objModeled4.scene.receiveShadow = true;
         scene.add(objModeled4.scene);
         console.log(objModeled4)
     });
 
     objModel5(() => {
         objModeled5.scene.rotation.y = Math.PI/2;
+        objModeled5.scene.castShadow = true;
+        objModeled5.scene.receiveShadow = true;
         scene.add(objModeled5.scene);
         console.log(objModeled5)
     });
-  
 
-    // ADD a Rocket 
-    const textureCylinder = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
-    const textureTrace = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
+    objModel6(() => {
+        objModeled6.scene.rotation.y = Math.PI/2;
+        objModeled6.scene.castShadow = true;
+        objModeled6.scene.receiveShadow = true;
+        scene.add(directionalLight);
+        scene.add(objModeled6.scene);
+        console.log(objModeled5)
+    });
 
-    textureCylinder.anisotropy = 16;
-    let cylinderGeometry = new THREE.CylinderBufferGeometry(30, 20, 100, 32);
-    let cylinderMaterial = new THREE.MeshPhongMaterial({ map: texturenucleus, transparent: 0.5  ,opacity: 0.5});
-    let cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
+    // // ADD a Rocket 
+    // const textureCylinder = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
+    // const textureTrace = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
 
-    let coneGeometry = new THREE.ConeBufferGeometry(30, 90, 200);
-    let coneMaterial = new THREE.MeshBasicMaterial({ map: texturenucleus, transparent: 0.5  ,opacity: 0.5});
-    let cone = new THREE.Mesh(coneGeometry, coneMaterial);
+    // textureCylinder.anisotropy = 16;
+    // let cylinderGeometry = new THREE.CylinderBufferGeometry(30, 20, 100, 32);
+    // let cylinderMaterial = new THREE.MeshPhongMaterial({ map: texturenucleus, transparent: 0.5  ,opacity: 0.5});
+    // let cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
 
-    // Position the cone in front of the cylinder
-    cone.position.set(-40, -50, -200);
+    // let coneGeometry = new THREE.ConeBufferGeometry(30, 90, 200);
+    // let coneMaterial = new THREE.MeshBasicMaterial({ map: texturenucleus, transparent: 0.5  ,opacity: 0.5});
+    // let cone = new THREE.Mesh(coneGeometry, coneMaterial);
 
-    // fire trace
-    let traceGeometry = new THREE.CylinderBufferGeometry(0.5, 0.5, 100, 32);
-    let traceMaterial = new THREE.MeshPhongMaterial({ color: 0x632901, transparent: 0.5  ,opacity: 0.5});
-    let trace = new THREE.Mesh(traceGeometry, traceMaterial);
+    // // Position the cone in front of the cylinder
+    // cone.position.set(-40, -50, -200);
 
-    trace.position.set(100, -50, -181);
-    trace.rotation.x = Math.PI / 2;
-    trace.rotation.z = Math.PI / 2;
+    // // fire trace
+    // let traceGeometry = new THREE.CylinderBufferGeometry(0.5, 0.5, 100, 32);
+    // let traceMaterial = new THREE.MeshPhongMaterial({ color: 0x632901, transparent: 0.5  ,opacity: 0.5});
+    // let trace = new THREE.Mesh(traceGeometry, traceMaterial);
 
-    // another trace
-    let trace2 = new THREE.Mesh(traceGeometry, traceMaterial);
+    // trace.position.set(100, -50, -181);
+    // trace.rotation.x = Math.PI / 2;
+    // trace.rotation.z = Math.PI / 2;
 
-    trace2.position.set(100, -50, -219);
-    trace2.rotation.x = Math.PI / 2;
-    trace2.rotation.z = Math.PI / 2;
+    // // another trace
+    // let trace2 = new THREE.Mesh(traceGeometry, traceMaterial);
 
-    // another trace
-    let trace3 = new THREE.Mesh(traceGeometry, traceMaterial);
+    // trace2.position.set(100, -50, -219);
+    // trace2.rotation.x = Math.PI / 2;
+    // trace2.rotation.z = Math.PI / 2;
 
-    trace3.position.set(150, -50, -199);
-    trace3.rotation.x = Math.PI / 2;
-    trace3.rotation.z = Math.PI / 2;
+    // // another trace
+    // let trace3 = new THREE.Mesh(traceGeometry, traceMaterial);
 
-    let angle = Math.PI / 2; 
-    trace3.rotation.set(angle, Math.PI / 2, 0);
+    // trace3.position.set(150, -50, -199);
+    // trace3.rotation.x = Math.PI / 2;
+    // trace3.rotation.z = Math.PI / 2;
 
-    cone.rotation.x = Math.PI / 3;
-    cone.rotation.z = Math.PI / 2;
+    // let angle = Math.PI / 2; 
+    // trace3.rotation.set(angle, Math.PI / 2, 0);
 
-    // forth trace
-    let trace4 = new THREE.Mesh(traceGeometry, traceMaterial);
+    // cone.rotation.x = Math.PI / 3;
+    // cone.rotation.z = Math.PI / 2;
 
-    trace4.position.set(193, -50, -224);
-    trace4.rotation.x = Math.PI / 2;
-    trace4.rotation.z = -Math.PI / 3;
+    // // forth trace
+    // let trace4 = new THREE.Mesh(traceGeometry, traceMaterial);
 
-    // fifth trace
-    let trace5 = new THREE.Mesh(traceGeometry, traceMaterial);
+    // trace4.position.set(193, -50, -224);
+    // trace4.rotation.x = Math.PI / 2;
+    // trace4.rotation.z = -Math.PI / 3;
 
-    trace5.position.set(193, -50, -174);
-    trace5.rotation.x = Math.PI / 2;
-    trace5.rotation.z = Math.PI / 3;
+    // // fifth trace
+    // let trace5 = new THREE.Mesh(traceGeometry, traceMaterial);
 
-    cylinder.rotation.x = Math.PI / 2;
-    cylinder.rotation.z = Math.PI / 2;
+    // trace5.position.set(193, -50, -174);
+    // trace5.rotation.x = Math.PI / 2;
+    // trace5.rotation.z = Math.PI / 3;
 
-    cylinder.position.set(55, -50, -200);
+    // cylinder.rotation.x = Math.PI / 2;
+    // cylinder.rotation.z = Math.PI / 2;
 
-    // group cone, cylinder and traces
-    let rocket = new THREE.Group();
-    rocket.add(cone);
-    rocket.add(cylinder);
-    rocket.add(trace);
-    rocket.add(trace2);
-    rocket.add(trace3);
-    rocket.add(trace4);
-    rocket.add(trace5);
+    // cylinder.position.set(55, -50, -200);
 
-    scene.add(rocket);
-    let time = 0;
-    function render2() {
-        requestAnimationFrame(render2);
-        cylinder.rotation.x += 0.01;
-        cone.rotation.x += 0.01;
-        rocket.position.y = Math.cos(time) * 100;
-        rocket.position.z = Math.sin(time) * 10;
-        time += 0.05;
-        renderer.render(scene, camera);
-    }
+    // // group cone, cylinder and traces
+    // let rocket = new THREE.Group();
+    // rocket.add(cone);
+    // rocket.add(cylinder);
+    // rocket.add(trace);
+    // rocket.add(trace2);
+    // rocket.add(trace3);
+    // rocket.add(trace4);
+    // rocket.add(trace5);
 
-    render2();
+    // scene.add(rocket);
+    // let time = 0;
+    // function render2() {
+    //     requestAnimationFrame(render2);
+    //     cylinder.rotation.x += 0.01;
+    //     cone.rotation.x += 0.01;
+    //     rocket.position.y = Math.cos(time) * 100;
+    //     rocket.position.z = Math.sin(time) * 10;
+    //     time += 0.05;
+    //     renderer.render(scene, camera);
+    // }
+
+    // render2();
 
     // copy of the rocket
     // let rocket2 = rocket.clone();
@@ -384,6 +408,22 @@ function init() {
     });
     sphereBg = new THREE.Mesh(geometrySphereBg, materialSphereBg);
     scene.add(sphereBg);
+
+    // // /*    Sun  */ 
+    // textureSun.anisotropy = 16;
+
+
+    // let geometrySun = new THREE.SphereBufferGeometry(150, 40, 40);
+    // let materialSun = new THREE.MeshBasicMaterial({
+    //     side: THREE.BackSide,
+    //     map: textureSun,
+    // });
+    // sun = new THREE.Mesh(geometrySun, materialSun);
+    // sun.position.set(450, 280, 0);
+    // scene.add(sun);
+
+   
+    
     
     /*    Moving Stars   */
     let starsGeometry = new THREE.Geometry();
@@ -464,29 +504,29 @@ function animate() {
 
 
     //Nucleus Animation
-    nucleus.geometry.vertices.forEach(function (v) {
-        let time = Date.now();
-        v.normalize();
-        let distance = nucleus.geometry.parameters.radius + noise.noise3D(
-            v.x + time * 0.0005,
-            v.y + time * 0.0003,
-            v.z + time * 0.0008
-        ) * blobScale;
-        v.multiplyScalar(distance);
-    })
-    nucleus.geometry.verticesNeedUpdate = true;
-    nucleus.geometry.normalsNeedUpdate = true;
-    nucleus.geometry.computeVertexNormals();
-    nucleus.geometry.computeFaceNormals();
-    nucleus.rotation.y += 0.002;
+    // nucleus.geometry.vertices.forEach(function (v) {
+    //     let time = Date.now();
+    //     v.normalize();
+    //     let distance = nucleus.geometry.parameters.radius + noise.noise3D(
+    //         v.x + time * 0.0005,
+    //         v.y + time * 0.0003,
+    //         v.z + time * 0.0008
+    //     ) * blobScale;
+    //     v.multiplyScalar(distance);
+    // })
+    // nucleus.geometry.verticesNeedUpdate = true;
+    // nucleus.geometry.normalsNeedUpdate = true;
+    // nucleus.geometry.computeVertexNormals();
+    // nucleus.geometry.computeFaceNormals();
+    // nucleus.rotation.y += 0.002;
 
 
-    //Sphere Beckground Animation
+    // Sphere Beckground Animation
     sphereBg.rotation.x += 0.002;
     sphereBg.rotation.y += 0.002;
     sphereBg.rotation.z += 0.002;
 
-    
+
     controls.update();
     stars.geometry.verticesNeedUpdate = true;
     renderer.render(scene, camera);
@@ -529,41 +569,6 @@ function onWindowResize() {
     renderer.setSize(container.clientWidth, container.clientHeight);
 }
 
-//document.addEventListener("keydown", onDocumentKeyDown, false);
-
-
-// move object with keys
-// function onDocumentKeyDown(object, event) {
-//     const keyCode = event.which;
-//     switch (keyCode) {
-//         case 37: // left arrow key
-//             //mmake object move left
-//             object.position.x -= 50;
-//             break;
-//         case 38: // up arrow key
-//             object.position.z -= 50;
-//             break;
-//         case 39: // right arrow key
-//             object.position.x += 50;
-//             break;
-//         case 40: // down arrow key
-//             object.position.z += 50;
-//             break;
-//         // do for w a s d keys
-//         case 87: // W key
-//             object.position.y += 50;
-//             break;
-//         case 65: // A key
-//             object.position.x -= 50;
-//             break;
-//         case 83: // S key
-//             object.position.y -= 50;
-//             break;
-//         case 68: // D key
-//             object.position.x += 50;
-//             break;
-//         }
-// }
 
 /*     Fullscreen btn     */
 let fullscreen;
