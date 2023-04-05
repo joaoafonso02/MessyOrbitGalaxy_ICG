@@ -38,9 +38,9 @@ function init() {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
 
-    const directionalLight = new THREE.DirectionalLight("#fff", 2, 1000);
+    const directionalLight = new THREE.DirectionalLight("#fff", 3, 1000);
     // directionalLight.position.set(450, 180, 0);
-    directionalLight.position.set(200, 100, 0);
+    directionalLight.position.set(450, 180, 0);
     // do not point the light to the center of the scene
 
     directionalLight.castShadow = true;
@@ -77,24 +77,24 @@ function init() {
     // directionalLight2.shadow.camera.bottom = -30;
 
 
-    //Create a sphere that cast shadows (but does not receive them)
-    const sphereGeometry1 = new THREE.SphereGeometry( 5, 32, 32 );
-    const sphereMaterial1 = new THREE.MeshStandardMaterial( { color: 0xff0000 } );
-    const sphere1 = new THREE.Mesh( sphereGeometry1, sphereMaterial1 );
-    sphere1.castShadow = true; //default is false
-    sphere1.receiveShadow = false; //default
-    sphere1.position.set(10, 0, 15);
-    scene.add( sphere1 );
+    // //Create a sphere that cast shadows (but does not receive them)
+    // const sphereGeometry1 = new THREE.SphereGeometry( 5, 32, 32 );
+    // const sphereMaterial1 = new THREE.MeshStandardMaterial( { color: 0xff0000 } );
+    // const sphere1 = new THREE.Mesh( sphereGeometry1, sphereMaterial1 );
+    // sphere1.castShadow = true; //default is false
+    // sphere1.receiveShadow = false; //default
+    // sphere1.position.set(5, 0, 15);
+    // scene.add( sphere1 );
 
-    const planeGeometry = new THREE.PlaneGeometry( 40, 40, 32, 32 );
-    const planeMaterial = new THREE.MeshStandardMaterial( { color: 0xffffff } )
+    const loader1 = new THREE.TextureLoader(); 
+    const texturePlane = loader1.load('https://i.ibb.co/hcN2qXk/star-nc8wkw.jpg');
+
+    const planeGeometry = new THREE.PlaneGeometry( 30, 30, 32, 32 );
+    const planeMaterial = new THREE.MeshPhongMaterial( { map: texturePlane } )
     const plane = new THREE.Mesh( planeGeometry, planeMaterial );
     plane.rotation.y = Math.PI / 2;
     plane.receiveShadow = true;
-    
     plane.material.side = THREE.DoubleSide;
-
-
     plane.position.set(-10, -5, 0);
     scene.add( plane );
 
@@ -190,46 +190,77 @@ function init() {
 
     // load models
 
+    // rocket
     loadModel(() => {
         loadedModel.scene.rotation.y = Math.PI/2; 
         scene.add(loadedModel.scene);
         console.log(loadedModel)
     });
 
+    // spyro
     objModel(() => {
         scene.add(objModeled.scene);
         console.log(objModeled)
     });
 
+    // unknown object
     objModel2(() => {
         objModeled2.scene.rotation.y = Math.PI/2;
         scene.add(objModeled2.scene);
         console.log(objModeled2)
     });
 
+    // blue dragon
     objModel3(() => {
         objModeled3.scene.rotation.y = Math.PI/2;
         scene.add(objModeled3.scene);
         console.log(objModeled3)
     });
 
+    // blue lightsaber
     objModel4(() => {
         objModeled4.scene.rotation.y = Math.PI/2;
         scene.add(objModeled4.scene);
         console.log(objModeled4)
     });
 
+    // mandalorian
     objModel5(() => {
         objModeled5.scene.rotation.y = Math.PI/2;
         scene.add(objModeled5.scene);
         console.log(objModeled5)
     });
 
+    // sun
     objModel6(() => {
         objModeled6.scene.rotation.y = Math.PI/2;
         scene.add(objModeled6.scene);
         console.log(objModeled5)
     });
+
+    // add a blue light to lightsaber
+    const light = new THREE.PointLight(0x0000ff, 0.5, 100000);
+    light.position.set(0, 0, 0);
+    scene.add(light);
+
+    const light2 = new THREE.PointLight(0x0000ff, 0.5, 100000);
+    scene.add(light2);
+
+    const light3 = new THREE.PointLight(0x0000ff, 0.5, 100000);
+    light3.position.set(0, -100, 0);
+    scene.add(light3);
+
+
+
+    // instead of the previous light only emitting light from origin, we can make it emit light in vertical direction
+    //     const light2 = new THREE.PointLight(0x0000ff, 1, 100000);
+    // const lightTarget = new THREE.Object3D(); // create a new target object
+    // lightTarget.position.set(0, 1, 0); // set the position of the target
+    // light2.target = lightTarget; // assign the target to the light
+    // scene.add(light2);
+
+   
+
 
     // // ADD a Rocket 
     // const textureCylinder = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
@@ -425,7 +456,7 @@ function init() {
     Donut.rotation.x = Math.PI / 2;
     Donut.rotation.z = Math.PI / 2;
     Donut.rotation.y = Math.PI / 2;
-
+    Donut.receiveShadow = true;
     scene.add(Donut);
 
 
@@ -434,7 +465,7 @@ function init() {
     let icosahedronGeometry = new THREE.IcosahedronGeometry(30, 10);
     let lambertMaterial = new THREE.MeshPhongMaterial({ map: texturenucleus });
     nucleus = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-    nucleus.castShadow = true;
+    // nucleus.castShadow = true;
     nucleus.receiveShadow = true;
     scene.add(nucleus);
 

@@ -180,9 +180,12 @@ function objModel3(callback) {
   console.log(objModeled);
 
   // model is too dark, so change the color of the model
+  let mesh;
   objModeled3.scene.traverse((child) => {
       if (child.isMesh) {
           child.material.color = new THREE.Color(0x2379a9);
+          mesh = child;
+          mesh.castShadow = true;
       }
   });
 
@@ -233,29 +236,16 @@ function objModel3(callback) {
 }
 
 function objModel4(callback) {
-  gltfLoader.load('../assets/lightsaber_blue/scene.gltf', (gltfScene) => {
+  gltfLoader.load('../assets/lightsaber_blue/Lightsaber.glb', (gltfScene) => {
   objModeled4 = gltfScene;
   console.log(objModeled);
 
   
   objModeled4.scene.position.x = 0;
-  objModeled4.scene.position.y = -270;
+  objModeled4.scene.position.y = -259;
   objModeled4.scene.position.z = 0;
-  objModeled4.scene.scale.set(70, 480, 50);
+  objModeled4.scene.scale.set(5, 22.5, 5);
 
-  // let mesh3;
-  // objModeled4.scene.traverse((child) => {
-  //   if (child.isMesh) {
-  //     mesh3 = child;
-  //     mesh3.castShadow = true;
-  //     mesh3.receiveShadow = false;
-  //   }
-  // });
-
-  // add a blue light to the model
-  const light = new THREE.PointLight(0x0000ff, 1, 100);
-  light.position.set(0, 0, 0);
-  objModeled4.scene.add(light);
 
   scene.add(objModeled4.scene); // Add the loaded model to the scene
 
@@ -312,6 +302,33 @@ function objModel6(callback) {
   }
 
   });
+}
+
+function newText() {
+  const loader = new FontLoader();
+  const font = loader.load( 'https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function ( font ) {
+      
+      const textGeometry = new TextGeometry( 'Hello three.js!', {
+        font: font,
+        size: 80,
+        height: 5,
+        curveSegments: 12,
+        bevelEnabled: true,
+        bevelThickness: 10,
+        bevelSize: 8,
+        bevelOffset: 0,
+        bevelSegments: 5
+      } );
+      const textMaterial = new MeshPhongMaterial( { color: 0xff0000 } );
+      const mesh = new Mesh( textGeometry, textMaterial ) ;
+      mesh.position.set(0, 0, 0);
+      mesh.rotation.set(0, 0, 0);
+      mesh.scale.set(1, 1, 1);
+      scene.add( mesh );
+  
+  } );
+    
+
 }
 
 
