@@ -1,6 +1,7 @@
 import { loadModel, loadedModel, objModel, objModeled, objModel2, 
     objModeled2, objModel3 , objModeled3, objModel4, objModeled4, 
-    objModel5, objModeled5, objModel6, objModeled6} from './test.js';
+    objModel5, objModeled5, objModel6, objModeled6, objModel7, 
+    objModeled7, objModel8, objModeled8, objModel9, objModeled9} from './test.js';
 
 let renderer,
 scene,
@@ -40,9 +41,7 @@ function init() {
 
     const directionalLight = new THREE.DirectionalLight("#fff", 3, 1000);
     // directionalLight.position.set(450, 180, 0);
-    directionalLight.position.set(450, 180, 0);
-    // do not point the light to the center of the scene
-
+    directionalLight.position.set(550, 280, 0);
     directionalLight.castShadow = true;
     scene.add(directionalLight);
 
@@ -57,6 +56,11 @@ function init() {
     directionalLight.shadow.camera.right = 30;
     directionalLight.shadow.camera.top = 30;
     directionalLight.shadow.camera.bottom = -30;
+
+    // const directionalLight2 = new THREE.DirectionalLight("#fff", 3, 1000);
+    // directionalLight2.position.set(0, 250, 0);
+    // directionalLight2.castShadow = true;
+    // scene.add(directionalLight2);
 
     // const directionalLight2 = new THREE.DirectionalLight("#fff", 2, 1000);
     // // directionalLight.position.set(450, 180, 0);
@@ -204,11 +208,11 @@ function init() {
     });
 
     // unknown object
-    objModel2(() => {
-        objModeled2.scene.rotation.y = Math.PI/2;
-        scene.add(objModeled2.scene);
-        console.log(objModeled2)
-    });
+    // objModel2(() => {
+    //     objModeled2.scene.rotation.y = Math.PI/2;
+    //     scene.add(objModeled2.scene);
+    //     console.log(objModeled2)
+    // });
 
     // blue dragon
     objModel3(() => {
@@ -236,6 +240,36 @@ function init() {
         objModeled6.scene.rotation.y = Math.PI/2;
         scene.add(objModeled6.scene);
         console.log(objModeled5)
+    });
+
+    // mandalorian space ship
+    objModel7(() => {
+        objModeled7.scene.rotation.y = Math.PI/2;
+        scene.add(objModeled7.scene);
+        console.log(objModeled7)
+    });
+
+    // space ship corridor
+    objModel8(() => {
+        objModeled8.scene.rotation.y = Math.PI/2;
+        scene.add(objModeled8.scene);
+        console.log(objModeled8)
+    });
+
+    // fire
+    objModel9(() => {
+        objModeled9.scene.rotation.x = Math.PI/2;
+        objModeled9.scene.rotation.z = -Math.PI/2;
+        
+
+        // copy objModeled9.scene to a new variable
+        const fire = objModeled9.scene.clone();
+        // set the position of the new variable
+        fire.position.set(329, -2, 22);
+
+        scene.add(fire);
+        scene.add(objModeled9.scene);
+        console.log(objModeled9)
     });
 
     // add a blue light to lightsaber

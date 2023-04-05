@@ -2,7 +2,8 @@ import * as THREE from 'https://cdn.skypack.dev/three@0.129.0/build/three.module
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js';
 
 
-let loadedModel, objModeled, objModeled2, objModeled3, objModeled4, objModeled5, objModeled6;
+let loadedModel, objModeled, objModeled2, objModeled3, objModeled4, 
+objModeled5, objModeled6, objModeled7, objModeled8, objModeled9;
 let nucleus;
 const scene = new THREE.Scene(); // Create a new scene
 const gltfLoader = new GLTFLoader();
@@ -244,7 +245,7 @@ function objModel4(callback) {
   objModeled4.scene.position.x = 0;
   objModeled4.scene.position.y = -259;
   objModeled4.scene.position.z = 0;
-  objModeled4.scene.scale.set(5, 22.5, 5);
+  objModeled4.scene.scale.set(4, 22.5, 5);
 
 
   scene.add(objModeled4.scene); // Add the loaded model to the scene
@@ -290,9 +291,8 @@ function objModel6(callback) {
   gltfLoader.load('../assets/sun/scene.gltf', (gltfScene) => {
   objModeled6 = gltfScene;
   console.log(objModeled);
-
   
-  objModeled6.scene.position.set(450, 280, 0);
+  objModeled6.scene.position.set(550, 280, 0);
   objModeled6.scene.scale.set(20, 20, 20);
   
   scene.add(objModeled6.scene); // Add the loaded model to the scene
@@ -303,6 +303,59 @@ function objModel6(callback) {
 
   });
 }
+
+function objModel7(callback) {
+  gltfLoader.load('../assets/mandalorianShip/scene.gltf', (gltfScene) => {
+  objModeled7 = gltfScene;
+  console.log(objModeled);
+
+  objModeled7.scene.position.set(290, 0, 0);
+  objModeled7.scene.scale.set(15, 15, 15);
+  
+  scene.add(objModeled7.scene); // Add the loaded model to the scene
+
+  if (callback) {
+    callback();
+  }
+
+  });
+}
+
+function objModel8(callback) {
+  gltfLoader.load('../assets/corridor/scene.gltf', (gltfScene) => {
+  objModeled8 = gltfScene;
+  console.log(objModeled8);
+
+  objModeled8.scene.position.set(300, 0, 0);
+  objModeled8.scene.scale.set(3, 3.5, 3.5);
+
+  scene.add(objModeled8.scene); // Add the loaded model to the scene
+
+  if (callback) {
+    callback();
+  }
+
+  });
+}
+
+function objModel9(callback) {
+  gltfLoader.load('../assets/fire/scene.gltf', (gltfScene) => {
+  objModeled9 = gltfScene;
+  console.log(objModeled9);
+
+  objModeled9.scene.position.set(329, -2, -22);
+  objModeled9.scene.scale.set(0.008, 0.008, 0.008);
+
+  scene.add(objModeled9.scene); // Add the loaded model to the scene
+
+  if (callback) {
+    callback();
+  }
+  
+  });
+}
+
+
 
 function newText() {
   const loader = new FontLoader();
@@ -327,13 +380,14 @@ function newText() {
       scene.add( mesh );
   
   } );
-    
-
 }
+
+
 
 
 
 
 export { loadModel, loadedModel, objModel, objModeled, objModel2, 
   objModeled2, objModel3, objModeled3, objModel4, objModeled4, 
-  objModel5, objModeled5, objModel6, objModeled6 };
+  objModel5, objModeled5, objModel6, objModeled6, objModel7, 
+  objModeled7, objModel8, objModeled8, objModel9, objModeled9};
