@@ -28,22 +28,83 @@ function init() {
     camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.01, 1000)
     camera.position.set(0,0,230);
 
-    const directionalLight = new THREE.DirectionalLight("#fff", 2);
-    directionalLight.position.set(450, 280, 0);
-    scene.add(directionalLight);
-
-    let ambientLight = new THREE.AmbientLight("#ffffff", 1);
-    ambientLight.position.set(0, 200, 0);
-    scene.add(ambientLight);
-
     renderer = new THREE.WebGLRenderer({
         antialias: true,
         alpha: true
     });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
 
+    const directionalLight = new THREE.DirectionalLight("#fff", 2, 1000);
+    // directionalLight.position.set(450, 180, 0);
+    directionalLight.position.set(200, 100, 0);
+    // do not point the light to the center of the scene
+
+    directionalLight.castShadow = true;
+    scene.add(directionalLight);
+
+    // Set up shadow properties for the light
+    directionalLight.shadow.mapSize.width = 512; 
+    directionalLight.shadow.mapSize.height = 512;
+    directionalLight.shadow.camera.near = 0.5; 
+    directionalLight.shadow.camera.far = 500; 
+
+    // make light cast shadows to a bigger object
+    directionalLight.shadow.camera.left = -30;
+    directionalLight.shadow.camera.right = 30;
+    directionalLight.shadow.camera.top = 30;
+    directionalLight.shadow.camera.bottom = -30;
+
+    // const directionalLight2 = new THREE.DirectionalLight("#fff", 2, 1000);
+    // // directionalLight.position.set(450, 180, 0);
+    // directionalLight2.position.set(-200, 100, 0);
+    // directionalLight2.castShadow = true;
+    // scene.add(directionalLight2);
+
+    // // Set up shadow properties for the light
+    // directionalLight2.shadow.mapSize.width = 2048; 
+    // directionalLight2.shadow.mapSize.height = 2048;
+    // directionalLight2.shadow.camera.near = 0.5; 
+    // directionalLight2.shadow.camera.far = 500; 
+
+    // // make light cast shadows to a bigger object
+    // directionalLight2.shadow.camera.left = -30;
+    // directionalLight2.shadow.camera.right = 30;
+    // directionalLight2.shadow.camera.top = 30;
+    // directionalLight2.shadow.camera.bottom = -30;
+
+
+    //Create a sphere that cast shadows (but does not receive them)
+    const sphereGeometry1 = new THREE.SphereGeometry( 5, 32, 32 );
+    const sphereMaterial1 = new THREE.MeshStandardMaterial( { color: 0xff0000 } );
+    const sphere1 = new THREE.Mesh( sphereGeometry1, sphereMaterial1 );
+    sphere1.castShadow = true; //default is false
+    sphere1.receiveShadow = false; //default
+    sphere1.position.set(10, 0, 15);
+    scene.add( sphere1 );
+
+    const planeGeometry = new THREE.PlaneGeometry( 40, 40, 32, 32 );
+    const planeMaterial = new THREE.MeshStandardMaterial( { color: 0xffffff } )
+    const plane = new THREE.Mesh( planeGeometry, planeMaterial );
+    plane.rotation.y = Math.PI / 2;
+    plane.receiveShadow = true;
+    
+    plane.material.side = THREE.DoubleSide;
+
+
+    plane.position.set(-10, -5, 0);
+    scene.add( plane );
+
+    // show directional light helper
+    const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
+    scene.add(directionalLightHelper);
+
+    // let ambientLight = new THREE.AmbientLight("#ffffff", 1);
+    // ambientLight.position.set(0, 200, 0);
+    // scene.add(ambientLight);
 
     //OrbitControl
     controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -59,7 +120,7 @@ function init() {
     }
     animate();
 
-    controls.autoRotate = true;
+    controls.autoRotate = false;
     controls.autoRotateSpeed = 0.2;
     controls.maxDistance = 350;
     controls.minDistance = 150;
@@ -67,9 +128,9 @@ function init() {
 
     
     // add shadows to the scene
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.shadowMapSoft = true;
+    
+    // renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    // renderer.shadowMapSoft = true;
     
     // add axis
     const axesHelper = new THREE.AxesHelper( 190 );
@@ -108,12 +169,13 @@ function init() {
     let SaturnPlanet = new THREE.Group();
     SaturnPlanet.add(sphere);
     SaturnPlanet.add(ring);
+    ring.castShadow = true;
+    sphere.castShadow = true;
     scene.add(SaturnPlanet);
 
-    
     // add shadows to the objects
+    
     SaturnPlanet.castShadow = true;
-    SaturnPlanet.receiveShadow = true;
 
     function render() {
         requestAnimationFrame(render);
@@ -130,58 +192,41 @@ function init() {
 
     loadModel(() => {
         loadedModel.scene.rotation.y = Math.PI/2; 
-        loadedModel.scene.castShadow = true;
-        loadedModel.scene.receiveShadow = true;
         scene.add(loadedModel.scene);
         console.log(loadedModel)
     });
 
     objModel(() => {
-        objModeled.scene.castShadow = true;
-        objModeled.scene.receiveShadow = true;
-
         scene.add(objModeled.scene);
         console.log(objModeled)
     });
 
     objModel2(() => {
         objModeled2.scene.rotation.y = Math.PI/2;
-        objModeled2.scene.castShadow = true;
-        objModeled2.scene.receiveShadow = true;
-    
         scene.add(objModeled2.scene);
         console.log(objModeled2)
     });
 
     objModel3(() => {
         objModeled3.scene.rotation.y = Math.PI/2;
-        objModeled3.scene.castShadow = true;
-        objModeled3.scene.receiveShadow = true;
         scene.add(objModeled3.scene);
         console.log(objModeled3)
     });
 
     objModel4(() => {
         objModeled4.scene.rotation.y = Math.PI/2;
-        objModeled4.scene.castShadow = true;
-        objModeled4.scene.receiveShadow = true;
         scene.add(objModeled4.scene);
         console.log(objModeled4)
     });
 
     objModel5(() => {
         objModeled5.scene.rotation.y = Math.PI/2;
-        objModeled5.scene.castShadow = true;
-        objModeled5.scene.receiveShadow = true;
         scene.add(objModeled5.scene);
         console.log(objModeled5)
     });
 
     objModel6(() => {
         objModeled6.scene.rotation.y = Math.PI/2;
-        objModeled6.scene.castShadow = true;
-        objModeled6.scene.receiveShadow = true;
-        scene.add(directionalLight);
         scene.add(objModeled6.scene);
         console.log(objModeled5)
     });
@@ -365,6 +410,7 @@ function init() {
     Astro.rotation.x = Math.PI / 2;
     Astro.rotation.z = Math.PI / 2;
 
+    Astro.receiveShadow = true;
     scene.add(Astro);
 
     // ADD Donut 
@@ -388,6 +434,8 @@ function init() {
     let icosahedronGeometry = new THREE.IcosahedronGeometry(30, 10);
     let lambertMaterial = new THREE.MeshPhongMaterial({ map: texturenucleus });
     nucleus = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
+    nucleus.castShadow = true;
+    nucleus.receiveShadow = true;
     scene.add(nucleus);
 
 

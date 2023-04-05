@@ -38,11 +38,13 @@ function loadModel(callback) {
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set( 1, 1 );
 
-
+  let mesh1;
   // change the color of the model with the texture
-  gltfScene.scene.traverse((child) => {
+  loadedModel.scene.traverse((child) => {
       if (child.isMesh) {
           child.material.map = texture; 
+          mesh1 = child;
+          mesh1.castShadow = true;
           // body of the model is texture but the red color is black
           child.material.color = new THREE.Color(0x2379a9);
 
@@ -51,13 +53,13 @@ function loadModel(callback) {
       }
   });
   
-  gltfScene.scene.rotation.x = Math.PI / 2; // rotate the model 90 degrees to make it horizontal
-  gltfScene.scene.position.x = -220;
-  gltfScene.scene.position.y = 0;
-  gltfScene.scene.position.z = -100;
-  gltfScene.scene.scale.set(80, 130, 55);
+  loadedModel.scene.rotation.x = Math.PI / 2; // rotate the model 90 degrees to make it horizontal
+  loadedModel.scene.position.x = -220;
+  loadedModel.scene.position.y = 0;
+  loadedModel.scene.position.z = -100;
+  loadedModel.scene.scale.set(80, 130, 55);
   
-  scene.add(gltfScene.scene); // Add the loaded model to the scene
+  scene.add(loadedModel.scene); // Add the loaded model to the scene
 
   if (callback) {
     callback();
@@ -102,8 +104,14 @@ function objModel(callback) {
     gltfScene.scene.scale.set(5, 5, 5); // set the scale of the model
     scene.add(gltfScene.scene);
 
-   
-
+    let mesh2;
+    gltfScene.scene.traverse((child) => {
+      if (child.isMesh) {
+        mesh2 = child;
+        mesh2.castShadow = true;
+        mesh2.receiveShadow = true; 
+      }
+    });
     // let speed = 0.02;
     // let angle = 0;
     // let radius = 45;
@@ -235,6 +243,20 @@ function objModel4(callback) {
   objModeled4.scene.position.z = 0;
   objModeled4.scene.scale.set(70, 480, 50);
 
+  // let mesh3;
+  // objModeled4.scene.traverse((child) => {
+  //   if (child.isMesh) {
+  //     mesh3 = child;
+  //     mesh3.castShadow = true;
+  //     mesh3.receiveShadow = false;
+  //   }
+  // });
+
+  // add a blue light to the model
+  const light = new THREE.PointLight(0x0000ff, 1, 100);
+  light.position.set(0, 0, 0);
+  objModeled4.scene.add(light);
+
   scene.add(objModeled4.scene); // Add the loaded model to the scene
 
   if (callback) {
@@ -254,6 +276,16 @@ function objModel5(callback) {
   objModeled5.scene.position.y = -5;
   objModeled5.scene.position.z = -2.9;
   objModeled5.scene.scale.set(30, 30, 30);
+
+  let mesh3;
+  objModeled5.scene.traverse((child) => {
+    if (child.isMesh) {
+      mesh3 = child;
+      mesh3.castShadow = true;
+      mesh3.receiveShadow = true;
+    }
+  });
+
 
   scene.add(objModeled5.scene); // Add the loaded model to the scene
 
