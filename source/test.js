@@ -3,7 +3,7 @@ import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/l
 
 
 let loadedModel, objModeled, objModeled2, objModeled3, objModeled4, 
-objModeled5, objModeled6, objModeled7, objModeled8, objModeled9;
+objModeled5, objModeled6, objModeled7, objModeled8, objModeled9, objModeled10;
 let nucleus;
 const scene = new THREE.Scene(); // Create a new scene
 const gltfLoader = new GLTFLoader();
@@ -309,6 +309,14 @@ function objModel7(callback) {
   objModeled7 = gltfScene;
   console.log(objModeled);
 
+  let mesh
+  objModeled7.scene.traverse((child) => {
+    if (child.isMesh) {
+      mesh = child;
+      mesh.castShadow = true;
+    }
+  });
+
   objModeled7.scene.position.set(290, 0, 0);
   objModeled7.scene.scale.set(15, 15, 15);
   
@@ -325,6 +333,14 @@ function objModel8(callback) {
   gltfLoader.load('../assets/corridor/scene.gltf', (gltfScene) => {
   objModeled8 = gltfScene;
   console.log(objModeled8);
+
+  let mesh
+  objModeled8.scene.traverse((child) => {
+    if (child.isMesh) {
+      mesh = child;
+      mesh.receiveShadow = true;
+    }
+  });
 
   objModeled8.scene.position.set(300, 0, 0);
   objModeled8.scene.scale.set(3, 3.5, 3.5);
@@ -351,7 +367,31 @@ function objModel9(callback) {
   if (callback) {
     callback();
   }
-  
+  });
+}
+
+function objModel10(callback) {
+  gltfLoader.load('../assets/bb8/scene.gltf', (gltfScene) => {
+  objModeled10 = gltfScene;
+  console.log(objModeled10);
+
+  let mesh
+  objModeled10.scene.traverse((child) => {
+    if (child.isMesh) {
+      mesh = child;
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+    }
+  });
+
+  objModeled10.scene.position.set(296, 14, 0);
+  objModeled10.scene.scale.set(0.04, 0.04, 0.04);
+
+  scene.add(objModeled10.scene); // Add the loaded model to the scene
+
+  if (callback) {
+    callback();
+  }
   });
 }
 
@@ -390,4 +430,5 @@ function newText() {
 export { loadModel, loadedModel, objModel, objModeled, objModel2, 
   objModeled2, objModel3, objModeled3, objModel4, objModeled4, 
   objModel5, objModeled5, objModel6, objModeled6, objModel7, 
-  objModeled7, objModel8, objModeled8, objModel9, objModeled9};
+  objModeled7, objModel8, objModeled8, objModel9, objModeled9
+  , objModel10, objModeled10, newText};

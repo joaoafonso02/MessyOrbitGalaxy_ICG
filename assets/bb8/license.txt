@@ -1,0 +1,11 @@
+Model Information:
+* title:	BB8 (Star Wars)
+* source:	https://sketchfab.com/3d-models/bb8-star-wars-3d51ceb711eb4d5e830671cc11d04fd8
+* author:	Ana Vassallo (https://sketchfab.com/anagvf)
+
+Model License:
+* license type:	CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+* requirements:	Author must be credited. No commercial use.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "BB8 (Star Wars)" (https://sketchfab.com/3d-models/bb8-star-wars-3d51ceb711eb4d5e830671cc11d04fd8) by Ana Vassallo (https://sketchfab.com/anagvf) licensed under CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)

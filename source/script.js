@@ -1,6 +1,8 @@
 import { loadModel, loadedModel, objModel, objModeled, objModel3 , objModeled3, objModel4, objModeled4, 
     objModel5, objModeled5, objModel6, objModeled6, objModel7, 
-    objModeled7, objModel8, objModeled8, objModel9, objModeled9} from './test.js';
+    objModeled7, objModel8, objModeled8, objModel9, objModeled9,
+    objModel10, objModeled10
+} from './test.js';
 
 let renderer,
 scene,
@@ -26,7 +28,7 @@ function init() {
     scene = new THREE.Scene();
 
     camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.01, 1000)
-    camera.position.set(0,0,230);
+    camera.position.set(0,0,530);
 
     renderer = new THREE.WebGLRenderer({
         antialias: true,
@@ -193,6 +195,8 @@ function init() {
 
     render();
 
+    let group = new THREE.Group();
+   
     // load models
 
     // rocket
@@ -247,6 +251,7 @@ function init() {
     objModel7(() => {
         objModeled7.scene.rotation.y = Math.PI/2;
         scene.add(objModeled7.scene);
+        group.add(objModeled7.scene);
         console.log(objModeled7)
     });
 
@@ -254,6 +259,7 @@ function init() {
     objModel8(() => {
         objModeled8.scene.rotation.y = Math.PI/2;
         scene.add(objModeled8.scene);
+        group.add(objModeled8.scene);
         console.log(objModeled8)
     });
 
@@ -262,7 +268,7 @@ function init() {
         objModeled9.scene.rotation.x = Math.PI/2;
         objModeled9.scene.rotation.z = -Math.PI/2;
         
-
+       
         // copy objModeled9.scene to a new variable
         const fire = objModeled9.scene.clone();
         // set the position of the new variable
@@ -270,8 +276,42 @@ function init() {
 
         scene.add(fire);
         scene.add(objModeled9.scene);
+        group.add(objModeled9.scene);
+        group.add(fire);
         console.log(objModeled9)
     });
+    // bb8
+    objModel10(() => {
+        objModeled10.scene.rotation.y = Math.PI/2;
+        scene.add(objModeled10.scene);
+        group.add(objModeled10.scene);
+        console.log(objModeled10)
+    });
+
+    scene.add(group);
+
+    
+    const corridorlight = new THREE.DirectionalLight(0xff0000, 3, 1000);
+    // position the light on the group object
+    corridorlight.position.set(group.position.x, group.position.y, group.position.z);
+    
+    corridorlight.castShadow = true;
+    scene.add(corridorlight);
+
+    // Set up shadow properties for the light
+    corridorlight.shadow.mapSize.width = 512;
+    corridorlight.shadow.mapSize.height = 512;
+    corridorlight.shadow.camera.near = 0.5;
+    corridorlight.shadow.camera.far = 500;
+
+    // make light cast shadows to a bigger object
+    // corridorlight.shadow.camera.left = -30;
+    // corridorlight.shadow.camera.right = 30;
+    // corridorlight.shadow.camera.top = 30;
+    // corridorlight.shadow.camera.bottom = -30;
+
+    let corridorlightHelper = new THREE.DirectionalLightHelper(corridorlight, 5);
+    scene.add(corridorlightHelper);
 
     // add a blue light to lightsaber
     const light = new THREE.PointLight(0x0000ff, 0.5, 100000);
