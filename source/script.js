@@ -40,7 +40,7 @@ function init() {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
 
-    const directionalLight = new THREE.DirectionalLight("#fff", 3, 1000);
+    const directionalLight = new THREE.DirectionalLight("#fff", 3, 1000); 
     // directionalLight.position.set(450, 180, 0);
     directionalLight.position.set(450, 180, 0);
     // do not point the light to the center of the scene
@@ -196,6 +196,22 @@ function init() {
     render();
 
     let group = new THREE.Group();
+
+    // show guide GUI
+    const gui = new dat.GUI();
+    // set position of the gui
+    gui.domElement.style.position = "absolute";
+    gui.domElement.style.top = "400px";
+    gui.domElement.style.left = "10px";
+
+
+    const cameraFolder = gui.addFolder('camera');
+    cameraFolder.add(camera.position, 'x', -100, 100);
+    cameraFolder.add(camera.position, 'y', -100, 100);
+    cameraFolder.add(camera.position, 'z', -100, 100);
+
+   
+
    
     // load models
 
@@ -243,6 +259,10 @@ function init() {
     // sun
     objModel6(() => {
         objModeled6.scene.rotation.y = Math.PI/2;
+        const sunFolder = gui.addFolder('objModeled6');
+        sunFolder.add(objModeled6.scale, 'x', 0.1, 55);
+        sunFolder.add(objModeled6.scale, 'y', 0.1, 55);
+        sunFolder.add(objModeled6.scale, 'z', 0.1, 55);
         scene.add(objModeled6.scene);
         console.log(objModeled5)
     });
@@ -324,6 +344,17 @@ function init() {
     const light3 = new THREE.PointLight(0x0000ff, 0.5, 100000);
     light3.position.set(0, -100, 0);
     scene.add(light3);
+
+    // const width = 40;
+    // const height = 1000;
+    // const intensity = 1;
+    // const rectLight = new THREE.RectAreaLight( 0x0000ff, intensity,  width, height );
+    // rectLight.position.set( 0, 0, 0 );
+    // rectLight.lookAt( 0, 0, 0 );
+    // scene.add( rectLight )
+
+    // const rectLightHelper = new RectAreaLightHelper( rectLight );
+    // rectLight.add( rectLightHelper );
 
 
 
@@ -563,18 +594,16 @@ function init() {
     sphereBg = new THREE.Mesh(geometrySphereBg, materialSphereBg);
     scene.add(sphereBg);
 
-    // // /*    Sun  */ 
-    // textureSun.anisotropy = 16;
+    // user GUI
+    const nucleusFolder = gui.addFolder('nucleus');
+    // scale all axis once 
+    nucleusFolder.add(nucleus.scale, 'x', 0.1, 5);
+    nucleusFolder.add(nucleus.scale, 'y', 0.1, 5);
+    nucleusFolder.add(nucleus.scale, 'z', 0.1, 5);
 
+    const AstroFolder = gui.addFolder('Astro');
+    AstroFolder.add(Astro.scale, 'x', 0.1, 5);
 
-    // let geometrySun = new THREE.SphereBufferGeometry(150, 40, 40);
-    // let materialSun = new THREE.MeshBasicMaterial({
-    //     side: THREE.BackSide,
-    //     map: textureSun,
-    // });
-    // sun = new THREE.Mesh(geometrySun, materialSun);
-    // sun.position.set(450, 280, 0);
-    // scene.add(sun);
 
    
     
