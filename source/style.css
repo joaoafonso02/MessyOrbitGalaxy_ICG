@@ -18,7 +18,7 @@ body {
 
 #toggle-rocket2 {
     position: absolute;
-    top: 30px;
+    top: 430px;
     right: 55px;
     width: 200px;
     height: 40px;
@@ -175,8 +175,8 @@ button:hover {
 /* Rocket Switch */
 .checkbox-apple {
     position: absolute;
-    top: 80px;
-    right: 55px;
+    top: 450px;
+    right: 0px;
     width: 200px;
     height: 250px;
     -webkit-user-select: none;
@@ -254,8 +254,8 @@ button:hover {
 /* Astro Switch */
 .checkbox2-apple {
     position: absolute;
-    top: 160px;
-    right: 55px;
+    top: 550px;
+    right: 0px;
     width: 200px;
     height: 250px;
     -webkit-user-select: none;
@@ -333,8 +333,8 @@ button:hover {
 
 .checkbox3-apple {
   position: absolute;
-  top: 240px;
-  right: 55px;
+  top: 650px;
+  right: 0px;
   width: 200px;
   height: 250px;
   -webkit-user-select: none;

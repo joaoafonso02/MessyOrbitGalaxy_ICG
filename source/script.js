@@ -60,39 +60,6 @@ function init() {
     directionalLight.shadow.camera.top = 30;
     directionalLight.shadow.camera.bottom = -30;
 
-    // const directionalLight2 = new THREE.DirectionalLight("#fff", 3, 1000);
-    // directionalLight2.position.set(0, 250, 0);
-    // directionalLight2.castShadow = true;
-    // scene.add(directionalLight2);
-
-    // const directionalLight2 = new THREE.DirectionalLight("#fff", 2, 1000);
-    // // directionalLight.position.set(450, 180, 0);
-    // directionalLight2.position.set(-200, 100, 0);
-    // directionalLight2.castShadow = true;
-    // scene.add(directionalLight2);
-
-    // // Set up shadow properties for the light
-    // directionalLight2.shadow.mapSize.width = 2048; 
-    // directionalLight2.shadow.mapSize.height = 2048;
-    // directionalLight2.shadow.camera.near = 0.5; 
-    // directionalLight2.shadow.camera.far = 500; 
-
-    // // make light cast shadows to a bigger object
-    // directionalLight2.shadow.camera.left = -30;
-    // directionalLight2.shadow.camera.right = 30;
-    // directionalLight2.shadow.camera.top = 30;
-    // directionalLight2.shadow.camera.bottom = -30;
-
-
-    // //Create a sphere that cast shadows (but does not receive them)
-    // const sphereGeometry1 = new THREE.SphereGeometry( 5, 32, 32 );
-    // const sphereMaterial1 = new THREE.MeshStandardMaterial( { color: 0xff0000 } );
-    // const sphere1 = new THREE.Mesh( sphereGeometry1, sphereMaterial1 );
-    // sphere1.castShadow = true; //default is false
-    // sphere1.receiveShadow = false; //default
-    // sphere1.position.set(5, 0, 15);
-    // scene.add( sphere1 );
-
     const loader1 = new THREE.TextureLoader(); 
     const texturePlane = loader1.load('https://i.ibb.co/hcN2qXk/star-nc8wkw.jpg');
 
@@ -127,8 +94,8 @@ function init() {
     }
     animate();
 
-    controls.autoRotate = false;
-    controls.autoRotateSpeed = 0.2;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.5;
     controls.maxDistance = 350;
     controls.minDistance = 150;
     controls.enablePan = false;
@@ -195,23 +162,21 @@ function init() {
 
     render();
 
-    let group = new THREE.Group();
+    let spaceGarage = new THREE.Group();
 
     // show guide GUI
     const gui = new dat.GUI();
-    // set position of the gui
-    gui.domElement.style.position = "absolute";
-    gui.domElement.style.top = "400px";
-    gui.domElement.style.left = "10px";
 
+    // set position of the guide GUI with pace on top and right
+    gui.domElement.style.position = 'absolute';
+    gui.domElement.style.top = '2px';
+    gui.domElement.style.right = '10px';
 
+    
     const cameraFolder = gui.addFolder('camera');
     cameraFolder.add(camera.position, 'x', -100, 100);
     cameraFolder.add(camera.position, 'y', -100, 100);
     cameraFolder.add(camera.position, 'z', -100, 100);
-
-   
-
    
     // load models
 
@@ -219,13 +184,13 @@ function init() {
     loadModel(() => {
         loadedModel.scene.rotation.y = Math.PI/2; 
         scene.add(loadedModel.scene);
-        console.log(loadedModel)
+        
     });
 
     // spyro
     objModel(() => {
         scene.add(objModeled.scene);
-        console.log(objModeled)
+        
     });
 
     // unknown object
@@ -239,48 +204,43 @@ function init() {
     objModel3(() => {
         objModeled3.scene.rotation.y = Math.PI/2;
         scene.add(objModeled3.scene);
-        console.log(objModeled3)
+
     });
 
     // blue lightsaber
     objModel4(() => {
         objModeled4.scene.rotation.y = Math.PI/2;
         scene.add(objModeled4.scene);
-        console.log(objModeled4)
+        
     });
 
     // mandalorian
     objModel5(() => {
         objModeled5.scene.rotation.y = Math.PI/2;
         scene.add(objModeled5.scene);
-        console.log(objModeled5)
+        
     });
 
     // sun
     objModel6(() => {
         objModeled6.scene.rotation.y = Math.PI/2;
-        const sunFolder = gui.addFolder('objModeled6');
-        sunFolder.add(objModeled6.scale, 'x', 0.1, 55);
-        sunFolder.add(objModeled6.scale, 'y', 0.1, 55);
-        sunFolder.add(objModeled6.scale, 'z', 0.1, 55);
         scene.add(objModeled6.scene);
-        console.log(objModeled5)
     });
 
     // mandalorian space ship
     objModel7(() => {
         objModeled7.scene.rotation.y = Math.PI/2;
         scene.add(objModeled7.scene);
-        group.add(objModeled7.scene);
-        console.log(objModeled7)
+        spaceGarage.add(objModeled7.scene);
+
     });
 
     // space ship corridor
     objModel8(() => {
         objModeled8.scene.rotation.y = Math.PI/2;
         scene.add(objModeled8.scene);
-        group.add(objModeled8.scene);
-        console.log(objModeled8)
+        spaceGarage.add(objModeled8.scene);
+
     });
 
     // fire
@@ -296,24 +256,27 @@ function init() {
 
         scene.add(fire);
         scene.add(objModeled9.scene);
-        group.add(objModeled9.scene);
-        group.add(fire);
-        console.log(objModeled9)
+        spaceGarage.add(objModeled9.scene);
+        spaceGarage.add(fire);
     });
     // bb8
     objModel10(() => {
         objModeled10.scene.rotation.y = Math.PI/2;
         scene.add(objModeled10.scene);
-        group.add(objModeled10.scene);
-        console.log(objModeled10)
+        spaceGarage.add(objModeled10.scene);
     });
 
-    scene.add(group);
+    scene.add(spaceGarage);
+
+    const spaceGarageFolder = gui.addFolder('spaceGarage');
+    spaceGarageFolder.add(spaceGarage.position, 'x', -100, 100);
+    spaceGarageFolder.add(spaceGarage.position, 'y', -100, 100);
+    spaceGarageFolder.add(spaceGarage.position, 'z', -100, 100);
 
     
     const corridorlight = new THREE.DirectionalLight(0xff0000, 3, 1000);
-    // position the light on the group object
-    corridorlight.position.set(group.position.x, group.position.y, group.position.z);
+    // position the light on the spaceGarage group
+    corridorlight.position.set(spaceGarage.position.x, spaceGarage.position.y, spaceGarage.position.z);
     
     corridorlight.castShadow = true;
     scene.add(corridorlight);
@@ -575,6 +538,8 @@ function init() {
     nucleus.receiveShadow = true;
     scene.add(nucleus);
 
+    
+
 
     // turn possible to go insdie the nucleus
     nucleus.material.side = THREE.DoubleSide;
@@ -600,6 +565,10 @@ function init() {
     nucleusFolder.add(nucleus.scale, 'x', 0.1, 5);
     nucleusFolder.add(nucleus.scale, 'y', 0.1, 5);
     nucleusFolder.add(nucleus.scale, 'z', 0.1, 5);
+
+    nucleusFolder.add(nucleus.rotation, 'x', 0, Math.PI).name('Rotate X Axis');
+    nucleusFolder.add(nucleus.rotation, 'y', 0, Math.PI).name('Rotate Y Axis');
+    nucleusFolder.add(nucleus.rotation, 'z', 0, Math.PI).name('Rotate Z Axis');
 
     const AstroFolder = gui.addFolder('Astro');
     AstroFolder.add(Astro.scale, 'x', 0.1, 5);
