@@ -319,112 +319,6 @@ function init() {
     // const rectLightHelper = new RectAreaLightHelper( rectLight );
     // rectLight.add( rectLightHelper );
 
-
-
-    // instead of the previous light only emitting light from origin, we can make it emit light in vertical direction
-    //     const light2 = new THREE.PointLight(0x0000ff, 1, 100000);
-    // const lightTarget = new THREE.Object3D(); // create a new target object
-    // lightTarget.position.set(0, 1, 0); // set the position of the target
-    // light2.target = lightTarget; // assign the target to the light
-    // scene.add(light2);
-
-   
-
-
-    // // ADD a Rocket 
-    // const textureCylinder = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
-    // const textureTrace = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
-
-    // textureCylinder.anisotropy = 16;
-    // let cylinderGeometry = new THREE.CylinderBufferGeometry(30, 20, 100, 32);
-    // let cylinderMaterial = new THREE.MeshPhongMaterial({ map: texturenucleus, transparent: 0.5  ,opacity: 0.5});
-    // let cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
-
-    // let coneGeometry = new THREE.ConeBufferGeometry(30, 90, 200);
-    // let coneMaterial = new THREE.MeshBasicMaterial({ map: texturenucleus, transparent: 0.5  ,opacity: 0.5});
-    // let cone = new THREE.Mesh(coneGeometry, coneMaterial);
-
-    // // Position the cone in front of the cylinder
-    // cone.position.set(-40, -50, -200);
-
-    // // fire trace
-    // let traceGeometry = new THREE.CylinderBufferGeometry(0.5, 0.5, 100, 32);
-    // let traceMaterial = new THREE.MeshPhongMaterial({ color: 0x632901, transparent: 0.5  ,opacity: 0.5});
-    // let trace = new THREE.Mesh(traceGeometry, traceMaterial);
-
-    // trace.position.set(100, -50, -181);
-    // trace.rotation.x = Math.PI / 2;
-    // trace.rotation.z = Math.PI / 2;
-
-    // // another trace
-    // let trace2 = new THREE.Mesh(traceGeometry, traceMaterial);
-
-    // trace2.position.set(100, -50, -219);
-    // trace2.rotation.x = Math.PI / 2;
-    // trace2.rotation.z = Math.PI / 2;
-
-    // // another trace
-    // let trace3 = new THREE.Mesh(traceGeometry, traceMaterial);
-
-    // trace3.position.set(150, -50, -199);
-    // trace3.rotation.x = Math.PI / 2;
-    // trace3.rotation.z = Math.PI / 2;
-
-    // let angle = Math.PI / 2; 
-    // trace3.rotation.set(angle, Math.PI / 2, 0);
-
-    // cone.rotation.x = Math.PI / 3;
-    // cone.rotation.z = Math.PI / 2;
-
-    // // forth trace
-    // let trace4 = new THREE.Mesh(traceGeometry, traceMaterial);
-
-    // trace4.position.set(193, -50, -224);
-    // trace4.rotation.x = Math.PI / 2;
-    // trace4.rotation.z = -Math.PI / 3;
-
-    // // fifth trace
-    // let trace5 = new THREE.Mesh(traceGeometry, traceMaterial);
-
-    // trace5.position.set(193, -50, -174);
-    // trace5.rotation.x = Math.PI / 2;
-    // trace5.rotation.z = Math.PI / 3;
-
-    // cylinder.rotation.x = Math.PI / 2;
-    // cylinder.rotation.z = Math.PI / 2;
-
-    // cylinder.position.set(55, -50, -200);
-
-    // // group cone, cylinder and traces
-    // let rocket = new THREE.Group();
-    // rocket.add(cone);
-    // rocket.add(cylinder);
-    // rocket.add(trace);
-    // rocket.add(trace2);
-    // rocket.add(trace3);
-    // rocket.add(trace4);
-    // rocket.add(trace5);
-
-    // scene.add(rocket);
-    // let time = 0;
-    // function render2() {
-    //     requestAnimationFrame(render2);
-    //     cylinder.rotation.x += 0.01;
-    //     cone.rotation.x += 0.01;
-    //     rocket.position.y = Math.cos(time) * 100;
-    //     rocket.position.z = Math.sin(time) * 10;
-    //     time += 0.05;
-    //     renderer.render(scene, camera);
-    // }
-
-    // render2();
-
-    // copy of the rocket
-    // let rocket2 = rocket.clone();
-    // rocket2.position.set(-100, -100, 0);
-
-    // scene.add(rocket2);
-
     // user options
     let toggleRocketModel = document.getElementById('check-apple');
     let togglePlanet = document.getElementById('check-apple2');
@@ -439,56 +333,6 @@ function init() {
         toggleVisibility(SaturnPlanet);
     });
 
-    // make user capable of moving the rocket2 with keyboard
-    // let rocket2Speed = 10.5;
-    // let rocket2RotationSpeed = 0.01;
-    // let rocket2Position = rocket2.position;
-    // let rocket2Rotation = rocket2.rotation;
-
-    // let lastFrameTime = 0;
-
-    // function updateRocket(time) {
-    //     const delta = time - lastFrameTime;
-    //     lastFrameTime = time;
-
-    //     const moveDistance = rocket2Speed * (delta / 1000); // Convert milliseconds to seconds
-    //     const rotateAngle = rocket2RotationSpeed * (delta / 1000); // Convert milliseconds to seconds
-
-    //     document.addEventListener('keydown', function(event) {
-    //         switch (event.key) {
-    //         case 'ArrowUp':
-    //             rocket2Position.z -= moveDistance;
-    //             break;
-    //         case 'ArrowDown':
-    //             rocket2Position.z += moveDistance;
-    //             break;
-    //         case 'ArrowLeft':
-    //             rocket2Position.x -= moveDistance;
-    //             break;
-    //         case 'ArrowRight':
-    //             rocket2Position.x += moveDistance;
-    //             break;
-    //         case 'a':
-    //             rocket2Rotation.y += rotateAngle;
-    //             break;
-    //         case 'd':
-    //             rocket2Rotation.y -= rotateAngle;
-    //             break;
-    //         case 'w':
-    //             rocket2Rotation.x += rotateAngle;
-    //             break;
-    //         case 's':
-    //             rocket2Rotation.x -= rotateAngle;
-    //             break;
-    //         }
-    //     });
-
-    //     requestAnimationFrame(updateRocket);
-    // }
-
-    // requestAnimationFrame(updateRocket);
-
-    
     // update scene
     const inputElements = document.querySelectorAll('input');
     inputElements.forEach((input) => {
@@ -559,7 +403,7 @@ function init() {
     sphereBg = new THREE.Mesh(geometrySphereBg, materialSphereBg);
     scene.add(sphereBg);
 
-    // user GUI
+    // nucleus GUI FOLDER
     const nucleusFolder = gui.addFolder('nucleus');
     // scale all axis once 
     nucleusFolder.add(nucleus.scale, 'x', 0.1, 5);
@@ -570,11 +414,42 @@ function init() {
     nucleusFolder.add(nucleus.rotation, 'y', 0, Math.PI).name('Rotate Y Axis');
     nucleusFolder.add(nucleus.rotation, 'z', 0, Math.PI).name('Rotate Z Axis');
 
+    changeMaterial(nucleus, nucleusFolder);
+   
+    // Astro GUI FOLDER
     const AstroFolder = gui.addFolder('Astro');
     AstroFolder.add(Astro.scale, 'x', 0.1, 5);
+    AstroFolder.add(Astro.scale, 'y', 0.1, 5);
+    AstroFolder.add(Astro.scale, 'z', 0.1, 5);
+
+    AstroFolder.add(Astro.rotation, 'x', 0, Math.PI).name('Rotate X Axis');
+    AstroFolder.add(Astro.rotation, 'y', 0, Math.PI).name('Rotate Y Axis');
+    AstroFolder.add(Astro.rotation, 'z', 0, Math.PI).name('Rotate Z Axis')
+
+   changeMaterial(Astro, AstroFolder);
+
+    // function to change the material, wireframe and color
+    function changeMaterial(object, objectFolder) {
+        const materialParams = {
+            objectColor: object.material.color.getHex(),
+        }
+        objectFolder.add(object.material, 'wireframe');
+        objectFolder
+            .addColor(materialParams, 'objectColor')
+            .onChange((value) => {object.material.color.set(value)});
+    }
+
+    // change controls.autoRotateSpeed of orbitControls with GUI
+    const controlsFolder = gui.addFolder('Controls');
+    controlsFolder.add(controls, 'autoRotateSpeed', 0.1, 10).name('Rotate Speed');
+
+    // change the background color of the scene with GUI
 
 
-   
+
+
+
+
     
     
     /*    Moving Stars   */
