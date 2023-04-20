@@ -76,10 +76,6 @@ function init() {
     const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
     scene.add(directionalLightHelper);
 
-    // let ambientLight = new THREE.AmbientLight("#ffffff", 1);
-    // ambientLight.position.set(0, 200, 0);
-    // scene.add(ambientLight);
-
     //OrbitControl
     controls = new THREE.OrbitControls(camera, renderer.domElement);
 
@@ -99,16 +95,10 @@ function init() {
     controls.maxDistance = 350;
     controls.minDistance = 150;
     controls.enablePan = false;
-
-    
-    // add shadows to the scene
-    
-    // renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    // renderer.shadowMapSoft = true;
     
     // add axis
-    const axesHelper = new THREE.AxesHelper( 190 );
-    scene.add( axesHelper );
+    // const axesHelper = new THREE.AxesHelper( 190 );
+    // scene.add( axesHelper );
     
     const loader = new THREE.TextureLoader(); 
     const textureSphereBg = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
@@ -148,7 +138,6 @@ function init() {
     scene.add(SaturnPlanet);
 
     // add shadows to the objects
-    
     SaturnPlanet.castShadow = true;
 
     function render() {
@@ -172,11 +161,13 @@ function init() {
     gui.domElement.style.top = '2px';
     gui.domElement.style.right = '10px';
 
-    
     const cameraFolder = gui.addFolder('camera');
     cameraFolder.add(camera.position, 'x', -100, 100);
     cameraFolder.add(camera.position, 'y', -100, 100);
     cameraFolder.add(camera.position, 'z', -100, 100);
+
+    const lightFolder = gui.addFolder('Sunlight');
+    lightFolder.add(directionalLight, "intensity", 0, 6, 0.1).name("Sun Light Intensity");
    
     // load models
 
@@ -192,13 +183,6 @@ function init() {
         scene.add(objModeled.scene);
         
     });
-
-    // unknown object
-    // objModel2(() => {
-    //     objModeled2.scene.rotation.y = Math.PI/2;
-    //     scene.add(objModeled2.scene);
-    //     console.log(objModeled2)
-    // });
 
     // blue dragon
     objModel3(() => {
@@ -247,8 +231,6 @@ function init() {
     objModel9(() => {
         objModeled9.scene.rotation.x = Math.PI/2;
         objModeled9.scene.rotation.z = -Math.PI/2;
-        
-       
         // copy objModeled9.scene to a new variable
         const fire = objModeled9.scene.clone();
         // set the position of the new variable
@@ -273,51 +255,27 @@ function init() {
     spaceGarageFolder.add(spaceGarage.position, 'y', -100, 100);
     spaceGarageFolder.add(spaceGarage.position, 'z', -100, 100);
 
-    
-    const corridorlight = new THREE.DirectionalLight(0xff0000, 3, 1000);
-    // position the light on the spaceGarage group
-    corridorlight.position.set(spaceGarage.position.x, spaceGarage.position.y, spaceGarage.position.z);
-    
-    corridorlight.castShadow = true;
-    scene.add(corridorlight);
-
-    // Set up shadow properties for the light
-    corridorlight.shadow.mapSize.width = 512;
-    corridorlight.shadow.mapSize.height = 512;
-    corridorlight.shadow.camera.near = 0.5;
-    corridorlight.shadow.camera.far = 500;
-
-    // make light cast shadows to a bigger object
-    // corridorlight.shadow.camera.left = -30;
-    // corridorlight.shadow.camera.right = 30;
-    // corridorlight.shadow.camera.top = 30;
-    // corridorlight.shadow.camera.bottom = -30;
-
-    let corridorlightHelper = new THREE.DirectionalLightHelper(corridorlight, 5);
-    scene.add(corridorlightHelper);
-
     // add a blue light to lightsaber
     const light = new THREE.PointLight(0x0000ff, 0.5, 100000);
     light.position.set(0, 0, 0);
     scene.add(light);
 
     const light2 = new THREE.PointLight(0x0000ff, 0.5, 100000);
+    light2.position.set(0, 100, 0);
     scene.add(light2);
 
     const light3 = new THREE.PointLight(0x0000ff, 0.5, 100000);
     light3.position.set(0, -100, 0);
     scene.add(light3);
 
-    // const width = 40;
-    // const height = 1000;
-    // const intensity = 1;
-    // const rectLight = new THREE.RectAreaLight( 0x0000ff, intensity,  width, height );
-    // rectLight.position.set( 0, 0, 0 );
-    // rectLight.lookAt( 0, 0, 0 );
-    // scene.add( rectLight )
-
-    // const rectLightHelper = new RectAreaLightHelper( rectLight );
-    // rectLight.add( rectLightHelper );
+    const LightSaberFolder = gui.addFolder('LightSaber');
+    const intensityController = LightSaberFolder.add({ intensity: light.intensity }, "intensity", 0, 4, 0.1).name("Intensity");
+    
+    intensityController.onChange(function(value) {
+    light.intensity = value;
+    light2.intensity = value;
+    light3.intensity = value;
+    });
 
     // user options
     let toggleRocketModel = document.getElementById('check-apple');
@@ -372,7 +330,6 @@ function init() {
     Donut.receiveShadow = true;
     scene.add(Donut);
 
-
     /*  Nucleus  */   
     texturenucleus.anisotropy = 16;
     let icosahedronGeometry = new THREE.IcosahedronGeometry(30, 10);
@@ -382,9 +339,6 @@ function init() {
     nucleus.receiveShadow = true;
     scene.add(nucleus);
 
-    
-
-
     // turn possible to go insdie the nucleus
     nucleus.material.side = THREE.DoubleSide;
 
@@ -392,7 +346,6 @@ function init() {
     controls.maxDistance = 500;
     controls.minDistance = 5;
 
-    
     /*    Sphere  Background   */
     textureSphereBg.anisotropy = 16;
     let geometrySphereBg = new THREE.SphereBufferGeometry(150, 40, 40);
@@ -442,15 +395,6 @@ function init() {
     // change controls.autoRotateSpeed of orbitControls with GUI
     const controlsFolder = gui.addFolder('Controls');
     controlsFolder.add(controls, 'autoRotateSpeed', 0.1, 10).name('Rotate Speed');
-
-    // change the background color of the scene with GUI
-
-
-
-
-
-
-    
     
     /*    Moving Stars   */
     let starsGeometry = new THREE.Geometry();
@@ -530,22 +474,22 @@ function animate() {
     });
 
 
-    //Nucleus Animation
-    // nucleus.geometry.vertices.forEach(function (v) {
-    //     let time = Date.now();
-    //     v.normalize();
-    //     let distance = nucleus.geometry.parameters.radius + noise.noise3D(
-    //         v.x + time * 0.0005,
-    //         v.y + time * 0.0003,
-    //         v.z + time * 0.0008
-    //     ) * blobScale;
-    //     v.multiplyScalar(distance);
-    // })
-    // nucleus.geometry.verticesNeedUpdate = true;
-    // nucleus.geometry.normalsNeedUpdate = true;
-    // nucleus.geometry.computeVertexNormals();
-    // nucleus.geometry.computeFaceNormals();
-    // nucleus.rotation.y += 0.002;
+    // Nucleus Animation
+    nucleus.geometry.vertices.forEach(function (v) {
+        let time = Date.now();
+        v.normalize();
+        let distance = nucleus.geometry.parameters.radius + noise.noise3D(
+            v.x + time * 0.0005,
+            v.y + time * 0.0003,
+            v.z + time * 0.0008
+        ) * blobScale;
+        v.multiplyScalar(distance);
+    })
+    nucleus.geometry.verticesNeedUpdate = true;
+    nucleus.geometry.normalsNeedUpdate = true;
+    nucleus.geometry.computeVertexNormals();
+    nucleus.geometry.computeFaceNormals();
+    nucleus.rotation.y += 0.002;
 
 
     // Sphere Beckground Animation
@@ -621,51 +565,51 @@ let pauseButton = document.getElementById('pauseButton');
 let volumeControl = document.getElementById('volumeControl');
 let forwardButton = document.getElementById('nextButton');
 let backwardButton = document.getElementById('prevButton');
-let currentAudio = audio; // initially set current audio to audio
+let currentAudio = audio; 
 
 pauseButton.style.display = 'none';
 
 playButton.addEventListener('click', function() {
-    currentAudio.play(); // play current audio
+    currentAudio.play(); 
     pauseButton.style.display = 'block';
     playButton.style.display = 'none';
 });
 
 pauseButton.addEventListener('click', function() {
-    currentAudio.pause(); // pause current audio
+    currentAudio.pause(); 
     pauseButton.style.display = 'none';
     playButton.style.display = 'block';
 });
 
 // control volume
 volumeControl.addEventListener("input", function() {
-    currentAudio.volume = volumeControl.value; // set volume for current audio
+    currentAudio.volume = volumeControl.value; 
 });
 
 // next song
 forwardButton.addEventListener('click', function() {
     pauseButton.style.display = 'block';
     playButton.style.display = 'none';
-    currentAudio.pause(); // pause current audio
-    currentAudio.currentTime = 0; // start audio from beginning
-    if (currentAudio === audio) { // check which audio is currently playing
-        currentAudio = audio2; // set current audio to audio2
+    currentAudio.pause(); 
+    currentAudio.currentTime = 0; 
+    if (currentAudio === audio) { 
+        currentAudio = audio2; 
     } else {
-        currentAudio = audio; // set current audio to audio
+        currentAudio = audio;
     }
-    currentAudio.play(); // play current audio
+    currentAudio.play(); 
 });
 
 // previous song
 backwardButton.addEventListener('click', function() {
     pauseButton.style.display = 'block';
     playButton.style.display = 'none';
-    currentAudio.pause(); // pause current audio
-    currentAudio.currentTime = 0; // start audio from beginning
-    if (currentAudio === audio) { // check which audio is currently playing
-        currentAudio = audio2; // set current audio to audio2
+    currentAudio.pause(); 
+    currentAudio.currentTime = 0; 
+    if (currentAudio === audio) { 
+        currentAudio = audio2; 
     } else {
-        currentAudio = audio; // set current audio to audio
+        currentAudio = audio;
     }
-    currentAudio.play(); // play current audio
+    currentAudio.play(); 
 });

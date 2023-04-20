@@ -18,7 +18,7 @@ camera.position.set( 10, 0, 50 );
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
-let rocketDirection = new THREE.Vector3(0, 0, -1);
+
 
 
 function animate() {
@@ -30,28 +30,28 @@ animate();
 
 function loadModel(callback) {
   gltfLoader.load('../assets/rocket/scene.gltf', (gltfScene) => {
-  loadedModel = gltfScene;
-  console.log(loadedModel);
+    loadedModel = gltfScene;
+    console.log(loadedModel);
 
-  const loader = new THREE.TextureLoader(); 
-  const texture = loader.load('https://i.ibb.co/hcN2qXk/star-nc8wkw.jpg');
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.set( 1, 1 );
+    const loader = new THREE.TextureLoader(); 
+    const texture = loader.load('https://i.ibb.co/hcN2qXk/star-nc8wkw.jpg');
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set( 1, 1 );
 
-  let mesh1;
-  // change the color of the model with the texture
-  loadedModel.scene.traverse((child) => {
-      if (child.isMesh) {
-          child.material.map = texture; 
-          mesh1 = child;
-          mesh1.castShadow = true;
-          // body of the model is texture but the red color is black
-          child.material.color = new THREE.Color(0x2379a9);
+    let mesh1;
+    // change the color of the model with the texture
+    loadedModel.scene.traverse((child) => {
+        if (child.isMesh) {
+            child.material.map = texture; 
+            mesh1 = child;
+            mesh1.castShadow = true;
+            // body of the model is texture but the red color is black
+            child.material.color = new THREE.Color(0x2379a9);
 
-          child.material.map = texture; 
+            child.material.map = texture; 
 
-      }
+        }
   });
   
   loadedModel.scene.rotation.x = Math.PI / 2; // rotate the model 90 degrees to make it horizontal

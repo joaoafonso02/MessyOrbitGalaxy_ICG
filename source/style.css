@@ -333,8 +333,8 @@ button:hover {
 
 .checkbox3-apple {
   position: absolute;
-  top: 650px;
-  right: 0px;
+  top: 780px;
+  right: 25px;
   width: 200px;
   height: 250px;
   -webkit-user-select: none;
