@@ -58,6 +58,33 @@ body {
     height: 40px;
 }
 
+#gameStartedMessage {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 34px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  z-index: 9999;
+}
+
+#GameTimer {
+  position: absolute;
+  left: 65px;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  
+  /* Center vertically */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
 #volumeControl {
     position: absolute;
     top: 160px;

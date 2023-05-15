@@ -40,6 +40,9 @@ function init() {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
 
+    // set random gems in the scene
+    allocateGreenGems(scene, 20);
+
     const directionalLight = new THREE.DirectionalLight("#fff", 3, 1000); 
     // directionalLight.position.set(450, 180, 0);
     directionalLight.position.set(450, 180, 0);
@@ -172,79 +175,73 @@ function init() {
 
     // rocket
     loadModel(() => {
-        loadedModel.scene.rotation.y = Math.PI/2; 
+        loadedModel.scene.rotation.y = Math.PI / 2;
         scene.add(loadedModel.scene);
-        
-    });
-
-
-    let cameraResetPosition = null;
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'r') {
+    
+        let cameraResetPosition = null;
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'r') {
             if (cameraResetPosition === null) {
-                // set camera position to be a 3rd person behind the rocket
-                const distanceBehind = 200;
-                const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
-                const rocketPosition = loadedModel.scene.position.clone();
-                camera.position.copy(rocketPosition.add(cameraOffset));
+              // set camera position to be a 3rd person behind the rocket
+              const distanceBehind = 100;
+              const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
+              const rocketPosition = loadedModel.scene.position.clone();
+              camera.position.copy(rocketPosition.add(cameraOffset));
     
-                camera.lookAt(loadedModel.scene.position);
-                controls.target = loadedModel.scene.position;
-                cameraResetPosition = 'set';
+              camera.lookAt(loadedModel.scene.position);
+              controls.target = loadedModel.scene.position;
+              cameraResetPosition = 'set';
             } else if (cameraResetPosition === 'set') {
-                // reset camera position
-                camera.position.set(0, 0, 530);
-                controls.target = new THREE.Vector3(0, 0, 0);
-                cameraResetPosition = null;
+              // reset camera position
+              camera.position.set(0, 0, 530);
+              controls.target = new THREE.Vector3(0, 0, 0);
+              cameraResetPosition = null;
             }
-        }
+          }
     
-        if (event.key === 'ArrowUp') {
+          if (event.key === 'ArrowUp') {
             // move rocket forward
             loadedModel.scene.position.z += 10;
             if (cameraResetPosition === 'set') {
-                const distanceBehind = 200;
-                const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
-                const rocketPosition = loadedModel.scene.position.clone();
-                camera.position.copy(rocketPosition.add(cameraOffset));
-                camera.lookAt(loadedModel.scene.position);
+              const distanceBehind = 100;
+              const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
+              const rocketPosition = loadedModel.scene.position.clone();
+              camera.position.copy(rocketPosition.add(cameraOffset));
+              camera.lookAt(loadedModel.scene.position);
             }
-        } else if (event.key === 'ArrowDown') {
+          } else if (event.key === 'ArrowDown') {
             // move rocket forward
             loadedModel.scene.position.z -= 10;
             if (cameraResetPosition === 'set') {
-                const distanceBehind = 200;
-                const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
-                const rocketPosition = loadedModel.scene.position.clone();
-                camera.position.copy(rocketPosition.add(cameraOffset));
-                camera.lookAt(loadedModel.scene.position);
+              const distanceBehind = 100;
+              const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
+              const rocketPosition = loadedModel.scene.position.clone();
+              camera.position.copy(rocketPosition.add(cameraOffset));
+              camera.lookAt(loadedModel.scene.position);
             }
-        } else if (event.key === 'ArrowLeft') {
+          } else if (event.key === 'ArrowLeft') {
             loadedModel.scene.position.x += 10;
-            if (cameraResetPosition === 'set') {
-                const distanceBehind = 200;
-                const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
-                const rocketPosition = loadedModel.scene.position.clone();
-                camera.position.copy(rocketPosition.add(cameraOffset));
-                camera.lookAt(loadedModel.scene.position);
-            }
-        } else if (event.key === 'ArrowRight') {
+    
+            const distanceBehind = 100;
+            const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
+            const rocketPosition = loadedModel.scene.position.clone();
+            camera.position.copy(rocketPosition.add(cameraOffset));
+            camera.lookAt(loadedModel.scene.position);
+          } else if (event.key === 'ArrowRight') {
             // move rocket right
             loadedModel.scene.position.x -= 10;
-            if (cameraResetPosition === 'set') {
-                const distanceBehind = 200;
-                const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
-                const rocketPosition = loadedModel.scene.position.clone();
-                camera.position.copy(rocketPosition.add(cameraOffset));
-                camera.lookAt(loadedModel.scene.position);
-            }
-        }
-    });
-             
-
     
-
-      
+            const distanceBehind = 100;
+            const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
+            const rocketPosition = loadedModel.scene.position.clone();
+            camera.position.copy(rocketPosition.add(cameraOffset));
+            camera.lookAt(loadedModel.scene.position);
+          }
+        });
+    
+        startGameWithTimer(); // Start the game with timer after loading the model
+      });
+            
 
     // spyro
     // objModel(() => {
@@ -625,6 +622,110 @@ fsEnter.addEventListener('click', function (e) {
         fsEnter.innerHTML = "Go Fullscreen";
     }
 });
+
+function allocateGreenGems(scene, totalGems) {
+    const gemGeometry = new THREE.SphereGeometry(5, 16, 16);
+    const gemTexture = new THREE.TextureLoader().load('../assets/img/gem1.jpg');
+    const gemMaterial = new THREE.MeshBasicMaterial({ map: gemTexture });   
+  
+    const gems = []; // Array to store gem objects
+  
+    for (let i = 0; i < totalGems; i++) {
+        const gem = new THREE.Mesh(gemGeometry, gemMaterial);
+    
+        // Generate random position within the scene
+        const posX = Math.random() * 200 - 100; // Adjust the range and position as needed
+        const posY = Math.random() * 200 - 100;
+        const posZ = Math.random() * 200 - 100;
+    
+        //   gem.position.set(posX, posY, posZ);
+        // make gems appear only on x axis
+        gem.position.set(posX, 0, 0);
+    
+        scene.add(gem);
+        gems.push(gem);
+    }
+  
+    return gems;
+  }
+  
+function startGameWithTimer() {
+    console.log('Game started!');
+    const gemCount = 5; // Total number of gems
+    let gemsCollected = 0; // Counter for collected gems
+
+    const gems = allocateGreenGems(scene, gemCount); // Allocate gems and store references
+
+    // Display countdown timer
+    let timeRemaining = 60;
+    const timerElement = document.getElementById('GameTimer');
+    const gameStartedMessage = document.getElementById('gameStartedMessage');
+
+    timerElement.textContent = formatTime(timeRemaining);
+    gameStartedMessage.style.display = 'block';
+
+    setTimeout(() => {
+        gameStartedMessage.style.display = 'none';
+    }, 3000);
+
+    const timerInterval = setInterval(() => {
+    timeRemaining--;
+    timerElement.textContent = formatTime(timeRemaining);
+
+    if (timeRemaining <= 0) {
+        clearInterval(timerInterval);
+        endGame(false);
+    }
+    }, 1000);
+
+    // Function to handle gem collection
+    function collectGem() {
+        gems.forEach((gem) => {
+        // Calculate distance between rocket and gem
+        const distance = loadedModel.scene.position.distanceTo(gem.position);
+
+        if (distance <= 40) {
+            console.log('Gem collected!');
+            scene.remove(gem);
+            gemsCollected++;
+        }
+        });
+    
+        if (gemsCollected === gemCount) {
+            console.log('All gems collected!');
+            clearInterval(timerInterval);
+            endGame(true);
+        }
+    }
+
+    // collect gems when 'c' is pressed
+    document.addEventListener('keydown', (event) => {
+        const key = event.key.toLowerCase();
+        if (key === 'c' || key === 'C') {
+        collectGem();
+        }
+});
+}
+
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${padZero(minutes)}:${padZero(remainingSeconds)}`;
+}
+
+function padZero(value) {
+    return value.toString().padStart(2, '0');
+}
+
+
+function endGame(success) {
+    if (success) {
+        console.log('Congratulations! You collected all the gems!');
+    } else {
+        console.log('Game Over! Time\'s up or you missed some gems!');
+    }
+}
+
 
 let audio = new Audio('../assets/audio/starWars.mp3');
 let audio2 = new Audio('../assets/audio/starWars2.mp3');

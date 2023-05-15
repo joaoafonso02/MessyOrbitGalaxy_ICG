@@ -56,8 +56,8 @@ function loadModel(callback) {
   loadedModel.scene.rotation.x = Math.PI / 2; // rotate the model 90 degrees to make it horizontal
   loadedModel.scene.position.x = -220;
   loadedModel.scene.position.y = 0;
-  loadedModel.scene.position.z = -100;
-  loadedModel.scene.scale.set(30, 50, 25);
+  loadedModel.scene.position.z = -105;
+  loadedModel.scene.scale.set(15, 30, 10);
   
   scene.add(loadedModel.scene); // Add the loaded model to the scene
 
