@@ -90,7 +90,7 @@ function init() {
     }
     animate();
 
-    controls.autoRotate = true;
+    controls.autoRotate = false;
     controls.autoRotateSpeed = 0.5;
     controls.maxDistance = 350;
     controls.minDistance = 150;
@@ -111,7 +111,6 @@ function init() {
     
     // NEW PLANET
     const textureSphere = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
-    const textureRing = loader.load('https://i.ibb.co/3FrQV5N/bg3-je3ddz.jpg');
 
     textureSphere.anisotropy = 16;
     let sphereGeometry = new THREE.SphereBufferGeometry(28, 32, 32);
@@ -178,18 +177,87 @@ function init() {
         
     });
 
+
+    let cameraResetPosition = null;
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'r') {
+            if (cameraResetPosition === null) {
+                // set camera position to be a 3rd person behind the rocket
+                const distanceBehind = 200;
+                const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
+                const rocketPosition = loadedModel.scene.position.clone();
+                camera.position.copy(rocketPosition.add(cameraOffset));
+    
+                camera.lookAt(loadedModel.scene.position);
+                controls.target = loadedModel.scene.position;
+                cameraResetPosition = 'set';
+            } else if (cameraResetPosition === 'set') {
+                // reset camera position
+                camera.position.set(0, 0, 530);
+                controls.target = new THREE.Vector3(0, 0, 0);
+                cameraResetPosition = null;
+            }
+        }
+    
+        if (event.key === 'ArrowUp') {
+            // move rocket forward
+            loadedModel.scene.position.z += 10;
+            if (cameraResetPosition === 'set') {
+                const distanceBehind = 200;
+                const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
+                const rocketPosition = loadedModel.scene.position.clone();
+                camera.position.copy(rocketPosition.add(cameraOffset));
+                camera.lookAt(loadedModel.scene.position);
+            }
+        } else if (event.key === 'ArrowDown') {
+            // move rocket forward
+            loadedModel.scene.position.z -= 10;
+            if (cameraResetPosition === 'set') {
+                const distanceBehind = 200;
+                const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
+                const rocketPosition = loadedModel.scene.position.clone();
+                camera.position.copy(rocketPosition.add(cameraOffset));
+                camera.lookAt(loadedModel.scene.position);
+            }
+        } else if (event.key === 'ArrowLeft') {
+            loadedModel.scene.position.x += 10;
+            if (cameraResetPosition === 'set') {
+                const distanceBehind = 200;
+                const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
+                const rocketPosition = loadedModel.scene.position.clone();
+                camera.position.copy(rocketPosition.add(cameraOffset));
+                camera.lookAt(loadedModel.scene.position);
+            }
+        } else if (event.key === 'ArrowRight') {
+            // move rocket right
+            loadedModel.scene.position.x -= 10;
+            if (cameraResetPosition === 'set') {
+                const distanceBehind = 200;
+                const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
+                const rocketPosition = loadedModel.scene.position.clone();
+                camera.position.copy(rocketPosition.add(cameraOffset));
+                camera.lookAt(loadedModel.scene.position);
+            }
+        }
+    });
+             
+
+    
+
+      
+
     // spyro
-    objModel(() => {
-        scene.add(objModeled.scene);
+    // objModel(() => {
+    //     scene.add(objModeled.scene);
         
-    });
+    // });
 
-    // blue dragon
-    objModel3(() => {
-        objModeled3.scene.rotation.y = Math.PI/2;
-        scene.add(objModeled3.scene);
+    // // blue dragon
+    // objModel3(() => {
+    //     objModeled3.scene.rotation.y = Math.PI/2;
+    //     scene.add(objModeled3.scene);
 
-    });
+    // });
 
     // blue lightsaber
     objModel4(() => {
@@ -211,44 +279,44 @@ function init() {
         scene.add(objModeled6.scene);
     });
 
-    // mandalorian space ship
-    objModel7(() => {
-        objModeled7.scene.rotation.y = Math.PI/2;
-        scene.add(objModeled7.scene);
-        spaceGarage.add(objModeled7.scene);
+    // // mandalorian space ship
+    // objModel7(() => {
+    //     objModeled7.scene.rotation.y = Math.PI/2;
+    //     scene.add(objModeled7.scene);
+    //     spaceGarage.add(objModeled7.scene);
 
-    });
+    // });
 
-    // space ship corridor
-    objModel8(() => {
-        objModeled8.scene.rotation.y = Math.PI/2;
-        scene.add(objModeled8.scene);
-        spaceGarage.add(objModeled8.scene);
+    // // space ship corridor
+    // objModel8(() => {
+    //     objModeled8.scene.rotation.y = Math.PI/2;
+    //     scene.add(objModeled8.scene);
+    //     spaceGarage.add(objModeled8.scene);
 
-    });
+    // });
 
-    // fire
-    objModel9(() => {
-        objModeled9.scene.rotation.x = Math.PI/2;
-        objModeled9.scene.rotation.z = -Math.PI/2;
-        // copy objModeled9.scene to a new variable
-        const fire = objModeled9.scene.clone();
-        // set the position of the new variable
-        fire.position.set(329, -2, 22);
+    // // fire
+    // objModel9(() => {
+    //     objModeled9.scene.rotation.x = Math.PI/2;
+    //     objModeled9.scene.rotation.z = -Math.PI/2;
+    //     // copy objModeled9.scene to a new variable
+    //     const fire = objModeled9.scene.clone();
+    //     // set the position of the new variable
+    //     fire.position.set(329, -2, 22);
 
-        scene.add(fire);
-        scene.add(objModeled9.scene);
-        spaceGarage.add(objModeled9.scene);
-        spaceGarage.add(fire);
-    });
-    // bb8
-    objModel10(() => {
-        objModeled10.scene.rotation.y = Math.PI/2;
-        scene.add(objModeled10.scene);
-        spaceGarage.add(objModeled10.scene);
-    });
+    //     scene.add(fire);
+    //     scene.add(objModeled9.scene);
+    //     spaceGarage.add(objModeled9.scene);
+    //     spaceGarage.add(fire);
+    // });
+    // // bb8
+    // objModel10(() => {
+    //     objModeled10.scene.rotation.y = Math.PI/2;
+    //     scene.add(objModeled10.scene);
+    //     spaceGarage.add(objModeled10.scene);
+    // });
 
-    scene.add(spaceGarage);
+    // scene.add(spaceGarage);
 
     const spaceGarageFolder = gui.addFolder('spaceGarage');
     spaceGarageFolder.add(spaceGarage.position, 'x', -100, 100);

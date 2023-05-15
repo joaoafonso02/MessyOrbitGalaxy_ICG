@@ -24,7 +24,6 @@ document.body.appendChild( renderer.domElement );
 function animate() {
   requestAnimationFrame( animate );
   renderer.render( scene, camera );
-
 }
 animate();
 
@@ -58,7 +57,7 @@ function loadModel(callback) {
   loadedModel.scene.position.x = -220;
   loadedModel.scene.position.y = 0;
   loadedModel.scene.position.z = -100;
-  loadedModel.scene.scale.set(80, 130, 55);
+  loadedModel.scene.scale.set(30, 50, 25);
   
   scene.add(loadedModel.scene); // Add the loaded model to the scene
 
@@ -68,29 +67,21 @@ function loadModel(callback) {
 
   // let user control the rocket positions with keys around sphereBig from script.js
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'ArrowRight') {
-      gltfScene.scene.position.x += 100;
-    } else if (event.key === 'ArrowLeft') {
-      gltfScene.scene.position.x -= 100;
-    } else if (event.key === 'ArrowUp') {
-      gltfScene.scene.position.y += 10;
-    } else if (event.key === 'ArrowDown') {
-      gltfScene.scene.position.y -= 10;
-    } else if (event.key === 'z') {
-      gltfScene.scene.position.z += 10;
+    if (event.key === 'z') {
+        gltfScene.scene.position.z += 10;
     } else if (event.key === 'x') {
-      gltfScene.scene.position.z -= 10;
+        gltfScene.scene.position.z -= 10;
     } else if (event.key === 'a') {
-      gltfScene.scene.rotation.y += 0.1;
+        gltfScene.scene.rotation.y += 0.1;
     } else if (event.key === 's') {
-      gltfScene.scene.rotation.x += 0.1;
+        gltfScene.scene.rotation.x += 0.1;
     } else if (event.key === 'd') {
-      gltfScene.scene.rotation.y -= 0.1;
+        gltfScene.scene.rotation.y -= 0.1;
     } else if (event.key === 'w') {
-      gltfScene.scene.rotation.x -= 0.1;
-    } 
-
+        gltfScene.scene.rotation.x -= 0.2;
+    }
   });
+
 });
 }
 
