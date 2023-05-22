@@ -40,8 +40,6 @@ function init() {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
 
-    // set random gems in the scene
-    allocateGreenGems(scene, 20);
 
     const directionalLight = new THREE.DirectionalLight("#fff", 3, 1000); 
     // directionalLight.position.set(450, 180, 0);
@@ -239,7 +237,7 @@ function init() {
           }
         });
     
-        startGameWithTimer(); // Start the game with timer after loading the model
+       
       });
             
 
@@ -640,7 +638,7 @@ function allocateGreenGems(scene, totalGems) {
     
         //   gem.position.set(posX, posY, posZ);
         // make gems appear only on x axis
-        gem.position.set(posX, 0, 0);
+        gem.position.set(posX,0, posZ);
     
         scene.add(gem);
         gems.push(gem);
@@ -649,9 +647,35 @@ function allocateGreenGems(scene, totalGems) {
     return gems;
   }
   
-function startGameWithTimer() {
+    document.getElementById('startButton').addEventListener('click', startGameWithTimer);
+    const gameStartedMessage = document.getElementById('gameStartedMessage');
+    gameStartedMessage.style.display = 'none';
+
+    let gemCountMessage = document.getElementById('GemCount');
+        gemCountMessage.style.display = 'none';
+
+    let gameOverMenu = document.getElementById('GameOverMenu');
+        gameOverMenu.style.display = 'none';
+
+    let WinMessage = document.getElementById('WinMessage');
+        WinMessage.style.display = 'none';
+
+    let GameOverMessage = document.getElementById('GameOverMessage');
+        GameOverMessage.style.display = 'none';
+
+    let LoseMessage = document.getElementById('LoseMessage');
+        LoseMessage.style.display = 'none';
+
+    let ScoreMessage = document.getElementById('ScoreMessage');
+        ScoreMessage.style.display = 'none';
+
+
+  function startGameWithTimer() {
+    document.getElementById('menu').style.display = 'none';
+
+    let score = 0;
     console.log('Game started!');
-    const gemCount = 5; // Total number of gems
+    let gemCount = 2; // Total number of gems
     let gemsCollected = 0; // Counter for collected gems
 
     const gems = allocateGreenGems(scene, gemCount); // Allocate gems and store references
@@ -659,52 +683,113 @@ function startGameWithTimer() {
     // Display countdown timer
     let timeRemaining = 60;
     const timerElement = document.getElementById('GameTimer');
-    const gameStartedMessage = document.getElementById('gameStartedMessage');
 
     timerElement.textContent = formatTime(timeRemaining);
+    gemCountMessage.style.display = 'block';
     gameStartedMessage.style.display = 'block';
 
     setTimeout(() => {
         gameStartedMessage.style.display = 'none';
+        ScoreMessage.style.display = 'block';
     }, 3000);
 
-    const timerInterval = setInterval(() => {
-    timeRemaining--;
-    timerElement.textContent = formatTime(timeRemaining);
+    const timerInterval = setInterval(() => { 
+        timeRemaining--;
+        timerElement.textContent = formatTime(timeRemaining);
 
-    if (timeRemaining <= 0) {
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            endGame(false);
+        } 
+    }, 1000);
+
+    if (timeRemaining === 0) {
         clearInterval(timerInterval);
         endGame(false);
-    }
-    }, 1000);
+    } else {
+        // collect gems when 'c' is pressed
+       document.addEventListener('keydown', (event) => {
+           const key = event.key.toLowerCase();
+           if (key === 'c' || key === 'C') {
+               collectGem();
+           }
+       });
+   }
+        
 
     // Function to handle gem collection
     function collectGem() {
         gems.forEach((gem) => {
-        // Calculate distance between rocket and gem
-        const distance = loadedModel.scene.position.distanceTo(gem.position);
-
-        if (distance <= 40) {
-            console.log('Gem collected!');
-            scene.remove(gem);
-            gemsCollected++;
-        }
+            // Calculate distance between rocket and gem
+            const distance = loadedModel.scene.position.distanceTo(gem.position);
+    
+            // TODO: PICKUP ONLY 1 GEM WHEN THERE ARE MULTIPLE GEMS
+            if (distance <= 40) {
+                console.log('Gem collected!');
+                scene.remove(gem);
+                gemsCollected++;
+                // Update gem count text
+                const gemCountElement = document.getElementById('GemCount');
+                gemCountElement.textContent = `${gemsCollected}/${gemCount} gems collected`;
+                // create a logaritmic score where if the player collects a gem in the first 10 seconds, he gets 100 points, the next 10 seconds 90 points, the next 10 seconds 80 points, etc.
+                score += Math.round( 600 - (timeRemaining * 4.5));
+                ScoreMessage.innerHTML = `Score: ${score}`;
+                ScoreMessage.style.display = 'block';
+                console.log(score);
+            }
         });
     
+        let scoreElement = document.getElementById('score');
+
+        let timerElement = document.getElementById('GameTimer');
+
         if (gemsCollected === gemCount) {
             console.log('All gems collected!');
             clearInterval(timerInterval);
             endGame(true);
         }
-    }
 
-    // collect gems when 'c' is pressed
-    document.addEventListener('keydown', (event) => {
-        const key = event.key.toLowerCase();
-        if (key === 'c' || key === 'C') {
-        collectGem();
+       
+    }
+    function endGame(success) {
+        
+        if (success) {
+            gemCountMessage.style.display = 'none'; 
+            timerElement.style.display = 'none';
+            ScoreMessage.style.display = 'none';
+            console.log('Congratulations! You collected all the gems!');
+            gameOverMenu.style.display = 'block';
+            GameOverMessage.style.color = 'blue';
+            GameOverMessage.style.display = 'block';
+            
+            WinMessage.innerHTML = `</br></br>Congratulations! You Won the Game! </br></br> Score: ${score}</br></br> Time Remaining: ${timerElement.textContent}`;
+            WinMessage.style.display = 'block';
+        } else {
+            gemCountMessage.style.display = 'none'; 
+            timerElement.style.display = 'none';
+            console.log('Game Over! Time\'s up or you missed some gems!');
+            gameOverMenu.style.display = 'block';
+            GameOverMessage.style.color = 'red';
+            GameOverMessage.style.display = 'block';
+            LoseMessage.innerHTML = `</br></br>Game Over! Time is Up! </br></br> Score: ${score} </br></br> Missing Gems: ${gemCount - gemsCollected}`;
+            LoseMessage.style.display = 'block';
         }
-});
+
+        // reset the game
+        document.getElementById('restartButton').addEventListener('click', function() {
+            gameOverMenu.style.display = 'none';
+            score = 0;
+            timeRemaining = 60;
+            gemsCollected = 0;
+            gemCount = 2;
+            gemCountMessage.style.display = 'block';
+            timerElement.style.display = 'block';
+            timerElement.textContent = formatTime(timeRemaining);
+            gemCountMessage.textContent = `0/${gemCount} gems collected`;
+            startGameWithTimer();
+        }
+        );
+    }
 }
 
 function formatTime(seconds) {
@@ -718,13 +803,7 @@ function padZero(value) {
 }
 
 
-function endGame(success) {
-    if (success) {
-        console.log('Congratulations! You collected all the gems!');
-    } else {
-        console.log('Game Over! Time\'s up or you missed some gems!');
-    }
-}
+
 
 
 let audio = new Audio('../assets/audio/starWars.mp3');

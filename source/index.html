@@ -12,9 +12,24 @@
 
 </div>
 
+
+
 <div id="gameStartedMessage">Game Started!</div>
 <div id="GameTimer"></div>
+<div id="GemCount">0/5 gems collected</div>
+<div id="ScoreMessage">Score: 0</div>
 
+<div id="GameOverMenu">
+  <h1 id="GameOverMessage">Game Over!</h1>
+  <h4 id="WinMessage">Congrats! You won!</h4>
+  <h4 id="LoseMessage">Time's Up! You lost with a score of <div id="score">Score: 0</div></h4>
+  <button id="restartButton">Restart Game</button>
+</div>
+
+<div id="menu">
+  <h1 id="MenuText">Messy Orbit Galaxy</h1>
+  <button id="startButton">Start Game</button>
+</div>
 
 <div id="canvas_container"></div>
   <button id="fullscr">Go Fullscreen</button> 
@@ -59,7 +74,7 @@
   </div>
 
 
-  <button id="controls-button" onclick="toggleControls()">Controls</button>
+  <!-- <button id="controls-button" onclick="toggleControls()">Controls</button>
 
   <table id="controls-table" style="display:none">
     <tr>
@@ -90,7 +105,7 @@
       <td>Camera Rotation Z</td>
       <td><input type="range" id="camera-rot-z" min="10" max="100" value="30"></td>
     </tr>
-  </table>
+  </table> -->
 
 
   <!-- Control volume -->
@@ -126,17 +141,6 @@
   <script type="module" src="./test.js"></script>
   <script type="module" src="./script.js"></script>
  
-
-  <script>
-    function toggleControls() {
-      var table = document.getElementById("controls-table");
-      if (table.style.display === "none") {
-        table.style.display = "block";
-      } else {
-        table.style.display = "none";
-      }
-    }
-  </script>
 
 </body>
 </html>

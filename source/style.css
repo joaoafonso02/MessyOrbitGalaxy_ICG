@@ -1,12 +1,97 @@
 body {
-    margin: 0;
-    overflow: hidden;
-    width: 100vw;
-    height: 100vh;
-    background-image: url("https://user-images.githubusercontent.com/26748614/96337246-f14d4580-1085-11eb-8793-a86d929e034d.jpg");
-    background-size: cover;
-    backdrop-filter:  brightness(50%);
+  margin: 0;
+  overflow: hidden;
+  background-image: url("https://user-images.githubusercontent.com/26748614/96337246-f14d4580-1085-11eb-8793-a86d929e034d.jpg");
+  background-size: cover;
+  backdrop-filter: brightness(50%);
 }
+
+
+#menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#MenuText {
+  color: white;
+  font-size: 36px;
+  margin-bottom: 1400px;
+}
+
+#startButton {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #fff;
+  color: #000;
+  border: none;
+  cursor: pointer;
+  margin-bottom:750px;
+}
+
+
+/* Game Over Menu */
+#GameOverMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#GameOverMessage {
+  color: white;
+  display: flex;
+  left: 1000px;
+  font-size: 36px;
+  margin-bottom: 1400px;
+}
+
+#WinMessage {
+  color: white;
+  font-size: 36px;
+  margin-bottom: 1000px;
+}
+
+#LoseMessage {
+  color: white;
+  font-size: 36px;
+  margin-bottom: 1000px;
+}
+
+#restartButton {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #fff;
+  color: #000;
+  border: none;
+  cursor: pointer;
+  margin-bottom:750px;
+}
+
+#GameOverMessage,
+#WinMessage,
+#LoseMessage {
+  color: white;
+  font-size: 36px;
+  margin-bottom: 100px; /* Adjust the margin as needed */
+  text-align: center !important;  /* Add this line to center the text horizontally */
+}
+
 
 #fullscr {
     position: absolute;
@@ -60,7 +145,7 @@ body {
 
 #gameStartedMessage {
   position: fixed;
-  top: 10%;
+  top: 5%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 34px;
@@ -72,7 +157,7 @@ body {
 
 #GameTimer {
   position: absolute;
-  left: 65px;
+  left: 4.5%;
   width: 40px;
   height: 40px;
   font-size: 1.5rem;
@@ -80,9 +165,35 @@ body {
   color: white;
   
   /* Center vertically */
-  top: 50%;
+  top: 16%;
   transform: translateY(-50%);
 }
+
+#GemCount {
+  position: absolute;
+  left: 1%;
+
+  height: 40px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: white;
+  
+  /* Center vertically */
+  top: 19%;
+  transform: translateY(-50%);
+}
+
+#ScoreMessage {
+  position: fixed;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 34px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  z-index: 9999;
+  }
 
 
 #volumeControl {
