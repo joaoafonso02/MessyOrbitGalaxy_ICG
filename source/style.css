@@ -27,6 +27,25 @@ body {
   margin-bottom: 1400px;
 }
 
+#keyboard {
+  position: absolute;
+  top: 14%;
+  left: 24%;
+  display: flex;
+  width: auto;
+  height: 20%;
+
+  margin-bottom: 100px; /* Adjust the margin as needed */
+  text-align: center !important;  /* Add this line to center the text horizontally */
+
+}
+
+#keyboardText {
+  color: white;
+  font-size: 26px;
+  margin-bottom: 50px;
+}
+
 #startButton {
   padding: 10px 20px;
   font-size: 18px;

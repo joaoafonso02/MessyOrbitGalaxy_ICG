@@ -234,6 +234,24 @@ function init() {
             const rocketPosition = loadedModel.scene.position.clone();
             camera.position.copy(rocketPosition.add(cameraOffset));
             camera.lookAt(loadedModel.scene.position);
+          } else if (event.key === 'w') {
+            // move rocket up
+            loadedModel.scene.position.y += 10;
+
+            const distanceBehind = 100;
+            const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
+            const rocketPosition = loadedModel.scene.position.clone();
+            camera.position.copy(rocketPosition.add(cameraOffset));
+            camera.lookAt(loadedModel.scene.position);
+            } else if (event.key === 's') {
+            // move rocket down
+            loadedModel.scene.position.y -= 10;
+            
+            const distanceBehind = 100;
+            const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
+            const rocketPosition = loadedModel.scene.position.clone();
+            camera.position.copy(rocketPosition.add(cameraOffset));
+            camera.lookAt(loadedModel.scene.position);
           }
         });
     
@@ -675,7 +693,7 @@ function allocateGreenGems(scene, totalGems) {
 
     let score = 0;
     console.log('Game started!');
-    let gemCount = 2; // Total number of gems
+    let gemCount = 5; // Total number of gems
     let gemsCollected = 0; // Counter for collected gems
 
     const gems = allocateGreenGems(scene, gemCount); // Allocate gems and store references
@@ -733,8 +751,7 @@ function allocateGreenGems(scene, totalGems) {
                 gemCountElement.textContent = `${gemsCollected}/${gemCount} gems collected`;
                 // create a logaritmic score where if the player collects a gem in the first 10 seconds, he gets 100 points, the next 10 seconds 90 points, the next 10 seconds 80 points, etc.
                 score += Math.round( 600 - (timeRemaining * 4.5));
-                ScoreMessage.innerHTML = `Score: ${score}`;
-                ScoreMessage.style.display = 'block';
+                
                 console.log(score);
             }
         });
@@ -748,9 +765,12 @@ function allocateGreenGems(scene, totalGems) {
             clearInterval(timerInterval);
             endGame(true);
         }
-
+        ScoreMessage.innerHTML = `Score: ${score}`;
+        ScoreMessage.style.display = 'block';
        
     }
+   
+
     function endGame(success) {
         
         if (success) {
@@ -761,12 +781,12 @@ function allocateGreenGems(scene, totalGems) {
             gameOverMenu.style.display = 'block';
             GameOverMessage.style.color = 'blue';
             GameOverMessage.style.display = 'block';
-            
             WinMessage.innerHTML = `</br></br>Congratulations! You Won the Game! </br></br> Score: ${score}</br></br> Time Remaining: ${timerElement.textContent}`;
             WinMessage.style.display = 'block';
         } else {
             gemCountMessage.style.display = 'none'; 
             timerElement.style.display = 'none';
+            ScoreMessage.style.display = 'none';
             console.log('Game Over! Time\'s up or you missed some gems!');
             gameOverMenu.style.display = 'block';
             GameOverMessage.style.color = 'red';
@@ -779,9 +799,10 @@ function allocateGreenGems(scene, totalGems) {
         document.getElementById('restartButton').addEventListener('click', function() {
             gameOverMenu.style.display = 'none';
             score = 0;
+            ScoreMessage.innerHTML = `Score: ${score}`;
             timeRemaining = 60;
             gemsCollected = 0;
-            gemCount = 2;
+            gemCount = 5;
             gemCountMessage.style.display = 'block';
             timerElement.style.display = 'block';
             timerElement.textContent = formatTime(timeRemaining);
