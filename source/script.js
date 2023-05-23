@@ -18,6 +18,9 @@ noise = new SimplexNoise(),
 cameraSpeed = 0,
 blobScale = 3;
 
+const clock = new THREE.Clock();
+
+
 const colors = ["#ffffff", "#ff9800", "#ffeb3b", "#4caf50", "#03a9f4", "#9c27b0", "#f44336"];
 
 
@@ -176,87 +179,80 @@ function init() {
         loadedModel.scene.rotation.y = Math.PI / 2;
         scene.add(loadedModel.scene);
     
-        let cameraResetPosition = null;
-        document.addEventListener('keydown', (event) => {
-          if (event.key === 'r') {
-            if (cameraResetPosition === null) {
-              // set camera position to be a 3rd person behind the rocket
-              const distanceBehind = 100;
-              const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
-              const rocketPosition = loadedModel.scene.position.clone();
-              camera.position.copy(rocketPosition.add(cameraOffset));
-    
-              camera.lookAt(loadedModel.scene.position);
-              controls.target = loadedModel.scene.position;
-              cameraResetPosition = 'set';
-            } else if (cameraResetPosition === 'set') {
-              // reset camera position
-              camera.position.set(0, 0, 530);
-              controls.target = new THREE.Vector3(0, 0, 0);
-              cameraResetPosition = null;
-            }
-          }
-    
-          if (event.key === 'ArrowUp') {
-            // move rocket forward
-            loadedModel.scene.position.z += 10;
-            if (cameraResetPosition === 'set') {
-              const distanceBehind = 100;
-              const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
-              const rocketPosition = loadedModel.scene.position.clone();
-              camera.position.copy(rocketPosition.add(cameraOffset));
-              camera.lookAt(loadedModel.scene.position);
-            }
-          } else if (event.key === 'ArrowDown') {
-            // move rocket forward
-            loadedModel.scene.position.z -= 10;
-            if (cameraResetPosition === 'set') {
-              const distanceBehind = 100;
-              const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
-              const rocketPosition = loadedModel.scene.position.clone();
-              camera.position.copy(rocketPosition.add(cameraOffset));
-              camera.lookAt(loadedModel.scene.position);
-            }
-          } else if (event.key === 'ArrowLeft') {
-            loadedModel.scene.position.x += 10;
-    
-            const distanceBehind = 100;
-            const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
-            const rocketPosition = loadedModel.scene.position.clone();
-            camera.position.copy(rocketPosition.add(cameraOffset));
-            camera.lookAt(loadedModel.scene.position);
-          } else if (event.key === 'ArrowRight') {
-            // move rocket right
-            loadedModel.scene.position.x -= 10;
-    
-            const distanceBehind = 100;
-            const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
-            const rocketPosition = loadedModel.scene.position.clone();
-            camera.position.copy(rocketPosition.add(cameraOffset));
-            camera.lookAt(loadedModel.scene.position);
-          } else if (event.key === 'w') {
-            // move rocket up
-            loadedModel.scene.position.y += 10;
+        const rocketVelocity = new THREE.Vector3();
 
-            const distanceBehind = 100;
-            const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
-            const rocketPosition = loadedModel.scene.position.clone();
-            camera.position.copy(rocketPosition.add(cameraOffset));
-            camera.lookAt(loadedModel.scene.position);
-            } else if (event.key === 's') {
-            // move rocket down
-            loadedModel.scene.position.y -= 10;
-            
-            const distanceBehind = 100;
-            const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
-            const rocketPosition = loadedModel.scene.position.clone();
-            camera.position.copy(rocketPosition.add(cameraOffset));
-            camera.lookAt(loadedModel.scene.position);
-          }
+        let cameraResetPosition = null;
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'r') {
+            if (cameraResetPosition === null) {
+                // set camera position to be a 3rd person behind the rocket
+                const distanceBehind = 100;
+                const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
+                const rocketPosition = loadedModel.scene.position.clone();
+                camera.position.copy(rocketPosition.add(cameraOffset));
+
+                camera.lookAt(loadedModel.scene.position);
+                controls.target = loadedModel.scene.position;
+                cameraResetPosition = 'set';
+            } else if (cameraResetPosition === 'set') {
+                // reset camera position
+                camera.position.set(0, 0, 530);
+                controls.target = new THREE.Vector3(0, 0, 0);
+                cameraResetPosition = null;
+            }
+            }
+        const speed = 50; // Adjust the speed as needed
+
+        if (event.key === 'ArrowUp') {
+            rocketVelocity.z = speed;
+        } else if (event.key === 'ArrowDown') {
+            rocketVelocity.z = -speed;
+        } else if (event.key === 'ArrowLeft') {
+            rocketVelocity.x = speed;
+        } else if (event.key === 'ArrowRight') {
+            rocketVelocity.x = -speed;
+        } else if (event.key === 'w') {
+            rocketVelocity.y = speed;
+        } else if (event.key === 's') {
+            rocketVelocity.y = -speed;
+        }
         });
-    
-       
-      });
+
+        document.addEventListener('keyup', (event) => {
+        if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+            rocketVelocity.z = 0;
+        } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+            rocketVelocity.x = 0;
+        } else if (event.key === 'w' || event.key === 's') {
+            rocketVelocity.y = 0;
+        }
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+          
+            const deltaTime = clock.getDelta();
+            loadedModel.scene.position.add(rocketVelocity.clone().multiplyScalar(deltaTime));
+          
+            if (cameraResetPosition === 'set') {
+              const distanceBehind = 100;
+              const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
+              const rocketPosition = loadedModel.scene.position.clone();
+              const targetCameraPosition = rocketPosition.add(cameraOffset);
+          
+              // Smoothly interpolate the camera position using lerp
+              camera.position.lerp(targetCameraPosition, 0.1);
+              camera.lookAt(loadedModel.scene.position);
+            }
+          
+            renderer.render(scene, camera);
+          }
+        
+        animate();
+    });
+          
+
             
 
     // spyro
@@ -574,9 +570,9 @@ function animate() {
 
 
     // Sphere Beckground Animation
-    sphereBg.rotation.x += 0.002;
-    sphereBg.rotation.y += 0.002;
-    sphereBg.rotation.z += 0.002;
+    // sphereBg.rotation.x += 0.002;
+    // sphereBg.rotation.y += 0.002;
+    // sphereBg.rotation.z += 0.002;
 
 
     controls.update();
@@ -694,12 +690,14 @@ function allocateGreenGems(scene, totalGems) {
     let score = 0;
     console.log('Game started!');
     let gemCount = 5; // Total number of gems
+    let Gems = gemCount
     let gemsCollected = 0; // Counter for collected gems
 
     const gems = allocateGreenGems(scene, gemCount); // Allocate gems and store references
 
     // Display countdown timer
-    let timeRemaining = 60;
+    let timeRemaining = 30;
+    let time = timeRemaining
     const timerElement = document.getElementById('GameTimer');
 
     timerElement.textContent = formatTime(timeRemaining);
@@ -770,10 +768,10 @@ function allocateGreenGems(scene, totalGems) {
        
     }
    
-
     function endGame(success) {
-        
         if (success) {
+            let completedGameInSecs =  time - timeRemaining;
+            console.log(completedGameInSecs);
             gemCountMessage.style.display = 'none'; 
             timerElement.style.display = 'none';
             ScoreMessage.style.display = 'none';
@@ -781,7 +779,7 @@ function allocateGreenGems(scene, totalGems) {
             gameOverMenu.style.display = 'block';
             GameOverMessage.style.color = 'blue';
             GameOverMessage.style.display = 'block';
-            WinMessage.innerHTML = `</br></br>Congratulations! You Won the Game! </br></br> Score: ${score}</br></br> Time Remaining: ${timerElement.textContent}`;
+            WinMessage.innerHTML = `</br></br>Congratulations! You Won the Game! </br></br> Score: ${score}</br></br> Completed Game in: ${completedGameInSecs} seconds`;
             WinMessage.style.display = 'block';
         } else {
             gemCountMessage.style.display = 'none'; 
@@ -791,7 +789,8 @@ function allocateGreenGems(scene, totalGems) {
             gameOverMenu.style.display = 'block';
             GameOverMessage.style.color = 'red';
             GameOverMessage.style.display = 'block';
-            LoseMessage.innerHTML = `</br></br>Game Over! Time is Up! </br></br> Score: ${score} </br></br> Missing Gems: ${gemCount - gemsCollected}`;
+            let missingGems = Gems - gemsCollected;
+            LoseMessage.innerHTML = `</br></br>Game Over! Time is Up! </br></br> Score: ${score} </br></br> Missing Gems: ${missingGems}`;
             LoseMessage.style.display = 'block';
         }
 
