@@ -77,8 +77,7 @@ function init() {
     scene.add( plane );
 
     // show directional light helper
-    const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
-    scene.add(directionalLightHelper);
+   
 
     //OrbitControl
     controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -636,11 +635,18 @@ fsEnter.addEventListener('click', function (e) {
 });
 
 function allocateGreenGems(scene, totalGems) {
+    const gemsToRemove = scene.children.filter(child => child.userData.isGem);
+    gemsToRemove.slice(0, totalGems).forEach(gem => {
+        scene.remove(gem);
+    });
+
     const gemGeometry = new THREE.SphereGeometry(5, 16, 16);
     const gemTexture = new THREE.TextureLoader().load('../assets/img/gem1.jpg');
     const gemMaterial = new THREE.MeshBasicMaterial({ map: gemTexture });   
   
     const gems = []; // Array to store gem objects
+
+    console.log("AAAAAAAAAAAAAAAAAA" + totalGems);
   
     for (let i = 0; i < totalGems; i++) {
         const gem = new THREE.Mesh(gemGeometry, gemMaterial);
@@ -660,6 +666,7 @@ function allocateGreenGems(scene, totalGems) {
   
     return gems;
   }
+
   
     document.getElementById('startButton').addEventListener('click', startGameWithTimer);
     const gameStartedMessage = document.getElementById('gameStartedMessage');
@@ -783,6 +790,7 @@ function allocateGreenGems(scene, totalGems) {
             WinMessage.style.display = 'block';
         } else {
             gemCountMessage.style.display = 'none'; 
+            WinMessage.style.display = 'none';
             timerElement.style.display = 'none';
             ScoreMessage.style.display = 'none';
             console.log('Game Over! Time\'s up or you missed some gems!');
@@ -792,6 +800,8 @@ function allocateGreenGems(scene, totalGems) {
             let missingGems = Gems - gemsCollected;
             LoseMessage.innerHTML = `</br></br>Game Over! Time is Up! </br></br> Score: ${score} </br></br> Missing Gems: ${missingGems}`;
             LoseMessage.style.display = 'block';
+
+            
         }
 
         // reset the game
@@ -807,6 +817,7 @@ function allocateGreenGems(scene, totalGems) {
             timerElement.textContent = formatTime(timeRemaining);
             gemCountMessage.textContent = `0/${gemCount} gems collected`;
             startGameWithTimer();
+            
         }
         );
     }

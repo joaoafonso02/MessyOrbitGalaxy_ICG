@@ -21,29 +21,56 @@ body {
   z-index: 9999;
 }
 
+#menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height:100vh;
+}
+
 #MenuText {
-  color: white;
-  font-size: 36px;
-  margin-bottom: 1400px;
+  position: relative;
+  color:white;
+  z-index: 1;
 }
 
 #keyboard {
-  position: absolute;
-  top: 14%;
-  left: 24%;
-  display: flex;
-  width: auto;
-  height: 20%;
-
-  margin-bottom: 100px; /* Adjust the margin as needed */
-  text-align: center !important;  /* Add this line to center the text horizontally */
-
+  position: relative;
+  z-index: 0;
+  width: 500px;
+  height: auto;
+  margin-top: 20px;
 }
 
 #keyboardText {
+  position: relative;
+  z-index: 0;
   color: white;
-  font-size: 26px;
-  margin-bottom: 50px;
+  font-size: 20px;
+margin-top: 20px;
+}
+
+button {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1px solid white;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.9em;
+  background: #000000;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all .3s;
+}
+
+button:hover {
+  background: #ffffff;
+  color: #000000;
 }
 
 #startButton {
@@ -53,7 +80,30 @@ body {
   color: #000;
   border: none;
   cursor: pointer;
-  margin-bottom:750px;
+}
+
+#restartButton {
+  padding: 10px 20px !important;
+  font-size: 18px !important;
+  background-color: #fff !important;
+  color: #000 !important;
+  border: none !important;
+  cursor: pointer !important;
+  margin-bottom: 750px !important;
+}
+
+#fullscr {
+  position: absolute;
+  top: 40px;
+  left: 90px;
+  width: 155px;
+  height: 40px;
+}
+
+
+.tab {
+        display: inline-block;
+        margin-left: 40px;
 }
 
 
@@ -92,15 +142,7 @@ body {
   margin-bottom: 1000px;
 }
 
-#restartButton {
-  padding: 10px 20px;
-  font-size: 18px;
-  background-color: #fff;
-  color: #000;
-  border: none;
-  cursor: pointer;
-  margin-bottom:750px;
-}
+
 
 #GameOverMessage,
 #WinMessage,
@@ -112,13 +154,6 @@ body {
 }
 
 
-#fullscr {
-    position: absolute;
-    top: 40px;
-    left: 90px;
-    width: 155px;
-    height: 40px;
-}
 
 #toggle-rocket2 {
     position: absolute;
@@ -307,27 +342,7 @@ canvas {
     height: 100vh;
 }
 
-button {
-    position: absolute;
-    bottom: 5%;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 1px solid white;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    padding: 0.5rem 0.9em;
-    background: #000000;
-    color: white;
-    -webkit-font-smoothing: antialiased;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all .3s;
-}
 
-button:hover {
-    background: #ffffff;
-    color: #000000;
-}
 
 /* Rocket Switch */
 .checkbox-apple {
