@@ -254,18 +254,18 @@ function init() {
 
             
 
-    // spyro
-    // objModel(() => {
-    //     scene.add(objModeled.scene);
+    //spyro
+    objModel(() => {
+        scene.add(objModeled.scene);
         
-    // });
+    });
 
-    // // blue dragon
-    // objModel3(() => {
-    //     objModeled3.scene.rotation.y = Math.PI/2;
-    //     scene.add(objModeled3.scene);
+    // blue dragon
+    objModel3(() => {
+        objModeled3.scene.rotation.y = Math.PI/2;
+        scene.add(objModeled3.scene);
 
-    // });
+    });
 
     // blue lightsaber
     objModel4(() => {
@@ -806,18 +806,7 @@ function allocateGreenGems(scene, totalGems) {
 
         // reset the game
         document.getElementById('restartButton').addEventListener('click', function() {
-            gameOverMenu.style.display = 'none';
-            score = 0;
-            ScoreMessage.innerHTML = `Score: ${score}`;
-            timeRemaining = 60;
-            gemsCollected = 0;
-            gemCount = 5;
-            gemCountMessage.style.display = 'block';
-            timerElement.style.display = 'block';
-            timerElement.textContent = formatTime(timeRemaining);
-            gemCountMessage.textContent = `0/${gemCount} gems collected`;
-            startGameWithTimer();
-            
+           location.reload()
         }
         );
     }
