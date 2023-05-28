@@ -659,6 +659,7 @@ fsEnter.addEventListener('click', function (e) {
     let ScoreMessage = document.getElementById('ScoreMessage');
         ScoreMessage.style.display = 'none';
 
+    
 
 
 let gems = [];
@@ -841,8 +842,8 @@ function padZero(value) {
 
 
 
-let audio = new Audio('../assets/audio/starWars.mp3');
-let audio2 = new Audio('../assets/audio/starWars2.mp3');
+let audio2 = new Audio('../assets/audio/starWars.mp3');
+let audio = new Audio('../assets/audio/starWars2.mp3');
 let playButton = document.getElementById('playButton');
 let pauseButton = document.getElementById('pauseButton');
 let volumeControl = document.getElementById('volumeControl');
