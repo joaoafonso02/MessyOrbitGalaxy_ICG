@@ -18,10 +18,10 @@ noise = new SimplexNoise(),
 cameraSpeed = 0,
 blobScale = 3;
 
-const clock = new THREE.Clock();
+let clock = new THREE.Clock();
 
 
-const colors = ["#ffffff", "#ff9800", "#ffeb3b", "#4caf50", "#03a9f4", "#9c27b0", "#f44336"];
+let colors = ["#ffffff", "#ff9800", "#ffeb3b", "#4caf50", "#03a9f4", "#9c27b0", "#f44336"];
 
 
 init();
@@ -44,7 +44,7 @@ function init() {
     container.appendChild(renderer.domElement);
 
 
-    const directionalLight = new THREE.DirectionalLight("#fff", 3, 1000); 
+    let directionalLight = new THREE.DirectionalLight("#fff", 3, 1000); 
     // directionalLight.position.set(450, 180, 0);
     directionalLight.position.set(450, 180, 0);
     // do not point the light to the center of the scene
@@ -64,12 +64,12 @@ function init() {
     directionalLight.shadow.camera.top = 30;
     directionalLight.shadow.camera.bottom = -30;
 
-    const loader1 = new THREE.TextureLoader(); 
-    const texturePlane = loader1.load('https://i.ibb.co/hcN2qXk/star-nc8wkw.jpg');
+    let loader1 = new THREE.TextureLoader(); 
+    let texturePlane = loader1.load('https://i.ibb.co/hcN2qXk/star-nc8wkw.jpg');
 
-    const planeGeometry = new THREE.PlaneGeometry( 30, 30, 32, 32 );
-    const planeMaterial = new THREE.MeshPhongMaterial( { map: texturePlane } )
-    const plane = new THREE.Mesh( planeGeometry, planeMaterial );
+    let planeGeometry = new THREE.PlaneGeometry( 30, 30, 32, 32 );
+    let planeMaterial = new THREE.MeshPhongMaterial( { map: texturePlane } )
+    let plane = new THREE.Mesh( planeGeometry, planeMaterial );
     plane.rotation.y = Math.PI / 2;
     plane.receiveShadow = true;
     plane.material.side = THREE.DoubleSide;
@@ -100,20 +100,20 @@ function init() {
     controls.enablePan = false;
     
     // add axis
-    // const axesHelper = new THREE.AxesHelper( 190 );
+    // let axesHelper = new THREE.AxesHelper( 190 );
     // scene.add( axesHelper );
     
-    const loader = new THREE.TextureLoader(); 
-    const textureSphereBg = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
-    const textureSun = loader.load('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/4ad4afd9-1b7c-4043-8820-8322dc919c18/d6r3ze7-ede358d7-7d74-4d99-a023-c41de93b093b.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzRhZDRhZmQ5LTFiN2MtNDA0My04ODIwLTgzMjJkYzkxOWMxOFwvZDZyM3plNy1lZGUzNThkNy03ZDc0LTRkOTktYTAyMy1jNDFkZTkzYjA5M2IucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.wx1PpjChng962qEruw1OQ9FNbOWpxUFz1yFPZQ-t84M');
-    const texturenucleus = loader.load('https://i.ibb.co/hcN2qXk/star-nc8wkw.jpg');
-    const textureStar = loader.load("https://i.ibb.co/ZKsdYSz/p1-g3zb2a.png");
-    const texture1 = loader.load("https://i.ibb.co/F8by6wW/p2-b3gnym.png");  
-    const texture2 = loader.load("https://i.ibb.co/yYS2yx5/p3-ttfn70.png");
-    const texture4 = loader.load("https://i.ibb.co/yWfKkHh/p4-avirap.png");
+    let loader = new THREE.TextureLoader(); 
+    let textureSphereBg = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
+    let textureSun = loader.load('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/4ad4afd9-1b7c-4043-8820-8322dc919c18/d6r3ze7-ede358d7-7d74-4d99-a023-c41de93b093b.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzRhZDRhZmQ5LTFiN2MtNDA0My04ODIwLTgzMjJkYzkxOWMxOFwvZDZyM3plNy1lZGUzNThkNy03ZDc0LTRkOTktYTAyMy1jNDFkZTkzYjA5M2IucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.wx1PpjChng962qEruw1OQ9FNbOWpxUFz1yFPZQ-t84M');
+    let texturenucleus = loader.load('https://i.ibb.co/hcN2qXk/star-nc8wkw.jpg');
+    let textureStar = loader.load("https://i.ibb.co/ZKsdYSz/p1-g3zb2a.png");
+    let texture1 = loader.load("https://i.ibb.co/F8by6wW/p2-b3gnym.png");  
+    let texture2 = loader.load("https://i.ibb.co/yYS2yx5/p3-ttfn70.png");
+    let texture4 = loader.load("https://i.ibb.co/yWfKkHh/p4-avirap.png");
     
     // NEW PLANET
-    const textureSphere = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
+    let textureSphere = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
 
     textureSphere.anisotropy = 16;
     let sphereGeometry = new THREE.SphereBufferGeometry(28, 32, 32);
@@ -156,19 +156,19 @@ function init() {
     let spaceGarage = new THREE.Group();
 
     // show guide GUI
-    const gui = new dat.GUI();
+    let gui = new dat.GUI();
 
     // set position of the guide GUI with pace on top and right
     gui.domElement.style.position = 'absolute';
     gui.domElement.style.top = '2px';
     gui.domElement.style.right = '10px';
 
-    const cameraFolder = gui.addFolder('camera');
+    let cameraFolder = gui.addFolder('camera');
     cameraFolder.add(camera.position, 'x', -100, 100);
     cameraFolder.add(camera.position, 'y', -100, 100);
     cameraFolder.add(camera.position, 'z', -100, 100);
 
-    const lightFolder = gui.addFolder('Sunlight');
+    let lightFolder = gui.addFolder('Sunlight');
     lightFolder.add(directionalLight, "intensity", 0, 6, 0.1).name("Sun Light Intensity");
    
     // load models
@@ -178,7 +178,7 @@ function init() {
         loadedModel.scene.rotation.y = Math.PI / 2;
         scene.add(loadedModel.scene);
     
-        const rocketVelocity = new THREE.Vector3();
+        let rocketVelocity = new THREE.Vector3();
 
         let cameraResetPosition = null;
 
@@ -186,9 +186,9 @@ function init() {
             if (event.key === 'r') {
             if (cameraResetPosition === null) {
                 // set camera position to be a 3rd person behind the rocket
-                const distanceBehind = 100;
-                const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
-                const rocketPosition = loadedModel.scene.position.clone();
+                let distanceBehind = 100;
+                let cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
+                let rocketPosition = loadedModel.scene.position.clone();
                 camera.position.copy(rocketPosition.add(cameraOffset));
 
                 camera.lookAt(loadedModel.scene.position);
@@ -201,7 +201,7 @@ function init() {
                 cameraResetPosition = null;
             }
             }
-        const speed = 50; // Adjust the speed as needed
+        let speed = 50; // Adjust the speed as needed
 
         if (event.key === 'ArrowUp') {
             rocketVelocity.z = speed;
@@ -231,14 +231,14 @@ function init() {
         function animate() {
             requestAnimationFrame(animate);
           
-            const deltaTime = clock.getDelta();
+            let deltaTime = clock.getDelta();
             loadedModel.scene.position.add(rocketVelocity.clone().multiplyScalar(deltaTime));
           
             if (cameraResetPosition === 'set') {
-              const distanceBehind = 100;
-              const cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
-              const rocketPosition = loadedModel.scene.position.clone();
-              const targetCameraPosition = rocketPosition.add(cameraOffset);
+              let distanceBehind = 100;
+              let cameraOffset = new THREE.Vector3(0, 0, -distanceBehind);
+              let rocketPosition = loadedModel.scene.position.clone();
+              let targetCameraPosition = rocketPosition.add(cameraOffset);
           
               // Smoothly interpolate the camera position using lerp
               camera.position.lerp(targetCameraPosition, 0.1);
@@ -308,7 +308,7 @@ function init() {
     //     objModeled9.scene.rotation.x = Math.PI/2;
     //     objModeled9.scene.rotation.z = -Math.PI/2;
     //     // copy objModeled9.scene to a new variable
-    //     const fire = objModeled9.scene.clone();
+    //     let fire = objModeled9.scene.clone();
     //     // set the position of the new variable
     //     fire.position.set(329, -2, 22);
 
@@ -326,26 +326,26 @@ function init() {
 
     // scene.add(spaceGarage);
 
-    const spaceGarageFolder = gui.addFolder('spaceGarage');
+    let spaceGarageFolder = gui.addFolder('spaceGarage');
     spaceGarageFolder.add(spaceGarage.position, 'x', -100, 100);
     spaceGarageFolder.add(spaceGarage.position, 'y', -100, 100);
     spaceGarageFolder.add(spaceGarage.position, 'z', -100, 100);
 
     // add a blue light to lightsaber
-    const light = new THREE.PointLight(0x0000ff, 0.5, 100000);
+    let light = new THREE.PointLight(0x0000ff, 0.5, 100000);
     light.position.set(0, 0, 0);
     scene.add(light);
 
-    const light2 = new THREE.PointLight(0x0000ff, 0.5, 100000);
+    let light2 = new THREE.PointLight(0x0000ff, 0.5, 100000);
     light2.position.set(0, 100, 0);
     scene.add(light2);
 
-    const light3 = new THREE.PointLight(0x0000ff, 0.5, 100000);
+    let light3 = new THREE.PointLight(0x0000ff, 0.5, 100000);
     light3.position.set(0, -100, 0);
     scene.add(light3);
 
-    const LightSaberFolder = gui.addFolder('LightSaber');
-    const intensityController = LightSaberFolder.add({ intensity: light.intensity }, "intensity", 0, 4, 0.1).name("Intensity");
+    let LightSaberFolder = gui.addFolder('LightSaber');
+    let intensityController = LightSaberFolder.add({ intensity: light.intensity }, "intensity", 0, 4, 0.1).name("Intensity");
     
     intensityController.onChange(function(value) {
     light.intensity = value;
@@ -368,7 +368,7 @@ function init() {
     });
 
     // update scene
-    const inputElements = document.querySelectorAll('input');
+    let inputElements = document.querySelectorAll('input');
     inputElements.forEach((input) => {
         if (input.id === 'check-apple2' || input.id === 'check-apple' || input.id === 'volumeControl') {
             return; // skip this input
@@ -377,7 +377,7 @@ function init() {
     });
 
     // ADD an Astro
-    const textureAstro = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
+    let textureAstro = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
 
     textureAstro.anisotropy = 16;
     let AstroGeometry = new THREE.DodecahedronGeometry(30, 0);
@@ -392,7 +392,7 @@ function init() {
     scene.add(Astro);
 
     // ADD Donut 
-    const textureDonut = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
+    let textureDonut = loader.load('https://i.ibb.co/4gHcRZD/bg3-je3ddz.jpg');
 
     textureDonut.anisotropy = 16;
     let DonutGeometry = new THREE.TorusGeometry(30, 10, 16, 100);
@@ -433,7 +433,7 @@ function init() {
     scene.add(sphereBg);
 
     // nucleus GUI FOLDER
-    const nucleusFolder = gui.addFolder('nucleus');
+    let nucleusFolder = gui.addFolder('nucleus');
     // scale all axis once 
     nucleusFolder.add(nucleus.scale, 'x', 0.1, 5);
     nucleusFolder.add(nucleus.scale, 'y', 0.1, 5);
@@ -446,7 +446,7 @@ function init() {
     changeMaterial(nucleus, nucleusFolder);
    
     // Astro GUI FOLDER
-    const AstroFolder = gui.addFolder('Astro');
+    let AstroFolder = gui.addFolder('Astro');
     AstroFolder.add(Astro.scale, 'x', 0.1, 5);
     AstroFolder.add(Astro.scale, 'y', 0.1, 5);
     AstroFolder.add(Astro.scale, 'z', 0.1, 5);
@@ -459,7 +459,7 @@ function init() {
 
     // function to change the material, wireframe and color
     function changeMaterial(object, objectFolder) {
-        const materialParams = {
+        let materialParams = {
             objectColor: object.material.color.getHex(),
         }
         objectFolder.add(object.material, 'wireframe');
@@ -469,7 +469,7 @@ function init() {
     }
 
     // change controls.autoRotateSpeed of orbitControls with GUI
-    const controlsFolder = gui.addFolder('Controls');
+    let controlsFolder = gui.addFolder('Controls');
     controlsFolder.add(controls, 'autoRotateSpeed', 0.1, 10).name('Rotate Speed');
     
     /*    Moving Stars   */
@@ -583,12 +583,12 @@ function animate() {
 function updateScene(camera, renderer, scene) {    
 
     // Get the camera position and rotation from the input elements
-    const cameraPosX = document.getElementById('camera-pos-x').value;
-    const cameraPosY = document.getElementById('camera-pos-y').value;
-    const cameraPosZ = document.getElementById('camera-pos-z').value;
-    const cameraRotX = document.getElementById('camera-rot-x').value;
-    const cameraRotY = document.getElementById('camera-rot-y').value;
-    const cameraRotZ = document.getElementById('camera-rot-z').value;
+    let cameraPosX = document.getElementById('camera-pos-x').value;
+    let cameraPosY = document.getElementById('camera-pos-y').value;
+    let cameraPosZ = document.getElementById('camera-pos-z').value;
+    let cameraRotX = document.getElementById('camera-rot-x').value;
+    let cameraRotY = document.getElementById('camera-rot-y').value;
+    let cameraRotZ = document.getElementById('camera-rot-z').value;
   
     // Update the camera position and rotation
     camera.position.set(cameraPosX, cameraPosY, cameraPosZ);
@@ -634,42 +634,11 @@ fsEnter.addEventListener('click', function (e) {
     }
 });
 
-function allocateGreenGems(scene, totalGems) {
-    const gemsToRemove = scene.children.filter(child => child.userData.isGem);
-    gemsToRemove.slice(0, totalGems).forEach(gem => {
-        scene.remove(gem);
-    });
 
-    const gemGeometry = new THREE.SphereGeometry(5, 16, 16);
-    const gemTexture = new THREE.TextureLoader().load('../assets/img/gem1.jpg');
-    const gemMaterial = new THREE.MeshBasicMaterial({ map: gemTexture });   
-  
-    const gems = []; // Array to store gem objects
-
-    console.log("AAAAAAAAAAAAAAAAAA" + totalGems);
-  
-    for (let i = 0; i < totalGems; i++) {
-        const gem = new THREE.Mesh(gemGeometry, gemMaterial);
-    
-        // Generate random position within the scene
-        const posX = Math.random() * 200 - 100; // Adjust the range and position as needed
-        const posY = Math.random() * 200 - 100;
-        const posZ = Math.random() * 200 - 100;
-    
-        //   gem.position.set(posX, posY, posZ);
-        // make gems appear only on x axis
-        gem.position.set(posX,0, posZ);
-    
-        scene.add(gem);
-        gems.push(gem);
-    }
-  
-    return gems;
-  }
 
   
     document.getElementById('startButton').addEventListener('click', startGameWithTimer);
-    const gameStartedMessage = document.getElementById('gameStartedMessage');
+    let gameStartedMessage = document.getElementById('gameStartedMessage');
     gameStartedMessage.style.display = 'none';
 
     let gemCountMessage = document.getElementById('GemCount');
@@ -691,130 +660,176 @@ function allocateGreenGems(scene, totalGems) {
         ScoreMessage.style.display = 'none';
 
 
-  function startGameWithTimer() {
+
+let gems = [];
+let score = 0;
+let gemCount = 5; // Total number of gems
+let gemsCollected = 0; // Counter for collected gems
+let timeRemaining = 30;
+let timerElement = document.getElementById('GameTimer');
+
+document.getElementById('restartButton').addEventListener('click', () => {
+  // reset the game
+  score = 0;
+  gemsCollected = 0;
+  gemCount = 5;
+  timeRemaining = 30;
+  console.log('Game Restarted!');
+  ScoreMessage.innerHTML = "Score: 0";
+  gemCountMessage.innerHTML = "0/5 gems collected";
+  timerElement.style.display = 'block';
+  timerElement.textContent = formatTime(timeRemaining); // Update the timer element
+  gameOverMenu.style.display = 'none';
+  startGameWithTimer();
+});
+
+document.getElementById('LeaveGame').addEventListener('click', () => {
+    // leave the game
+    gameOverMenu.style.display = 'none';
+});
+
+function startGameWithTimer() {
     document.getElementById('menu').style.display = 'none';
-
-    let score = 0;
+    
     console.log('Game started!');
-    let gemCount = 5; // Total number of gems
-    let Gems = gemCount
-    let gemsCollected = 0; // Counter for collected gems
-
-    const gems = allocateGreenGems(scene, gemCount); // Allocate gems and store references
-
+    
+    let Gems = gemCount;
+    allocateGreenGems(scene, Gems);
+    
     // Display countdown timer
-    let timeRemaining = 30;
-    let time = timeRemaining
-    const timerElement = document.getElementById('GameTimer');
-
+    
+    let time = timeRemaining;
+    
     timerElement.textContent = formatTime(timeRemaining);
     gemCountMessage.style.display = 'block';
     gameStartedMessage.style.display = 'block';
-
+    
     setTimeout(() => {
         gameStartedMessage.style.display = 'none';
         ScoreMessage.style.display = 'block';
     }, 3000);
-
-    const timerInterval = setInterval(() => { 
+    
+    let timerInterval = setInterval(() => { 
         timeRemaining--;
         timerElement.textContent = formatTime(timeRemaining);
-
+    
         if (timeRemaining <= 0) {
-            clearInterval(timerInterval);
-            endGame(false);
+        clearInterval(timerInterval);
+        endGame(time, timerInterval, timeRemaining, false);
         } 
     }, 1000);
-
+    
     if (timeRemaining === 0) {
         clearInterval(timerInterval);
-        endGame(false);
+        endGame(time, timerInterval, timeRemaining, false);
     } else {
         // collect gems when 'c' is pressed
-       document.addEventListener('keydown', (event) => {
-           const key = event.key.toLowerCase();
-           if (key === 'c' || key === 'C') {
-               collectGem();
-           }
-       });
-   }
-        
-
-    // Function to handle gem collection
-    function collectGem() {
-        gems.forEach((gem) => {
-            // Calculate distance between rocket and gem
-            const distance = loadedModel.scene.position.distanceTo(gem.position);
-    
-            // TODO: PICKUP ONLY 1 GEM WHEN THERE ARE MULTIPLE GEMS
-            if (distance <= 40) {
-                console.log('Gem collected!');
-                scene.remove(gem);
-                gemsCollected++;
-                // Update gem count text
-                const gemCountElement = document.getElementById('GemCount');
-                gemCountElement.textContent = `${gemsCollected}/${gemCount} gems collected`;
-                // create a logaritmic score where if the player collects a gem in the first 10 seconds, he gets 100 points, the next 10 seconds 90 points, the next 10 seconds 80 points, etc.
-                score += Math.round( 600 - (timeRemaining * 4.5));
-                
-                console.log(score);
-            }
+        document.addEventListener('keydown', (event) => {
+        let key = event.key.toLowerCase();
+        if (key === 'c' || key === 'C') {
+            collectGem(timeRemaining, timerInterval, time);
+        }
         });
-    
-        let scoreElement = document.getElementById('score');
-
-        let timerElement = document.getElementById('GameTimer');
-
-        if (gemsCollected === gemCount) {
-            console.log('All gems collected!');
-            clearInterval(timerInterval);
-            endGame(true);
-        }
-        ScoreMessage.innerHTML = `Score: ${score}`;
-        ScoreMessage.style.display = 'block';
-       
     }
-   
-    function endGame(success) {
-        if (success) {
-            let completedGameInSecs =  time - timeRemaining;
-            console.log(completedGameInSecs);
-            gemCountMessage.style.display = 'none'; 
-            timerElement.style.display = 'none';
-            ScoreMessage.style.display = 'none';
-            console.log('Congratulations! You collected all the gems!');
-            gameOverMenu.style.display = 'block';
-            GameOverMessage.style.color = 'blue';
-            GameOverMessage.style.display = 'block';
-            WinMessage.innerHTML = `</br></br>Congratulations! You Won the Game! </br></br> Score: ${score}</br></br> Completed Game in: ${completedGameInSecs} seconds`;
-            WinMessage.style.display = 'block';
-        } else {
-            gemCountMessage.style.display = 'none'; 
-            WinMessage.style.display = 'none';
-            timerElement.style.display = 'none';
-            ScoreMessage.style.display = 'none';
-            console.log('Game Over! Time\'s up or you missed some gems!');
-            gameOverMenu.style.display = 'block';
-            GameOverMessage.style.color = 'red';
-            GameOverMessage.style.display = 'block';
-            let missingGems = Gems - gemsCollected;
-            LoseMessage.innerHTML = `</br></br>Game Over! Time is Up! </br></br> Score: ${score} </br></br> Missing Gems: ${missingGems}`;
-            LoseMessage.style.display = 'block';
-
-            
+    }
+    
+    // Function to allocate gems
+    function allocateGreenGems(scene, totalGems) {
+    gems = [];
+    // remove all gems from scene
+    gems.forEach(gem => scene.remove(gem));
+    
+    let gemGeometry = new THREE.SphereGeometry(5, 16, 16);
+    let gemTexture = new THREE.TextureLoader().load('../assets/img/gem1.jpg');
+    let gemMaterial = new THREE.MeshBasicMaterial({ map: gemTexture });
+    
+    for (let i = 0; i < totalGems; i++) {
+        let gem = new THREE.Mesh(gemGeometry, gemMaterial);
+    
+        // Generate random position within the scene
+        let posX = Math.random() * 200 - 100; // Adjust the range and position as needed
+        let posY = Math.random() * 200 - 100;
+        let posZ = Math.random() * 200 - 100;
+    
+        // make gems appear only on x axis
+        gem.position.set(posX, 0, posZ);
+    
+        scene.add(gem);
+        gems.push(gem);
+    }
+    }
+    
+    // Function to handle gem collection
+    function collectGem(timeRemaining, timerInterval, time) {
+    gems.forEach((gem, index) => {
+        // Calculate distance between rocket and gem
+        let distance = loadedModel.scene.position.distanceTo(gem.position);
+    
+        if (distance <= 40) {
+        console.log('Gem collected!');
+        scene.remove(gem);
+        gemsCollected++;
+    
+        // Update gem count text
+        let gemCountElement = document.getElementById('GemCount');
+        gemCountElement.textContent = `${gemsCollected}/${gemCount} gems collected`;
+    
+        // create a logarithmic score where if the player collects a gem in the first 10 seconds, he gets 100 points, the next 10 seconds 90 points, the next 10 seconds 80 points, etc.
+        score += Math.round(600 - (timeRemaining * 4.5));
+    
+        console.log(score);
+    
+        // Remove the collected gem from the gems array
+        gems.splice(index, 1);
         }
-
-        // reset the game
-        document.getElementById('restartButton').addEventListener('click', function() {
-           location.reload()
-        }
-        );
+    });
+    
+    let scoreElement = document.getElementById('score');
+    let timerElement = document.getElementById('GameTimer');
+    
+    if (gemsCollected === gemCount) {
+        console.log('All gems collected!');
+        clearInterval(timerInterval);
+        endGame(time, timerInterval, timeRemaining, true);
+    }
+    
+    ScoreMessage.innerHTML = `Score: ${score}`;
+    ScoreMessage.style.display = 'block';
+    }
+    
+    function endGame(time, timerInterval, timeRemaining, success) {
+    if (success) {
+        let completedGameInSecs =  time - timeRemaining;
+        console.log(completedGameInSecs);
+        gemCountMessage.style.display = 'none'; 
+        timerElement.style.display = 'none';
+        ScoreMessage.style.display = 'none';
+        console.log('Congratulations! You collected all the gems!');
+        gameOverMenu.style.display = 'block';
+        GameOverMessage.style.color = 'blue';
+        GameOverMessage.style.display = 'block';
+        WinMessage.innerHTML = `</br></br>Congratulations! You Won the Game! </br></br> Score: ${score}</br></br> Completed Game in: ${completedGameInSecs} seconds`;
+        WinMessage.style.display = 'block';
+    } else {
+        gemCountMessage.style.display = 'none'; 
+        WinMessage.style.display = 'none';
+        timerElement.style.display = 'none';
+        ScoreMessage.style.display = 'none';
+        console.log('Game Over! Time\'s up or you missed some gems!');
+        gameOverMenu.style.display = 'block';
+        GameOverMessage.style.color = 'red';
+        GameOverMessage.style.display = 'block';
+        let missingGems = gemCount - gemsCollected;
+        if (missingGems < 0) missingGems = (-1) * missingGems;
+    
+        LoseMessage.innerHTML = `</br></br>Game Over! Time is Up! </br></br> Score: ${score} </br></br> Missing Gems: ${missingGems}`;
+        LoseMessage.style.display = 'block';
     }
 }
-
+    
 function formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
+    let minutes = Math.floor(seconds / 60);
+    let remainingSeconds = seconds % 60;
     return `${padZero(minutes)}:${padZero(remainingSeconds)}`;
 }
 
